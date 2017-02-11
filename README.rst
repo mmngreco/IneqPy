@@ -33,6 +33,7 @@ Examples
 ========
 
 Some examples of how use this package:
+Data of example:
 
 .. code-block:: python
     :linenos:
@@ -78,6 +79,27 @@ Descriptive statistics
     pyineq.var(x=d.renta, weights=d.factor)
     2982220948.7413292
     x, w = d.renta.values, d.factor.values
+
+Note that the standardized moment for order `n`, retrieve the value in that
+column:
+
+==== =========
+ `n`  value
+==== =========
+ 1    0
+---- ---------
+ 2    1
+---- ---------
+ 3    Skew
+---- ---------
+ 4    Kurtosis
+==== =========
+
+A helpful table of interpretation of the moments
+
+.. code-block:: python
+    :linenos:
+
     pyineq.stdmoment(x, w, 1)  # = 0
     2.4624948200717338e-17
     pyineq.stdmoment(x, w, 2)  # = 1
