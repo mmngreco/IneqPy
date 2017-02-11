@@ -2,14 +2,14 @@ from distutils.core import setup
 
 description = open('README.rst').readlines()
 
-setup(name='pyineq',
+setup(name='PyIneq',
       version='0.0.1',
       description='A Python Package To Quantitative Analysis Of Inequality',
       long_description=open('README.rst').read(),
       author='Maximiliano Greco',
       author_email='mmngreco@gmail.com',
       url='mmngreco.github.io',
-      packages=['PyIneq'],
+      packages=['pyineq'],
       classifiers=['Development Status :: 3 - Alpha',
                    'Intended Audience :: Developers',
                    'Topic :: Software Development :: Build Tools',
