@@ -2,7 +2,7 @@
 PyIneq Package
 ==============
 
-This package provides statistics to do a properly quantitative analysis of inequality. Between the estimators provide you can find:
+This package provides statistics to do a properly quantitative analysis of inequality. Among the estimators provide you can find:
 - Atkinson Index
 - Gini Index
 - Kakwani Index
