@@ -1,5 +1,5 @@
 ==============
-PyIneq Package
+IneqPy Package
 ==============
 
 This package provides statistics to do a properly quantitative analysis of inequality. Among the estimators provided by this package you can find:
@@ -16,7 +16,7 @@ This package provides statistics to do a properly quantitative analysis of inequ
 First-steps
 ===========
 
-First of all, we need intall PyIneq.
+First of all, we need intall IneqPy.
 
 
 Install
@@ -24,8 +24,8 @@ Install
 
 .. code-block:: bash
 
-  git clone https://github.com/mmngreco/PyIneq.git
-  cd PyIneq
+  git clone https://github.com/mmngreco/IneqPy.git
+  cd IneqPy
   pip install .
 
 
@@ -40,7 +40,7 @@ Data of example:
 
     import pandas as pd
     import numpy as np
-    import pyineq
+    import ineqpy
     d
                  renta   factor
     0        -13004.12   1.0031
@@ -74,9 +74,9 @@ Descriptive statistics
 .. code-block:: python
     :linenos:
 
-    pyineq.xbar(x=d.renta, weights=d.factor)
+    ineqpy.xbar(x=d.renta, weights=d.factor)
     20444.700666031338
-    pyineq.var(x=d.renta, weights=d.factor)
+    ineqpy.var(x=d.renta, weights=d.factor)
     2982220948.7413292
     x, w = d.renta.values, d.factor.values
 
@@ -100,17 +100,17 @@ A helpful table of interpretation of the moments
 .. code-block:: python
     :linenos:
 
-    pyineq.stdmoment(x, w, 1)  # = 0
+    ineqpy.stdmoment(x, w, 1)  # = 0
     2.4624948200717338e-17
-    pyineq.stdmoment(x, w, 2)  # = 1
+    ineqpy.stdmoment(x, w, 2)  # = 1
     1.0
-    pyineq.stdmoment(x, w, 3)  # = skew
+    ineqpy.stdmoment(x, w, 3)  # = skew
     5.9965055750379426
-    pyineq.skew(x, w)
+    ineqpy.skew(x, w)
     5.9965055750379426
-    pyineq.stdmoment(x, w, 4)  # = kurtosis
+    ineqpy.stdmoment(x, w, 4)  # = kurtosis
     42.319928851703004
-    pyineq.kurt(x, w)
+    ineqpy.kurt(x, w)
     42.319928851703004
 
 Inequality estimators
@@ -120,8 +120,8 @@ Inequality estimators
     :linenos:
 
     # pass a pandas.DataFrame and inputs as strings
-    pyineq.gini(df=d, income='renta', weights='factor')
+    ineqpy.gini(df=d, income='renta', weights='factor')
     0.76739136365917116
     # you can pass arrays too
-    pyineq.gini(income=d.renta.values, weights=d.factor.values)
+    ineqpy.gini(income=d.renta.values, weights=d.factor.values)
     0.76739136365917116
