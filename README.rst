@@ -13,25 +13,34 @@ This package provides statistics to do a properly quantitative analysis of inequ
 - Kurtosis
 - Skewness
 
-Quickstart
-==========
+First-steps
+===========
+
+First of all, we need intall PyIneq.
+
 
 Install
--------
+=======
 
-.. code::
+.. code-block:: bash
 
-  git clone link
+  git clone https://github.com/mmngreco/PyIneq.git
   cd PyIneq
   pip install .
 
-Examples
---------
 
->>> import pandas as pd
->>> import numpy as np
->>> import pyineq
->>> d
+Examples
+========
+
+Some examples of how use this package:
+
+.. code-block:: python
+    :linenos:
+
+    import pandas as pd
+    import numpy as np
+    import pyineq
+    d
                  renta   factor
     0        -13004.12   1.0031
     89900    141656.97   1.4145
@@ -59,32 +68,38 @@ Examples
     2067700    3281.95   1.1670
 
 Descriptive statistics
-~~~~~~~~~~~~~~~~~~~~~~
+======================
 
->>> pyineq.xbar(x=d.renta, weights=d.factor)
+.. code-block:: python
+    :linenos:
+
+    pyineq.xbar(x=d.renta, weights=d.factor)
     20444.700666031338
->>> pyineq.var(x=d.renta, weights=d.factor)
+    pyineq.var(x=d.renta, weights=d.factor)
     2982220948.7413292
->>> x, w = d.renta.values, d.factor.values
->>> pyineq.stdmoment(x, w, 1)  # = 0
+    x, w = d.renta.values, d.factor.values
+    pyineq.stdmoment(x, w, 1)  # = 0
     2.4624948200717338e-17
->>> pyineq.stdmoment(x, w, 2)  # = 1
+    pyineq.stdmoment(x, w, 2)  # = 1
     1.0
->>> pyineq.stdmoment(x, w, 3)  # = skew
+    pyineq.stdmoment(x, w, 3)  # = skew
     5.9965055750379426
->>> pyineq.skew(x, w)
+    pyineq.skew(x, w)
     5.9965055750379426
->>> pyineq.stdmoment(x, w, 4)  # = kurtosis
+    pyineq.stdmoment(x, w, 4)  # = kurtosis
     42.319928851703004
->>> pyineq.kurt(x, w)
+    pyineq.kurt(x, w)
     42.319928851703004
 
 Inequality estimators
-~~~~~~~~~~~~~~~~~~~~~
+=====================
 
->>> # pass a pandas.DataFrame and inputs as strings
->>> pyineq.gini(df=d, income='renta', weights='factor')
+.. code-block:: python
+    :linenos:
+
+    # pass a pandas.DataFrame and inputs as strings
+    pyineq.gini(df=d, income='renta', weights='factor')
     0.76739136365917116
->>> # you can pass arrays too
->>> pyineq.gini(income=d.renta.values, weights=d.factor.values)
+    # you can pass arrays too
+    pyineq.gini(income=d.renta.values, weights=d.factor.values)
     0.76739136365917116
