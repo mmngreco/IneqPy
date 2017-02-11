@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-"""A PYTHON PACKAGE TO QUANTITATIVE ANALYSIS OF INEQUALITY
+"""A PYTHON PACKAGE TO QUANTITATIVE ANALYSIS OF INEQUALITY.
+
 Collection of estimators of a stratified sample associated to single
 individuals, in this module are calculations as the mean, variance,
 quasivariance, population variance of a stratified sample.
@@ -84,9 +85,9 @@ def cmoment(x, weights=None, order=2, param=None, ddof=0):
 
     Notes
     -----
-    The cmoment of order 1 is 0
-    The cmoment of order 2 is the variance.
-    https://en.wikipedia.org/wiki/Moment_(mathematics)
+    - The cmoment of order 1 is 0
+    - The cmoment of order 2 is the variance.
+    Source : https://en.wikipedia.org/wiki/Moment_(mathematics)
 
     TODO
     ----
@@ -129,24 +130,11 @@ def stdmoment(x, weights=None, param=None, order=3, ddof=0):
 
     Notes
     -----
-    Note that the standardized moment:
 
-    +====+=========+
-    | `n`| value   |
-    +====+=========+
-    | 1  | 0       |
-    +----+---------+
-    | 2  | 1       |
-    +----+---------+
-    | 3  | Skew    |
-    +----+---------+
-    | 4  | Kurtosis|
-    +----+---------+
+    Source:
 
-    Bibliografía
-
-    https://en.wikipedia.org/wiki/Moment_(mathematics)#Significance_of_the_moments
-    https://en.wikipedia.org/wiki/Standardized_moment
+    - https://en.wikipedia.org/wiki/Moment_(mathematics)#Significance_of_the_moments
+    - https://en.wikipedia.org/wiki/Standardized_moment
 
 
     TODO
@@ -173,7 +161,7 @@ def stdmoment(x, weights=None, param=None, order=3, ddof=0):
 
 
 def xbar(x, weights=None):
-    """Calculates the population mean of `x` given weights `w`.
+    """Calculate the mean of `x` given weights `w`.
 
     Parameters
     ----------
@@ -185,7 +173,6 @@ def xbar(x, weights=None):
     Retruns
     -------
     xbar : 1d-array or pd.Series or float
-        Estimación de la cuasivarianza poblacional de `x`
     """
     return np.average(x, weights=weights, axis=0)
 
@@ -204,12 +191,12 @@ def var(x, weights=None, ddof=0):
     Retruns
     -------
     Shat2 : 1d-array or pd.Series or float
-        Estimación de la cuasivarianza poblacional de `x`
+        Estimation of quasivariance of `x`
 
     Notes
     -----
-    Si la muestra está estratificada debe pasarse como un groupby de cada
-    estrato.
+
+    If stratificated sample must pass with groupby each strata.
     """
     if weights is None:
         weights = np.repeat([1], len(x))
@@ -318,7 +305,7 @@ def vhat_h(x='x', weights='w', group='h', df=None):
 
     TODO
     ----
-    Revisar posibles mejoras
+    Review improvements.
 
     Examples
     --------
@@ -364,7 +351,8 @@ def vhat_h(x='x', weights='w', group='h', df=None):
 
         Notes
         -----
-        .. math:: `N_h^2 \cdot fpc \cdot \frac{\hatS^2_h}{n_h}`
+        Source:
+        .. math:: r'N_h ^2 \cdot fpc \cdot \frac{ \hatS ^2 _h }{n_h}'
 
         TODO
         ----
@@ -504,14 +492,19 @@ def gini(income='x', weights='w', df=None, sorted=False):
     Notes
     -----
     The calculation is done following (discrete probability distribution):
+
     G = 1 - [∑_i^n f(y_i)·(S_{i-1} + S_i)]
 
     where:
-    y_i = Income
-    S_i = ∑_{j=1}^i y_i · f(y_i)
 
-    Source: https://en.wikipedia.org/wiki/Gini_coefficient
-    Source: CALCULATING INCOME DISTRIBUTION INDICES FROM MICRO-DATA - STEPHEN JENKINS - 28stephenNTJ.pdf
+    - y_i = Income
+    - S_i = ∑_{j=1}^i y_i · f(y_i)
+
+    .. seealso::
+
+        - https://en.wikipedia.org/wiki/Gini_coefficient
+        - CALCULATING INCOME DISTRIBUTION INDICES FROM MICRO-DATA - STEPHEN JENKINS
+
     TODO
     ----
     Implement statistical deviation calculation, VAR (GINI)
@@ -572,20 +565,10 @@ def atk(income, weights=None, e=0.5, df=None):
 
     Notes
     -----
-    .. math:: A_\varepsilon(y_1,\ldots,y_N)=
-              \begin{cases}
-              1-\frac{1}{\mu}\left(\frac{1}{N}\sum_{i=1}^{N}y_{i}^{1-\varepsilon}\right)^{1/(1-\varepsilon)}
-              & \mbox{for}\ 0 \leq \epsilon \neq 1 \\
-              1-\frac{1}{\mu}\left(\prod_{i=1}^{N}y_{i}\right)^{1/N}
-              & \mbox{for}\ \varepsilon=1,
-              \end{cases}
 
-    .. math:: A_\varepsilon(y_{gi}: g=1,\ldots,G, i=1,\ldots,N_g) = \sum_{g=1}^G w_g A_\varepsilon( y_{g1}, \ldots, y_{g,N_g}) + A_\varepsilon(\mu_1, \ldots, \mu_G)
+    .. seealso::
 
-
-    See Also
-    --------
-    Source: https://en.wikipedia.org/wiki/Atkinson_index
+        Source: https://en.wikipedia.org/wiki/Atkinson_index
 
     TODO
     ----
