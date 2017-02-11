@@ -27,7 +27,7 @@ def _to_df(*args, **kwargs):
     return res
 
 
-def _apply_to_df(func, df, x_name, weights_name, *args, **kwargs):
+def _apply_to_df(func, df, x, weights, *args, **kwargs):
     """This function generlize main arguments as Series of a pd.Dataframe.
 
     Parameters
@@ -58,7 +58,7 @@ def _apply_to_df(func, df, x_name, weights_name, *args, **kwargs):
     --------
 
     """
-    return func(df[x_name], df[w_name], *args, **kwargs)
+    return func(df[x], df[weights], *args, **kwargs)
 
 
 def cmoment(x, weights=None, order=2, param=None, ddof=0):
@@ -105,7 +105,7 @@ def cmoment(x, weights=None, order=2, param=None, ddof=0):
     return np.sum((x - param) ** order * weights) / (np.sum(weights) - ddof)
 
 
-def stdmoment(x, weights=None, order=3, param=None, ddof=0):
+def stdmoment(x, weights=None, param=None, order=3, ddof=0):
     """Calculate the standardized moment of order `c` for the variable` x` with
     respect to `c`.
 
@@ -286,11 +286,11 @@ def shat2_h(df, x='x', weights='w', group='h'):
     Examples
     --------
     """
-    def S(df):
+    def sd(df):
         x = df.loc[:, x].copy().values
         weights = np.repeat([1], len(df))
         return cmoment(x, weights, 2, param=xbar(x))
-    return df.groupby(group).apply(S)
+    return df.groupby(group).apply(sd)
 
 
 def vhat_h(x='x', weights='w', group='h', df=None):
@@ -372,11 +372,11 @@ def vhat_h(x='x', weights='w', group='h', df=None):
         Examples
         --------
         """
-        x = df[x].copy().values
+        xi = df[x].copy().values
         Nh = df[weights].sum()
         fpc = 1 - (len(df) / Nh)
         ddof = 1 if len(df) > 1 else 0
-        shat2h = cmoment(x, order=2, ddof=ddof)
+        shat2h = cmoment(x=xi, order=2, ddof=ddof)
         return (Nh ** 2) * fpc * shat2h / len(df)
     return df.groupby(group).apply(v)
 
@@ -390,6 +390,7 @@ def moment_h(x='x', weights='w', group='h', df=None, order=2):
     x :
     weights :
     group :
+    order :
 
     Returns
     -------
@@ -417,12 +418,12 @@ def moment_h(x='x', weights='w', group='h', df=None, order=2):
         weights = np.repeat([1], len(df))
         Nh = df.loc[:, weights].sum()
         fpc = 1 - (len(df) / Nh)
-        ddof = 1 if len(df)>1 else 0
-        stdm = stdmoment(x, n, w, ddof)
-        return (Nh ** n) * fpc * stdm / len(df)
+        ddof = 1 if len(df) > 1 else 0
+        stdm = stdmoment(x=x, weights=weights, order=order, ddof=ddof)
+        return (Nh ** order) * fpc * stdm / len(df)
     return df.groupby(group).apply(mh)
 
-# INEQUALITY
+'''Inequality functions'''
 
 
 def lorenz(income, weights, df=None):
@@ -628,7 +629,7 @@ def atk(income, weights=None, e=0.5, df=None):
     #
     # atkinson = (mu - Ee) / mu
     if e == 1:
-        atkinson = 1 - np.power(np.e, np.sum(f_i * np.log(income)-log(mu)))
+        atkinson = 1 - np.power(np.e, np.sum(f_i * np.log(income) - np.log(mu)))
     elif (0 <= e) or (e < 1):
         atkinson = 1 - np.power(np.sum(f_i * np.power(income / mu, 1 - e)),
                                 1 / (1 - e))
@@ -638,7 +639,7 @@ def atk(income, weights=None, e=0.5, df=None):
     return atkinson
 
 
-def atk_h(income, weights, groupq, df=None, e=0.5):
+def atk_h(income, weights, group, df=None, e=0.5):
     """
 
     Parameters
