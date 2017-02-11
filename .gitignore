@@ -1,0 +1,6 @@
+
+\.idea/
+
+pyineq\.egg-info/
+
+pyineq/__pycache__/
