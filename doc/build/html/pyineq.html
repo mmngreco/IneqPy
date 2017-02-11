@@ -1,0 +1,651 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyineq package &mdash; PyIneq 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="PyIneq 0.0.1 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> PyIneq
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">pyineq package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pyineq.pyineq">pyineq.pyineq module</a></li>
+<li><a class="reference internal" href="#module-pyineq">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">PyIneq</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>pyineq package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/pyineq.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyineq-package">
+<h1>pyineq package<a class="headerlink" href="#pyineq-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pyineq.pyineq">
+<span id="pyineq-pyineq-module"></span><h2>pyineq.pyineq module<a class="headerlink" href="#module-pyineq.pyineq" title="Permalink to this headline">¶</a></h2>
+<p>A PYTHON PACKAGE TO QUANTITATIVE ANALYSIS OF INEQUALITY
+Collection of estimators of a stratified sample associated to single
+individuals, in this module are calculations as the mean, variance,
+quasivariance, population variance of a stratified sample.</p>
+<dl class="function">
+<dt id="pyineq.pyineq.atk">
+<code class="descclassname">pyineq.pyineq.</code><code class="descname">atk</code><span class="sig-paren">(</span><em>income</em>, <em>weights=None</em>, <em>e=0.5</em>, <em>df=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyineq.pyineq.atk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the coefficient of atkinson</p>
+<blockquote>
+<div><p>income :</p>
+<p>weights :</p>
+<p>e :</p>
+<p>df :</p>
+<div class="math">
+\[A_\]</div>
+</div></blockquote>
+<dl class="docutils">
+<dt>arepsilon(y_1,ldots,y_N)=</dt>
+<dd>egin{cases}
+1-</dd>
+</dl>
+<p>rac{1}{mu}left(
+rac{1}{N}sum_{i=1}^{N}y_{i}^{1-
+arepsilon}
+ight)^{1/(1-
+arepsilon)}</p>
+<blockquote>
+<div>&amp; mbox{for}0 leq epsilon</div></blockquote>
+<dl class="docutils">
+<dt>eq 1 </dt>
+<dd>1-</dd>
+</dl>
+<p>rac{1}{mu}left(prod_{i=1}^{N}y_{i}
+ight)^{1/N}</p>
+<blockquote>
+<div>&amp; mbox{for}</div></blockquote>
+<dl class="docutils">
+<dt>arepsilon=1,</dt>
+<dd><blockquote class="first">
+<div>end{cases}</div></blockquote>
+<div class="last math">
+\[A_\]</div>
+</dd>
+</dl>
+<p>arepsilon(y_{gi}: g=1,ldots,G, i=1,ldots,N_g) = sum_{g=1}^G w_g <a href="#id5"><span class="problematic" id="id6">A_</span></a>
+arepsilon( y_{g1}, ldots, y_{g,N_g}) + <a href="#id7"><span class="problematic" id="id8">A_</span></a>
+arepsilon(mu_1, ldots, mu_G)</p>
+<blockquote>
+<div><p>Source: <a class="reference external" href="https://en.wikipedia.org/wiki/Atkinson_index">https://en.wikipedia.org/wiki/Atkinson_index</a></p>
+<p>implement <a class="reference external" href="file:///Users/mmngreco/Downloads/10.2307&#64;41788716.pdf">file:///Users/mmngreco/Downloads/10.2307&#64;41788716.pdf</a></p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyineq.pyineq.atk_h">
+<code class="descclassname">pyineq.pyineq.</code><code class="descname">atk_h</code><span class="sig-paren">(</span><em>income</em>, <em>weights</em>, <em>group</em>, <em>df=None</em>, <em>e=0.5</em><span class="sig-paren">)</span><a class="headerlink" href="#pyineq.pyineq.atk_h" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>income</strong> (<em>str or np.array</em>) &#8211; Income variable, you can pass name of variable in <cite>df</cite> or array-like</li>
+<li><strong>weights</strong> (<em>str or np.array</em>) &#8211; probability or weights, you can pass name of variable in <cite>df</cite> or
+array-like</li>
+<li><strong>groups</strong> (<em>str or np.array</em>) &#8211; stratum, name of stratum in <cite>df</cite> or array-like</li>
+<li><strong>e</strong> (<em>int, optional</em>) &#8211; Value of epsilon parameter</li>
+<li><strong>df</strong> (<em>pd.DataFrame, optional</em>) &#8211; DataFrame that&#8217;s contains the previous data.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>atkinson_by_group</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-func docutils literal"><span class="pre">Source()</span></code></dt>
+<dd><a class="reference external" href="https://en.wikipedia.org/wiki/Atkinson_index">https://en.wikipedia.org/wiki/Atkinson_index</a></dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyineq.pyineq.cmoment">
+<code class="descclassname">pyineq.pyineq.</code><code class="descname">cmoment</code><span class="sig-paren">(</span><em>x</em>, <em>weights=None</em>, <em>order=2</em>, <em>param=None</em>, <em>ddof=0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyineq.pyineq.cmoment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the central moment of <cite>x</cite> with respect to <cite>param</cite> of order <cite>n</cite>,
+given the weights <cite>w</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<em>1d-array</em>) &#8211; Variable</li>
+<li><strong>weights</strong> (<em>1d-array</em>) &#8211; Weights</li>
+<li><strong>order</strong> (<em>int, optional</em>) &#8211; Moment order, 2 by default (variance)</li>
+<li><strong>param</strong> (<em>int or array, optional</em>) &#8211; Parameter for which the moment is calculated, the default is None,
+implies use the mean.</li>
+<li><strong>ddof</strong> (<em>int, optional</em>) &#8211; Degree of freedom, zero by default.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The cmoment of order 1 is 0
+The cmoment of order 2 is the variance.
+<a class="reference external" href="https://en.wikipedia.org/wiki/Moment_(mathematics">https://en.wikipedia.org/wiki/Moment_(mathematics</a>)</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement: <a class="reference external" href="https://en.wikipedia.org/wiki/L-moment#cite_note-wang:96-6">https://en.wikipedia.org/wiki/L-moment#cite_note-wang:96-6</a></p>
+</div>
+<p class="rubric">Examples</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyineq.pyineq.gini">
+<code class="descclassname">pyineq.pyineq.</code><code class="descname">gini</code><span class="sig-paren">(</span><em>income='x'</em>, <em>weights='w'</em>, <em>df=None</em>, <em>sorted=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyineq.pyineq.gini" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calcula el indice de Gini,</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>df</strong> (<em>pandas.DataFrame</em>) &#8211; DataFrame that contains the data.</li>
+<li><strong>income</strong> (<em>str or np.array, optional</em>) &#8211; Name of the monetary variable <cite>x</cite> in` df`</li>
+<li><strong>weights</strong> (<em>str or np.array, optional</em>) &#8211; Name of the series containing the weights <cite>x</cite> in` df`</li>
+<li><strong>sorted</strong> (<em>bool, optional</em>) &#8211; If the DataFrame is previously ordered by the variable <cite>x</cite>, it&#8217;s must pass True, but False by default.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>gini</strong> &#8211; Gini Index Value.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The calculation is done following (discrete probability distribution):
+G = 1 - [∑_i^n f(y_i)·(S_{i-1} + S_i)]</p>
+<p>where:
+y_i = Income
+S_i = ∑_{j=1}^i y_i · f(y_i)</p>
+<p>Source: <a class="reference external" href="https://en.wikipedia.org/wiki/Gini_coefficient">https://en.wikipedia.org/wiki/Gini_coefficient</a>
+Source: CALCULATING INCOME DISTRIBUTION INDICES FROM MICRO-DATA - STEPHEN JENKINS - 28stephenNTJ.pdf</p>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement statistical deviation calculation, VAR (GINI)
+Clear comments
+Rename output</p>
+</div>
+<p class="rubric">Examples</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyineq.pyineq.kurt">
+<code class="descclassname">pyineq.pyineq.</code><code class="descname">kurt</code><span class="sig-paren">(</span><em>x</em>, <em>weights</em><span class="sig-paren">)</span><a class="headerlink" href="#pyineq.pyineq.kurt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the asymmetry coefficient</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>1d-array</em>)</li>
+<li><strong>w</strong> (<em>1d-array</em>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kurt</strong> &#8211; Coeficiente de curtosis.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>It is an alias of the standardized fourth-order moment.</p>
+<p class="rubric">Examples</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyineq.pyineq.lorenz">
+<code class="descclassname">pyineq.pyineq.</code><code class="descname">lorenz</code><span class="sig-paren">(</span><em>income</em>, <em>weights</em>, <em>df=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyineq.pyineq.lorenz" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function compute the lorenz curve and returns a DF with two columns
+of axis x and y.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>df</strong> (<em>pandas.DataFrame</em>) &#8211; A pandas.DataFrame thats contains data.</li>
+<li><strong>income</strong> (<em>str or 1d-array, optional</em>) &#8211; Population or wights, if a DataFrame is passed then <cite>x</cite> shuold be a
+name of the column of DataFrame, else can pass a pandas.Series or array.</li>
+<li><strong>weights</strong> (<em>str or 1d-array</em>) &#8211; Income, monetary variable, if a DataFrame is passed then <a href="#id1"><span class="problematic" id="id2">`</span></a>y`is a name
+of the series on this DataFrame, however, you can pass a pd.Series or
+np.array.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>lorenz</strong> &#8211; Lorenz distribution in a Dataframe with two columns, labeled x and y,
+thats corresponds to plots axis.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas.Dataframe</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p class="rubric">Examples</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyineq.pyineq.moment_h">
+<code class="descclassname">pyineq.pyineq.</code><code class="descname">moment_h</code><span class="sig-paren">(</span><em>x='x'</em>, <em>weights='w'</em>, <em>group='h'</em>, <em>df=None</em>, <em>order=2</em><span class="sig-paren">)</span><a class="headerlink" href="#pyineq.pyineq.moment_h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the asymmetry of each <cite>h</cite> stratum.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>df</strong></li>
+<li><strong>x</strong></li>
+<li><strong>weights</strong></li>
+<li><strong>group</strong></li>
+<li><strong>order</strong></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-todo admonition" id="index-2">
+<p class="first admonition-title">Todo</p>
+<p>Review calculations, it does not appear to be correct.
+Attempt to make a generalization of vhat_h, for any estimator.</p>
+<div class="last admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Not Work!</p>
+</div>
+</div>
+<p class="rubric">Examples</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyineq.pyineq.shat2_h">
+<code class="descclassname">pyineq.pyineq.</code><code class="descname">shat2_h</code><span class="sig-paren">(</span><em>df</em>, <em>x='x'</em>, <em>weights='w'</em>, <em>group='h'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyineq.pyineq.shat2_h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample variance of <cite>x_name</cite>, calculated as the second-order central
+moment.</p>
+<p class="rubric">Notes</p>
+<p class="rubric">Examples</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyineq.pyineq.skew">
+<code class="descclassname">pyineq.pyineq.</code><code class="descname">skew</code><span class="sig-paren">(</span><em>x</em>, <em>weights</em><span class="sig-paren">)</span><a class="headerlink" href="#pyineq.pyineq.skew" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the asymmetry coefficient of a sample.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>1d-array</em>)</li>
+<li><strong>w</strong> (<em>1d-array</em>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>skew</strong></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>It is an alias of the standardized third-order moment.</p>
+<p class="rubric">Examples</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyineq.pyineq.stdmoment">
+<code class="descclassname">pyineq.pyineq.</code><code class="descname">stdmoment</code><span class="sig-paren">(</span><em>x</em>, <em>weights=None</em>, <em>param=None</em>, <em>order=3</em>, <em>ddof=0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyineq.pyineq.stdmoment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the standardized moment of order <cite>c</cite> for the variable` x` with
+respect to <cite>c</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>1d-array</em>) &#8211; Random Variable</li>
+<li><strong>weights</strong> (<em>1d-array, optional</em>) &#8211; Weights or probability</li>
+<li><strong>order</strong> (<em>int, optional</em>) &#8211; Order of Moment, three by default</li>
+<li><strong>param</strong> (<em>int or float or array, optional</em>) &#8211; Central trend, default is the mean.</li>
+<li><strong>ddof</strong> (<em>int, optional</em>) &#8211; Degree of freedom.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>stdmoment</strong> &#8211; Returns the standardized <cite>n</cite> order moment.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Note that the standardized moment:</p>
+<p>+====+=========+
+| <a href="#id3"><span class="problematic" id="id4">`</span></a>n`| value   |
++====+=========+
+| 1  | 0       |
++&#8212;-+&#8212;&#8212;&#8212;+
+| 2  | 1       |
++&#8212;-+&#8212;&#8212;&#8212;+
+| 3  | Skew    |
++&#8212;-+&#8212;&#8212;&#8212;+
+| 4  | Kurtosis|
++&#8212;-+&#8212;&#8212;&#8212;+</p>
+<p>Bibliografía</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Moment_(mathematics">https://en.wikipedia.org/wiki/Moment_(mathematics</a>)#Significance_of_the_moments
+<a class="reference external" href="https://en.wikipedia.org/wiki/Standardized_moment">https://en.wikipedia.org/wiki/Standardized_moment</a></p>
+<div class="admonition-todo admonition" id="index-3">
+<p class="first admonition-title">Todo</p>
+<p class="last">It is the general case of the raw and central moments. Review
+implementation.</p>
+</div>
+<p class="rubric">Examples</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyineq.pyineq.var">
+<code class="descclassname">pyineq.pyineq.</code><code class="descname">var</code><span class="sig-paren">(</span><em>x</em>, <em>weights=None</em>, <em>ddof=0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyineq.pyineq.var" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the population variance of <cite>x</cite> given
+weights <cite>w</cite>, for a homogeneous population.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<em>1d-array or pd.Series or pd.DataFrame</em>) &#8211; Variable on which the quasivariation is estimated</li>
+<li><strong>w</strong> (<em>1d-array or pd.Series or pd.DataFrame</em>) &#8211; Weights of the <cite>x</cite> variable of a dimension</li>
+<li><strong>Retruns</strong></li>
+<li><strong>&#8212;&#8212;-</strong></li>
+<li><strong>Shat2</strong> (<em>1d-array or pd.Series or float</em>) &#8211; Estimación de la cuasivarianza poblacional de <cite>x</cite></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Si la muestra está estratificada debe pasarse como un groupby de cada
+estrato.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyineq.pyineq.vhat_h">
+<code class="descclassname">pyineq.pyineq.</code><code class="descname">vhat_h</code><span class="sig-paren">(</span><em>x='x'</em>, <em>weights='w'</em>, <em>group='h'</em>, <em>df=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyineq.pyineq.vhat_h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Data a DataFrame calculates the sample variance for each stratum. The
+objective of this function is to make it easy to calculate the moments of
+the distribution that follows an estimator, eg. Can be used to calculate
+the variance that follows the mean.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>df</strong> (<em>pandas.DataFrame</em>) &#8211; Dataframe containing the series needed for the calculation</li>
+<li><strong>w_name</strong> (<em>str</em>) &#8211; Name of the weights <cite>w</cite> in the DataFrame</li>
+<li><strong>h_name</strong> (<em>str</em>) &#8211; Name of the stratum variable <cite>h</cite> in the DataFrame</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>vhat_h</strong> &#8211; A series with the values of the variance of each <cite>h</cite> stratum.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas.Series</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<div class="admonition-todo admonition" id="index-4">
+<p class="first admonition-title">Todo</p>
+<p class="last">Revisar posibles mejoras</p>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Computes the variance of the mean</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">renta</span><span class="p">,</span> <span class="n">peso</span><span class="p">,</span> <span class="n">estrato</span><span class="p">],</span>
+<span class="go">                        columns=[&quot;renta&quot;, &quot;peso&quot;, &quot;estrato&quot;])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">vhat_h</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">x_name</span><span class="o">=</span><span class="s1">&#39;income&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span>
+<span class="go">stratum</span>
+<span class="go">1                700.917.728,64</span>
+<span class="go">2              9.431.897.980,96</span>
+<span class="go">3            317.865.839.789,10</span>
+<span class="go">4            741.304.873.092,88</span>
+<span class="go">5            535.275.436.859,10</span>
+<span class="go">6            225.573.783.240,68</span>
+<span class="go">7            142.048.272.010,63</span>
+<span class="go">8             40.136.989.131,06</span>
+<span class="go">9             18.501.808.022,56</span>
+<span class="go">dtype: float64</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># the value of de variance of the mean:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v_total</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">peso</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="go">24662655225.947945</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyineq.pyineq.xbar">
+<code class="descclassname">pyineq.pyineq.</code><code class="descname">xbar</code><span class="sig-paren">(</span><em>x</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyineq.pyineq.xbar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the population mean of <cite>x</cite> given weights <cite>w</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<em>1d-array or pd.Series or pd.DataFrame</em>) &#8211; Variable on which the mean is estimated</li>
+<li><strong>w</strong> (<em>1d-array or pd.Series or pd.DataFrame, optional</em>) &#8211; Weights of the <cite>x</cite> variable of a dimension</li>
+<li><strong>Retruns</strong></li>
+<li><strong>&#8212;&#8212;-</strong></li>
+<li><strong>xbar</strong> (<em>1d-array or pd.Series or float</em>) &#8211; Estimación de la cuasivarianza poblacional de <cite>x</cite></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyineq">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyineq" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Maximiliano Greco.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
