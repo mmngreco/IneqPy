@@ -3,13 +3,13 @@ from distutils.core import setup
 description = open('README.rst').readlines()
 
 setup(name='IneqPy',
-      version='0.0.1',
+      version='0.0.2',
       description='A Python Package To Quantitative Analysis Of Inequality',
       long_description=open('README.rst').read(),
       author='Maximiliano Greco',
       author_email='mmngreco@gmail.com',
       url='https://github.com/mmngreco/IneqPy',
-      download_url='https://github.com/mmngreco/IneqPy/tarball/0.0.1',
+      download_url='https://github.com/mmngreco/IneqPy/tarball/0.0.2',
       packages=['ineqpy'],
       classifiers=['Development Status :: 3 - Alpha',
                    'Intended Audience :: Science/Research',
