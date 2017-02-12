@@ -1,4 +1,3 @@
-==============
 IneqPy Package
 ==============
 
@@ -13,14 +12,16 @@ This package provides statistics to do a properly quantitative analysis of inequ
 - Kurtosis
 - Skewness
 
+-----------
 First-steps
-===========
+-----------
 
-First of all, we need intall IneqPy.
+- Installation
+- Examples
 
 
 Install
-=======
+-------
 
 .. code-block:: bash
 
@@ -28,9 +29,9 @@ Install
   cd IneqPy
   pip install .
 
-
+--------
 Examples
-========
+--------
 
 Some examples of how use this package:
 Data of example:
@@ -68,8 +69,9 @@ Data of example:
     1977800   10662.63  28.0409
     2067700    3281.95   1.1670
 
+----------------------
 Descriptive statistics
-======================
+----------------------
 
 .. code-block:: python
     :linenos:
@@ -113,8 +115,9 @@ A helpful table of interpretation of the moments
     ineqpy.kurt(x, w)
     42.319928851703004
 
+---------------------
 Inequality estimators
-=====================
+---------------------
 
 .. code-block:: python
     :linenos:
