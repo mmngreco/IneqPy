@@ -1,0 +1,894 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ineqpy.ineqpy &mdash; IneqPy 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="IneqPy 0.0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> IneqPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ineqpy.html">ineqpy package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">IneqPy</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>ineqpy.ineqpy</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ineqpy.ineqpy</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;A PYTHON PACKAGE TO QUANTITATIVE ANALYSIS OF INEQUALITY.</span>
+
+<span class="sd">Collection of estimators of a stratified sample associated to single</span>
+<span class="sd">individuals, in this module are calculations as the mean, variance,</span>
+<span class="sd">quasivariance, population variance of a stratified sample.</span>
+
+<span class="sd">Todo</span>
+<span class="sd">----</span>
+
+<span class="sd">Rethinking this module, maybe must be a class.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># TODO implementar L-moments</span>
+<span class="c1"># def legendre_pol(x):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     https://en.wikipedia.org/wiki/Legendre_polynomials</span>
+<span class="c1">#     https://es.wikipedia.org/wiki/Polinomios_de_Legendre</span>
+<span class="c1">#     https://en.wikipedia.org/wiki/Binomial_coefficient</span>
+<span class="c1">#     http://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/lmoment.htm</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     return None</span>
+
+
+<span class="k">def</span> <span class="nf">_to_df</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">args</span> <span class="o">!=</span> <span class="p">():</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="o">*</span><span class="n">args</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">elif</span> <span class="n">kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span>
+
+
+<span class="k">def</span> <span class="nf">_apply_to_df</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This function generlize main arguments as Series of a pd.Dataframe.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ---------</span>
+<span class="sd">    func : function</span>
+<span class="sd">        Function to convert his arguments in Series of an Dataframe.</span>
+<span class="sd">    df : pandas.Dataframe</span>
+<span class="sd">        DataFrame whats contains the Series `x_name` and `w_name`</span>
+<span class="sd">    x_name : str</span>
+<span class="sd">        Name of the column in `df`</span>
+<span class="sd">    weights_name : str</span>
+<span class="sd">        Name of the column in `df</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    return : func return</span>
+<span class="sd">        It&#39;s depends of func output type</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">weights</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="cmoment"><a class="viewcode-back" href="../../ineqpy.html#ineqpy.ineqpy.cmoment">[docs]</a><span class="k">def</span> <span class="nf">cmoment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the central moment of `x` with respect to `param` of order `n`,</span>
+<span class="sd">    given the weights `w`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : 1d-array</span>
+<span class="sd">        Variable</span>
+<span class="sd">    weights : 1d-array</span>
+<span class="sd">        Weights</span>
+<span class="sd">    order : int, optional</span>
+<span class="sd">        Moment order, 2 by default (variance)</span>
+<span class="sd">    param : int or array, optional</span>
+<span class="sd">        Parameter for which the moment is calculated, the default is None,</span>
+<span class="sd">        implies use the mean.</span>
+<span class="sd">    ddof : int, optional</span>
+<span class="sd">        Degree of freedom, zero by default.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    central_moment : float</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    - The cmoment of order 1 is 0</span>
+<span class="sd">    - The cmoment of order 2 is the variance.</span>
+
+<span class="sd">    Source : https://en.wikipedia.org/wiki/Moment_(mathematics)</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    Implement: https://en.wikipedia.org/wiki/L-moment#cite_note-wang:96-6</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># return np.sum((x-c)^n*counts) / np.sum(counts)</span>
+    <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="n">xbar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+    <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">param</span><span class="p">)</span> <span class="o">**</span> <span class="n">order</span> <span class="o">*</span> <span class="n">weights</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">-</span> <span class="n">ddof</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="stdmoment"><a class="viewcode-back" href="../../ineqpy.html#ineqpy.ineqpy.stdmoment">[docs]</a><span class="k">def</span> <span class="nf">stdmoment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the standardized moment of order `c` for the variable` x` with</span>
+<span class="sd">    respect to `c`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    x : 1d-array</span>
+<span class="sd">       Random Variable</span>
+<span class="sd">    weights : 1d-array, optional</span>
+<span class="sd">       Weights or probability</span>
+<span class="sd">    order : int, optional</span>
+<span class="sd">       Order of Moment, three by default</span>
+<span class="sd">    param : int or float or array, optional</span>
+<span class="sd">       Central trend, default is the mean.</span>
+<span class="sd">    ddof : int, optional</span>
+<span class="sd">        Degree of freedom.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    stdmoment : float</span>
+<span class="sd">       Returns the standardized `n` order moment.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    Source:</span>
+
+<span class="sd">    - https://en.wikipedia.org/wiki/Moment_(mathematics)#Significance_of_the_moments</span>
+<span class="sd">    - https://en.wikipedia.org/wiki/Standardized_moment</span>
+
+
+<span class="sd">    TODO</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    It is the general case of the raw and central moments. Review</span>
+<span class="sd">    implementation.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="n">xbar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="c1"># m = np.subtract(x, c)</span>
+    <span class="c1"># m = np.power(m, n) * w / np.sum(w)</span>
+    <span class="c1"># m = np.sum(m)</span>
+    <span class="c1"># m = np.divide(m, np.power(var(x, w, ddof=ddof), n / 2))</span>
+    <span class="c1"># return m</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">cmoment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">param</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="n">ddof</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">/=</span> <span class="n">var</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="n">ddof</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">order</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="xbar"><a class="viewcode-back" href="../../ineqpy.html#ineqpy.ineqpy.xbar">[docs]</a><span class="k">def</span> <span class="nf">xbar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the mean of `x` given weights `w`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    x : 1d-array or pd.Series or pd.DataFrame</span>
+<span class="sd">        Variable on which the mean is estimated</span>
+<span class="sd">    w : 1d-array or pd.Series or pd.DataFrame, optional</span>
+<span class="sd">        Weights of the `x` variable of a dimension</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    xbar : 1d-array or pd.Series or float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="var"><a class="viewcode-back" href="../../ineqpy.html#ineqpy.ineqpy.var">[docs]</a><span class="k">def</span> <span class="nf">var</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the population variance of `x` given</span>
+<span class="sd">    weights `w`, for a homogeneous population.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    x : 1d-array or pd.Series or pd.DataFrame</span>
+<span class="sd">        Variable on which the quasivariation is estimated</span>
+<span class="sd">    w : 1d-array or pd.Series or pd.DataFrame</span>
+<span class="sd">        Weights of the `x` variable of a dimension</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Shat2 : 1d-array or pd.Series or float</span>
+<span class="sd">        Estimation of quasivariance of `x`</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    If stratificated sample must pass with groupby each strata.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">cmoment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="n">ddof</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="kurt"><a class="viewcode-back" href="../../ineqpy.html#ineqpy.ineqpy.kurt">[docs]</a><span class="k">def</span> <span class="nf">kurt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the asymmetry coefficient</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    x : 1d-array</span>
+<span class="sd">    w : 1d-array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    kurt : float</span>
+<span class="sd">        Kurtosis coefficient.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    It is an alias of the standardized fourth-order moment.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stdmoment</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="skew"><a class="viewcode-back" href="../../ineqpy.html#ineqpy.ineqpy.skew">[docs]</a><span class="k">def</span> <span class="nf">skew</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns the asymmetry coefficient of a sample.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ---------</span>
+<span class="sd">    x : 1d-array</span>
+<span class="sd">    w : 1d-array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    skew : float</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    It is an alias of the standardized third-order moment.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stdmoment</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="shat2_h"><a class="viewcode-back" href="../../ineqpy.html#ineqpy.ineqpy.shat2_h">[docs]</a><span class="k">def</span> <span class="nf">shat2_h</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sample variance of `x_name`, calculated as the second-order central</span>
+<span class="sd">    moment.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ---------</span>
+<span class="sd">    x : array or str</span>
+<span class="sd">        variable `x` apply the statistic. If `data` is None then must pass this</span>
+<span class="sd">        argument as array, else as string name in `data`</span>
+<span class="sd">    weights : array or str</span>
+<span class="sd">        weights can be interpreted as frequency, probability,</span>
+<span class="sd">        density function of `x`, each element in `x`. If `data` is None then</span>
+<span class="sd">        must pass this argument as array, else as string name in `data`</span>
+<span class="sd">    group : array or str</span>
+<span class="sd">        group is a categorical variable to calculate the statistical by each</span>
+<span class="sd">        group. If `data` is None then must pass this argument as array, else as</span>
+<span class="sd">        string name in `data`</span>
+<span class="sd">    data : pd.DataFrame, optional</span>
+<span class="sd">        pd.DataFrame has all variables needed.</span>
+<span class="sd">        order</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    shat2_h : array or pd.Series</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    This function is useful to calculate the variance of the mean.</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    Review function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">_to_df</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="s1">&#39;weights&#39;</span>
+
+    <span class="k">def</span> <span class="nf">sd</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">cmoment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">xbar</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="vhat_h"><a class="viewcode-back" href="../../ineqpy.html#ineqpy.ineqpy.vhat_h">[docs]</a><span class="k">def</span> <span class="nf">vhat_h</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Data a DataFrame calculates the sample variance for each stratum. The</span>
+<span class="sd">    objective of this function is to make it easy to calculate the moments of</span>
+<span class="sd">    the distribution that follows an estimator, eg. Can be used to calculate</span>
+<span class="sd">    the variance that follows the mean.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">        Dataframe containing the series needed for the calculation</span>
+<span class="sd">    x : str</span>
+<span class="sd">    weights : str</span>
+<span class="sd">        Name of the weights `w` in the DataFrame</span>
+<span class="sd">    group : str</span>
+<span class="sd">        Name of the stratum variable `h` in the DataFrame</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    vhat_h : pandas.Series</span>
+<span class="sd">        A series with the values of the variance of each `h` stratum.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    ----</span>
+<span class="sd">    Review improvements.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # Computes the variance of the mean</span>
+<span class="sd">    &gt;&gt;&gt; data = pd.DataFrame(data=[renta, peso, estrato],</span>
+<span class="sd">                            columns=[&quot;renta&quot;, &quot;peso&quot;, &quot;estrato&quot;])</span>
+<span class="sd">    &gt;&gt;&gt; v = vhat_h(data,x_name=&#39;income&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; v</span>
+<span class="sd">    stratum</span>
+<span class="sd">    1                700.917.728,64</span>
+<span class="sd">    2              9.431.897.980,96</span>
+<span class="sd">    3            317.865.839.789,10</span>
+<span class="sd">    4            741.304.873.092,88</span>
+<span class="sd">    5            535.275.436.859,10</span>
+<span class="sd">    6            225.573.783.240,68</span>
+<span class="sd">    7            142.048.272.010,63</span>
+<span class="sd">    8             40.136.989.131,06</span>
+<span class="sd">    9             18.501.808.022,56</span>
+<span class="sd">    dtype: float64</span>
+
+<span class="sd">    &gt;&gt;&gt; # the value of de variance of the mean:</span>
+<span class="sd">    &gt;&gt;&gt; v_total = v.sum() / peso.sum() ** 2</span>
+<span class="sd">    24662655225.947945</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">_to_df</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="s1">&#39;weights&#39;</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;group&#39;</span>
+
+    <span class="k">def</span> <span class="nf">v</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the variance of each stratum `h`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ---------</span>
+<span class="sd">        df : pandas.DataFrame</span>
+<span class="sd">            Dataframe containing the data</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        vhat : float</span>
+<span class="sd">            Value of the population variance for the stratum `h`</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+
+<span class="sd">        Source:</span>
+<span class="sd">        .. math:: r`N_h ^2 \cdot fpc \cdot \frac{ \hatS ^2 _h }{n_h}`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xi</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">Nh</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">weights</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">fpc</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">/</span> <span class="n">Nh</span><span class="p">)</span>
+        <span class="n">ddof</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">shat2h</span> <span class="o">=</span> <span class="n">cmoment</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">xi</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="n">ddof</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Nh</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">fpc</span> <span class="o">*</span> <span class="n">shat2h</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="moment_h"><a class="viewcode-back" href="../../ineqpy.html#ineqpy.ineqpy.moment_h">[docs]</a><span class="k">def</span> <span class="nf">moment_h</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculates the asymmetry of each `h` stratum.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    x : array or str</span>
+<span class="sd">    weights : array or str</span>
+<span class="sd">    group : array or str</span>
+<span class="sd">    data : pd.DataFrame, optional</span>
+<span class="sd">    order : int, optional</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    moment_of_order : float</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    Review calculations, it does not appear to be correct.</span>
+<span class="sd">    Attempt to make a generalization of vhat_h, for any estimator.</span>
+
+<span class="sd">    .. warning:: Actually Does Not Work!</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">_to_df</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="s1">&#39;weights&#39;</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;group&#39;</span>
+
+    <span class="k">def</span> <span class="nf">mh</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+        <span class="n">Nh</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">weights</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">fpc</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">/</span> <span class="n">Nh</span><span class="p">)</span>
+        <span class="n">ddof</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">stdm</span> <span class="o">=</span> <span class="n">stdmoment</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="n">ddof</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Nh</span> <span class="o">**</span> <span class="n">order</span><span class="p">)</span> <span class="o">*</span> <span class="n">fpc</span> <span class="o">*</span> <span class="n">stdm</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mh</span><span class="p">)</span></div>
+
+<span class="sd">&#39;&#39;&#39;Inequality functions&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="lorenz"><a class="viewcode-back" href="../../ineqpy.html#ineqpy.ineqpy.lorenz">[docs]</a><span class="k">def</span> <span class="nf">lorenz</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This function compute the lorenz curve and returns a DF with two columns</span>
+<span class="sd">    of axis x and y.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">        A pandas.DataFrame thats contains data.</span>
+
+<span class="sd">    income : str or 1d-array, optional</span>
+<span class="sd">        Population or wights, if a DataFrame is passed then `x` shuold be a</span>
+<span class="sd">        name of the column of DataFrame, else can pass a pandas.Series or array.</span>
+
+<span class="sd">    weights : str or 1d-array</span>
+<span class="sd">        Income, monetary variable, if a DataFrame is passed then `y`is a name</span>
+<span class="sd">        of the series on this DataFrame, however, you can pass a pd.Series or</span>
+<span class="sd">        np.array.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    lorenz : pandas.Dataframe</span>
+<span class="sd">        Lorenz distribution in a Dataframe with two columns, labeled x and y,</span>
+<span class="sd">        that corresponds to plots axis.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">_to_df</span><span class="p">(</span><span class="n">income</span><span class="o">=</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+        <span class="n">income</span><span class="o">=</span><span class="s1">&#39;income&#39;</span>
+        <span class="n">weights</span><span class="o">=</span><span class="s1">&#39;weights&#39;</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">income</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">income</span> <span class="o">*</span> <span class="n">data</span><span class="o">.</span><span class="n">weights</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">data</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">income</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">income</span><span class="p">]</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="n">weights</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">data</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="gini"><a class="viewcode-back" href="../../ineqpy.html#ineqpy.ineqpy.gini">[docs]</a><span class="k">def</span> <span class="nf">gini</span><span class="p">(</span><span class="n">income</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">sorted</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calcula el indice de Gini,</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ---------</span>
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">        DataFrame that contains the data.</span>
+
+<span class="sd">    income : str or np.array, optional</span>
+<span class="sd">        Name of the monetary variable `x` in` df`</span>
+
+<span class="sd">    weights : str or np.array, optional</span>
+<span class="sd">        Name of the series containing the weights `x` in` df`</span>
+
+<span class="sd">    sorted : bool, optional</span>
+<span class="sd">        If the DataFrame is previously ordered by the variable `x`, it&#39;s must pass True, but False by default.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    gini : float</span>
+<span class="sd">        Gini Index Value.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The calculation is done following (discrete probability distribution):</span>
+
+<span class="sd">    G = 1 - [∑_i^n f(y_i)·(S_{i-1} + S_i)]</span>
+
+<span class="sd">    where:</span>
+
+<span class="sd">    - y_i = Income</span>
+<span class="sd">    - S_i = ∑_{j=1}^i y_i · f(y_i)</span>
+
+<span class="sd">    Source:</span>
+
+<span class="sd">    - https://en.wikipedia.org/wiki/Gini_coefficient</span>
+<span class="sd">    - CALCULATING INCOME DISTRIBUTION INDICES FROM MICRO-DATA - STEPHEN JENKINS</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    - Implement statistical deviation calculation, VAR (GINI)</span>
+<span class="sd">    - Clear comments</span>
+<span class="sd">    - Rename output</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">_to_df</span><span class="p">(</span><span class="n">income</span><span class="o">=</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+        <span class="n">income</span> <span class="o">=</span> <span class="s1">&#39;income&#39;</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="s1">&#39;weights&#39;</span>
+    <span class="c1"># if any(df[income] &lt;= 0):</span>
+    <span class="c1">#     stage = df.loc[df[income] &lt;= 0].copy().sum()</span>
+    <span class="c1">#     stage[income] = 0</span>
+    <span class="c1">#     df = pd.concat([stage.to_frame().T, df.loc[df[income] &gt; 0]], axis=0)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">sorted</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">income</span><span class="p">,</span>
+                                                   <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1"># another aproach</span>
+    <span class="c1"># x = df[income]</span>
+    <span class="c1"># f_x = df[weights]</span>
+    <span class="c1"># f_x /= f_x.sum()</span>
+    <span class="c1"># si = x * f_x</span>
+    <span class="c1"># si = si.cumsum()</span>
+    <span class="c1"># si_1 = si.shift(1)</span>
+    <span class="c1"># sn = si.iloc[-1]</span>
+    <span class="c1"># g = (1 - np.divide(np.sum(f_x * (si_1 + si)), sn))</span>
+    <span class="c1"># return G, G2, G3, G4</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">income</span><span class="p">]</span>
+    <span class="n">f_x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">weights</span><span class="p">]</span> <span class="o">/</span> <span class="n">data</span><span class="p">[</span><span class="n">weights</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">F_x</span> <span class="o">=</span> <span class="n">f_x</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">f_x</span><span class="p">)</span>
+    <span class="n">cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">F_x</span><span class="p">,</span> <span class="n">rowvar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aweights</span><span class="o">=</span><span class="n">f_x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">cov</span> <span class="o">/</span> <span class="n">mu</span>
+    <span class="k">return</span> <span class="n">g</span></div>
+
+
+<div class="viewcode-block" id="atk"><a class="viewcode-back" href="../../ineqpy.html#ineqpy.ineqpy.atk">[docs]</a><span class="k">def</span> <span class="nf">atk</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the coefficient of atkinson</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ---------</span>
+<span class="sd">    income : array or str</span>
+<span class="sd">        If `data` is none `income` must be an 1D-array, when `data` is a</span>
+<span class="sd">        pd.DataFrame, you must pass the name of income variable as string.</span>
+
+<span class="sd">    weights : array or str, optional</span>
+<span class="sd">        If `data` is none `weights` must be an 1D-array, when `data` is a</span>
+<span class="sd">        pd.DataFrame, you must pass the name of weights variable as string.</span>
+
+<span class="sd">    e : int, optional</span>
+<span class="sd">        Epsilon parameter interpreted by atkinson index as inequality adversion,</span>
+<span class="sd">        must be between 0 and 1.</span>
+
+<span class="sd">    data : pd.DataFrame, optional</span>
+<span class="sd">        data is a pd.DataFrame that contains the variables.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    atkinson : float</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    Source: https://en.wikipedia.org/wiki/Atkinson_index</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    - Implement: CALCULATING INCOME DISTRIBUTION INDICES FROM MICRO-DATA</span>
+<span class="sd">      http://www.jstor.org/stable/41788716</span>
+
+<span class="sd">    .. warning:: The results has difference with stata, maybe have a bug.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">income</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Must pass at least one of both `income` or `df`&#39;</span><span class="p">)</span>
+    <span class="c1"># non-null condition</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">income</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">income</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">income</span> <span class="o">=</span> <span class="n">income</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+    <span class="c1"># more than one value</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">income</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">income</span><span class="p">)</span>  <span class="c1"># observations</span>
+
+    <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">xbar</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="n">f_i</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>  <span class="c1"># density function</span>
+    <span class="c1"># another aproach</span>
+    <span class="c1"># e value condition</span>
+    <span class="c1"># if e == 1:</span>
+    <span class="c1">#     Ee = np.power(np.e, np.sum(f_i * np.log(income)))</span>
+    <span class="c1"># elif (0 &lt;= e) or (e &lt; 1):</span>
+    <span class="c1">#     Ee = np.power(np.sum(f_i * np.power(income, 1 - e)), 1 / (1 - e))</span>
+    <span class="c1"># else:</span>
+    <span class="c1">#     assert (e &lt; 0) or (e &gt; 1), &quot;Not valid e value,  0 ≤ e ≤ 1&quot;</span>
+    <span class="c1">#     Ee = None</span>
+    <span class="c1">#     return None</span>
+    <span class="c1"># atkinson = (mu - Ee) / mu</span>
+    <span class="k">if</span> <span class="n">e</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">atkinson</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">f_i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">income</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">mu</span><span class="p">)))</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">e</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">e</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">atkinson</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">f_i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">income</span> <span class="o">/</span> <span class="n">mu</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">e</span><span class="p">)),</span>
+                                <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">e</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">e</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">e</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;Not valid e value,  0 ≤ e ≤ 1&quot;</span>
+        <span class="n">atkinson</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">atkinson</span></div>
+
+
+<div class="viewcode-block" id="atk_h"><a class="viewcode-back" href="../../ineqpy.html#ineqpy.ineqpy.atk_h">[docs]</a><span class="k">def</span> <span class="nf">atk_h</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ---------</span>
+<span class="sd">    income : str or np.array</span>
+<span class="sd">        Income variable, you can pass name of variable in `df` or array-like</span>
+<span class="sd">    weights : str or np.array</span>
+<span class="sd">        probability or weights, you can pass name of variable in `df` or</span>
+<span class="sd">        array-like</span>
+<span class="sd">    groups : str or np.array</span>
+<span class="sd">        stratum, name of stratum in `df` or array-like</span>
+<span class="sd">    e : int, optional</span>
+<span class="sd">        Value of epsilon parameter</span>
+<span class="sd">    data : pd.DataFrame, optional</span>
+<span class="sd">        DataFrame that&#39;s contains the previous data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    atkinson_by_group : float</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    Source: https://en.wikipedia.org/wiki/Atkinson_index</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    ----</span>
+<span class="sd">    Review function, has different results with stata.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># df = df.loc[df[x] &gt; 0].copy()</span>
+    <span class="c1"># df.loc[:, weights] /= df[weights].sum()</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">_to_df</span><span class="p">(</span><span class="n">income</span><span class="o">=</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+        <span class="n">income</span> <span class="o">=</span> <span class="s1">&#39;income&#39;</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="s1">&#39;weights&#39;</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;group&#39;</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">a_h</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Funtion alias to calculate atk from a DataFrame</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="n">atk</span><span class="p">(</span><span class="n">income</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">income</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">weights</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                  <span class="n">e</span><span class="o">=</span><span class="n">e</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">/</span> <span class="n">N</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">atk_by_group</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">a_h</span><span class="p">)</span>
+        <span class="n">mu_by_group</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">dw</span><span class="p">:</span> <span class="n">xbar</span><span class="p">(</span><span class="n">dw</span><span class="p">[</span><span class="n">income</span><span class="p">],</span>
+                                                                <span class="n">dw</span><span class="p">[</span><span class="n">weights</span><span class="p">]))</span>
+
+        <span class="k">return</span> <span class="n">atk_by_group</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">atk</span><span class="p">(</span><span class="n">income</span><span class="o">=</span><span class="n">mu_by_group</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Maximiliano Greco.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

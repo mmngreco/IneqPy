@@ -1,7 +1,7 @@
-pyineq
+ineqpy
 ======
 
 .. toctree::
    :maxdepth: 4
 
-   pyineq
+   ineqpy

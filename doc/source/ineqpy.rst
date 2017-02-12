@@ -1,13 +1,13 @@
-pyineq package
+ineqpy package
 ==============
 
 Submodules
 ----------
 
-pyineq.pyineq module
+ineqpy.ineqpy module
 --------------------
 
-.. automodule:: pyineq.pyineq
+.. automodule:: ineqpy.ineqpy
     :members:
     :undoc-members:
     :show-inheritance:
@@ -16,7 +16,7 @@ pyineq.pyineq module
 Module contents
 ---------------
 
-.. automodule:: pyineq
+.. automodule:: ineqpy
     :members:
     :undoc-members:
     :show-inheritance:
