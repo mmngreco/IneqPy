@@ -5,6 +5,12 @@
 Collection of estimators of a stratified sample associated to single
 individuals, in this module are calculations as the mean, variance,
 quasivariance, population variance of a stratified sample.
+
+Todo
+----
+
+Rethinking this module, maybe must be a class.
+
 """
 import pandas as pd
 import numpy as np
@@ -47,17 +53,6 @@ def _apply_to_df(func, df, x, weights, *args, **kwargs):
     return : func return
         It's depends of func output type
 
-    Notes
-    -----
-
-
-    TODO
-    ----
-
-
-    Examples
-    --------
-
     """
     return func(df[x], df[weights], *args, **kwargs)
 
@@ -83,18 +78,21 @@ def cmoment(x, weights=None, order=2, param=None, ddof=0):
     Returns
     -------
 
+    central_moment : float
+
     Notes
     -----
+
     - The cmoment of order 1 is 0
     - The cmoment of order 2 is the variance.
+
     Source : https://en.wikipedia.org/wiki/Moment_(mathematics)
 
     TODO
     ----
+
     Implement: https://en.wikipedia.org/wiki/L-moment#cite_note-wang:96-6
 
-    Examples
-    --------
     """
     # return np.sum((x-c)^n*counts) / np.sum(counts)
     if param is None:
@@ -112,6 +110,7 @@ def stdmoment(x, weights=None, param=None, order=3, ddof=0):
 
     Parameters
     ---------
+
     x : 1d-array
        Random Variable
     weights : 1d-array, optional
@@ -125,6 +124,7 @@ def stdmoment(x, weights=None, param=None, order=3, ddof=0):
 
     Returns
     -------
+
     stdmoment : float
        Returns the standardized `n` order moment.
 
@@ -139,11 +139,9 @@ def stdmoment(x, weights=None, param=None, order=3, ddof=0):
 
     TODO
     ----
+
     It is the general case of the raw and central moments. Review
     implementation.
-
-    Examples
-    --------
 
     """
     if weights is None:
@@ -165,16 +163,19 @@ def xbar(x, weights=None):
 
     Parameters
     ----------
+
     x : 1d-array or pd.Series or pd.DataFrame
         Variable on which the mean is estimated
     w : 1d-array or pd.Series or pd.DataFrame, optional
         Weights of the `x` variable of a dimension
 
-    Retruns
+    Returns
     -------
+
     xbar : 1d-array or pd.Series or float
     """
     return np.average(x, weights=weights, axis=0)
+
 
 def var(x, weights=None, ddof=0):
     """Calculate the population variance of `x` given
@@ -183,13 +184,15 @@ def var(x, weights=None, ddof=0):
 
     Parameters
     ----------
+
     x : 1d-array or pd.Series or pd.DataFrame
         Variable on which the quasivariation is estimated
     w : 1d-array or pd.Series or pd.DataFrame
         Weights of the `x` variable of a dimension
 
-    Retruns
+    Returns
     -------
+
     Shat2 : 1d-array or pd.Series or float
         Estimation of quasivariance of `x`
 
@@ -208,23 +211,21 @@ def kurt(x, weights):
 
     Parameters
     ---------
+
     x : 1d-array
     w : 1d-array
 
     Returns
     -------
+
     kurt : float
-        Coeficiente de curtosis.
+        Kurtosis coefficient.
 
     Notes
     -----
+
     It is an alias of the standardized fourth-order moment.
 
-    TODO
-    ----
-
-    Examples
-    --------
     """
     return stdmoment(x=x, weights=weights, order=4)
 
@@ -245,42 +246,61 @@ def skew(x, weights):
     -----
     It is an alias of the standardized third-order moment.
 
-    TODO
-    ----
-
-    Examples
-    --------
     """
     return stdmoment(x=x, weights=weights, order=3)
 
 
-def shat2_h(df, x='x', weights='w', group='h'):
+def shat2_h(x, weights, group, data=None):
     """Sample variance of `x_name`, calculated as the second-order central
     moment.
 
     Parameters
     ---------
+    x : array or str
+        variable `x` apply the statistic. If `data` is None then must pass this
+        argument as array, else as string name in `data`
+    weights : array or str
+        weights can be interpreted as frequency, probability,
+        density function of `x`, each element in `x`. If `data` is None then
+        must pass this argument as array, else as string name in `data`
+    group : array or str
+        group is a categorical variable to calculate the statistical by each
+        group. If `data` is None then must pass this argument as array, else as
+        string name in `data`
+    data : pd.DataFrame, optional
+        pd.DataFrame has all variables needed.
+        order
+
 
     Returns
     -------
 
+    shat2_h : array or pd.Series
+
     Notes
     -----
+
+    This function is useful to calculate the variance of the mean.
 
     TODO
     ----
 
-    Examples
-    --------
+    Review function
     """
+
+    if data is None:
+        data = _to_df(x=x, weights=weights)
+        x = 'x'
+        weights = 'weights'
+
     def sd(df):
         x = df.loc[:, x].copy().values
         weights = np.repeat([1], len(df))
         return cmoment(x, weights, 2, param=xbar(x))
-    return df.groupby(group).apply(sd)
+    return data.groupby(group).apply(sd)
 
 
-def vhat_h(x='x', weights='w', group='h', df=None):
+def vhat_h(x='x', weights='w', group='h', data=None):
     """Data a DataFrame calculates the sample variance for each stratum. The
     objective of this function is to make it easy to calculate the moments of
     the distribution that follows an estimator, eg. Can be used to calculate
@@ -288,11 +308,13 @@ def vhat_h(x='x', weights='w', group='h', df=None):
 
     Parameters
     ---------
-    df : pandas.DataFrame
+
+    data : pandas.DataFrame
         Dataframe containing the series needed for the calculation
-    w_name : str
+    x : str
+    weights : str
         Name of the weights `w` in the DataFrame
-    h_name : str
+    group : str
         Name of the stratum variable `h` in the DataFrame
 
     Returns
@@ -330,8 +352,8 @@ def vhat_h(x='x', weights='w', group='h', df=None):
     >>> v_total = v.sum() / peso.sum() ** 2
     24662655225.947945
     """
-    if df is None:
-        df = _to_df(x=x, weights=weights, group=group)
+    if data is None:
+        data = _to_df(x=x, weights=weights, group=group)
         x = 'x'
         weights = 'weights'
         group = 'group'
@@ -346,19 +368,16 @@ def vhat_h(x='x', weights='w', group='h', df=None):
 
         Returns
         -------
+
         vhat : float
             Value of the population variance for the stratum `h`
 
         Notes
         -----
+
         Source:
-        .. math:: r'N_h ^2 \cdot fpc \cdot \frac{ \hatS ^2 _h }{n_h}'
+        .. math:: r`N_h ^2 \cdot fpc \cdot \frac{ \hatS ^2 _h }{n_h}`
 
-        TODO
-        ----
-
-        Examples
-        --------
         """
         xi = df[x].copy().values
         Nh = df[weights].sum()
@@ -366,37 +385,38 @@ def vhat_h(x='x', weights='w', group='h', df=None):
         ddof = 1 if len(df) > 1 else 0
         shat2h = cmoment(x=xi, order=2, ddof=ddof)
         return (Nh ** 2) * fpc * shat2h / len(df)
-    return df.groupby(group).apply(v)
+    return data.groupby(group).apply(v)
 
 
-def moment_h(x='x', weights='w', group='h', df=None, order=2):
+def moment_h(x='x', weights='w', group='h', data=None, order=2):
     """Calculates the asymmetry of each `h` stratum.
 
     Parameters
     ----------
-    df :
-    x :
-    weights :
-    group :
-    order :
+
+    x : array or str
+    weights : array or str
+    group : array or str
+    data : pd.DataFrame, optional
+    order : int, optional
 
     Returns
     -------
 
+    moment_of_order : float
 
     TODO
     ----
+
     Review calculations, it does not appear to be correct.
     Attempt to make a generalization of vhat_h, for any estimator.
 
-    .. warning:: Not Work!
+    .. warning:: Actually Does Not Work!
 
-    Examples
-    --------
 
     """
-    if df is None:
-        df = _to_df(x=x, weights=weights, group=group)
+    if data is None:
+        data = _to_df(x=x, weights=weights, group=group)
         x = 'x'
         weights = 'weights'
         group = 'group'
@@ -409,18 +429,19 @@ def moment_h(x='x', weights='w', group='h', df=None, order=2):
         ddof = 1 if len(df) > 1 else 0
         stdm = stdmoment(x=x, weights=weights, order=order, ddof=ddof)
         return (Nh ** order) * fpc * stdm / len(df)
-    return df.groupby(group).apply(mh)
+    return data.groupby(group).apply(mh)
 
 '''Inequality functions'''
 
 
-def lorenz(income, weights, df=None):
+def lorenz(income, weights, data=None):
     """This function compute the lorenz curve and returns a DF with two columns
     of axis x and y.
 
     Parameters
-    ---------
-    df : pandas.DataFrame
+    ----------
+
+    data : pandas.DataFrame
         A pandas.DataFrame thats contains data.
 
     income : str or 1d-array, optional
@@ -435,44 +456,31 @@ def lorenz(income, weights, df=None):
 
     Returns
     -------
+
     lorenz : pandas.Dataframe
         Lorenz distribution in a Dataframe with two columns, labeled x and y,
-        thats corresponds to plots axis.
-
-
-
-    Notes
-    -----
-
-
-    TODO
-    ----
-
-
-    Examples
-    --------
-
+        that corresponds to plots axis.
 
     """
 
-    if df is None:
-        df = _to_df(income=income, weights=weights)
+    if data is None:
+        data = _to_df(income=income, weights=weights)
         income='income'
         weights='weights'
-        df[income] = df.income * df.weights
-        res = df.sort_values(by=weights).cumsum() / df.sum()
+        data[income] = data.income * data.weights
+        res = data.sort_values(by=weights).cumsum() / data.sum()
     else:
-        df[income] = df[income] * df[weights]
-        res = df.sort_values(by=weights).cumsum() / df.sum()
+        data[income] = data[income] * data[weights]
+        res = data.sort_values(by=weights).cumsum() / data.sum()
     return res
 
 
-def gini(income='x', weights='w', df=None, sorted=False):
+def gini(income='x', weights='w', data=None, sorted=False):
     """Calcula el indice de Gini,
 
     Parameters
     ---------
-    df : pandas.DataFrame
+    data : pandas.DataFrame
         DataFrame that contains the data.
 
     income : str or np.array, optional
@@ -500,23 +508,24 @@ def gini(income='x', weights='w', df=None, sorted=False):
     - y_i = Income
     - S_i = ∑_{j=1}^i y_i · f(y_i)
 
-    .. seealso::
+    Source:
 
-        - https://en.wikipedia.org/wiki/Gini_coefficient
-        - CALCULATING INCOME DISTRIBUTION INDICES FROM MICRO-DATA - STEPHEN JENKINS
+    - https://en.wikipedia.org/wiki/Gini_coefficient
+    - CALCULATING INCOME DISTRIBUTION INDICES FROM MICRO-DATA - STEPHEN JENKINS
 
     TODO
     ----
-    Implement statistical deviation calculation, VAR (GINI)
-    Clear comments
-    Rename output
+
+    - Implement statistical deviation calculation, VAR (GINI)
+    - Clear comments
+    - Rename output
 
     Examples
     --------
 
     """
-    if df is None:
-        df = _to_df(income=income, weights=weights)
+    if data is None:
+        data = _to_df(income=income, weights=weights)
         income = 'income'
         weights = 'weights'
     # if any(df[income] <= 0):
@@ -524,8 +533,8 @@ def gini(income='x', weights='w', df=None, sorted=False):
     #     stage[income] = 0
     #     df = pd.concat([stage.to_frame().T, df.loc[df[income] > 0]], axis=0)
     if not sorted:
-        df = df[[income, weights]].sort_values(income,
-                                               ascending=True).copy()
+        data = data[[income, weights]].sort_values(income,
+                                                   ascending=True).copy()
     # another aproach
     # x = df[income]
     # f_x = df[weights]
@@ -536,8 +545,8 @@ def gini(income='x', weights='w', df=None, sorted=False):
     # sn = si.iloc[-1]
     # g = (1 - np.divide(np.sum(f_x * (si_1 + si)), sn))
     # return G, G2, G3, G4
-    x = df[income]
-    f_x = df[weights] / df[weights].sum()
+    x = data[income]
+    f_x = data[weights] / data[weights].sum()
     F_x = f_x.cumsum()
     mu = np.sum(x * f_x)
     cov = np.cov(x, F_x, rowvar=False, aweights=f_x)[0,1]
@@ -545,41 +554,47 @@ def gini(income='x', weights='w', df=None, sorted=False):
     return g
 
 
-def atk(income, weights=None, e=0.5, df=None):
+def atk(income, weights=None, e=0.5, data=None):
     """Calculate the coefficient of atkinson
 
     Parameters
     ---------
-    income :
+    income : array or str
+        If `data` is none `income` must be an 1D-array, when `data` is a
+        pd.DataFrame, you must pass the name of income variable as string.
 
-    weights :
+    weights : array or str, optional
+        If `data` is none `weights` must be an 1D-array, when `data` is a
+        pd.DataFrame, you must pass the name of weights variable as string.
 
-    e :
+    e : int, optional
+        Epsilon parameter interpreted by atkinson index as inequality adversion,
+        must be between 0 and 1.
 
-    df :
+    data : pd.DataFrame, optional
+        data is a pd.DataFrame that contains the variables.
 
 
     Returns
     -------
-
+    atkinson : float
 
     Notes
     -----
 
-    .. seealso::
-
-        Source: https://en.wikipedia.org/wiki/Atkinson_index
+    Source: https://en.wikipedia.org/wiki/Atkinson_index
 
     TODO
     ----
-    implement file:///Users/mmngreco/Downloads/10.2307@41788716.pdf
 
-    Examples
-    --------
+    - Implement: CALCULATING INCOME DISTRIBUTION INDICES FROM MICRO-DATA
+      http://www.jstor.org/stable/41788716
+
+    .. warning:: The results has difference with stata, maybe have a bug.
 
 
     """
-    if (income is None) and (df is None):
+    if (income is None) and (data is None):
         raise ValueError('Must pass at least one of both `income` or `df`')
     # non-null condition
     if np.any(income <= 0):
@@ -598,7 +613,6 @@ def atk(income, weights=None, e=0.5, df=None):
 
     mu = xbar(income, weights)
     f_i = weights / sum(weights)  # density function
-
     # another aproach
     # e value condition
     # if e == 1:
@@ -609,7 +623,6 @@ def atk(income, weights=None, e=0.5, df=None):
     #     assert (e < 0) or (e > 1), "Not valid e value,  0 ≤ e ≤ 1"
     #     Ee = None
     #     return None
-    #
     # atkinson = (mu - Ee) / mu
     if e == 1:
         atkinson = 1 - np.power(np.e, np.sum(f_i * np.log(income) - np.log(mu)))
@@ -622,7 +635,7 @@ def atk(income, weights=None, e=0.5, df=None):
     return atkinson
 
 
-def atk_h(income, weights, group, df=None, e=0.5):
+def atk_h(income, weights, group, data=None, e=0.5):
     """
 
     Parameters
@@ -636,7 +649,7 @@ def atk_h(income, weights, group, df=None, e=0.5):
         stratum, name of stratum in `df` or array-like
     e : int, optional
         Value of epsilon parameter
-    df : pd.DataFrame, optional
+    data : pd.DataFrame, optional
         DataFrame that's contains the previous data.
 
     Returns
@@ -646,13 +659,11 @@ def atk_h(income, weights, group, df=None, e=0.5):
     Notes
     -----
 
-    See Also
-    --------
     Source: https://en.wikipedia.org/wiki/Atkinson_index
 
     TODO
     ----
-
+    Review function, has different results with stata.
 
     Examples
     --------
@@ -660,29 +671,28 @@ def atk_h(income, weights, group, df=None, e=0.5):
     """
     # df = df.loc[df[x] > 0].copy()
     # df.loc[:, weights] /= df[weights].sum()
-    if df is None:
-        df = _to_df(income=income, weights=weights, group=group)
+    if data is None:
+        data = _to_df(income=income, weights=weights, group=group)
         income = 'income'
         weights = 'weights'
         group = 'group'
-    N = len(df)
+    N = len(data)
 
-    def a_h(data):
+    def a_h(df):
         '''
         Funtion alias to calculate atk from a DataFrame
         '''
-        if data is None:
+        if df is None:
             raise ValueError
 
-        res = atk(income=data[income].values,
-                  weights=data[weights].values,
-                  e=e) * len(data) / N
+        res = atk(income=df[income].values, weights=df[weights].values,
+                  e=e) * len(df) / N
         return res
 
-    if df is not None:
-        atk_by_group = df.groupby(group).apply(a_h)
-        mu_by_group = df.groupby(group).apply(lambda dw: xbar(dw[income],
-                                                              dw[weights]))
+    if data is not None:
+        atk_by_group = data.groupby(group).apply(a_h)
+        mu_by_group = data.groupby(group).apply(lambda dw: xbar(dw[income],
+                                                                dw[weights]))
 
         return atk_by_group.sum() + atk(income=mu_by_group.values)
     else:
