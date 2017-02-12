@@ -8,3 +8,5 @@ pyineq/__pycache__/
 IneqPy\.egg-info/
 
 ineqpy/__pycache__/
+
+examples/\.ipynb_checkpoints/
