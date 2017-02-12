@@ -697,3 +697,4 @@ def atk_h(income, weights, group, data=None, e=0.5):
         return atk_by_group.sum() + atk(income=mu_by_group.values)
     else:
         raise NotImplementedError
+
