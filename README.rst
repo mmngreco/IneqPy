@@ -37,7 +37,6 @@ Some examples of how use this package:
 Data of example:
 
 .. code-block:: python
-    :linenos:
 
     import pandas as pd
     import numpy as np
@@ -74,7 +73,6 @@ Descriptive statistics
 ----------------------
 
 .. code-block:: python
-    :linenos:
 
     ineqpy.xbar(x=d.renta, weights=d.factor)
     20444.700666031338
@@ -100,7 +98,6 @@ column:
 A helpful table of interpretation of the moments
 
 .. code-block:: python
-    :linenos:
 
     ineqpy.stdmoment(x, w, 1)  # = 0
     2.4624948200717338e-17
@@ -120,7 +117,6 @@ Inequality estimators
 ---------------------
 
 .. code-block:: python
-    :linenos:
 
     # pass a pandas.DataFrame and inputs as strings
     ineqpy.gini(df=d, income='renta', weights='factor')
