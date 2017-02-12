@@ -9,7 +9,7 @@ quasivariance, population variance of a stratified sample.
 Todo
 ----
 
-Rethinking this module, maybe must be a class.
+Rethinking this module as Class.
 
 """
 import pandas as pd
@@ -35,7 +35,7 @@ def _to_df(*args, **kwargs):
 
 
 def _apply_to_df(func, df, x, weights, *args, **kwargs):
-    """This function generlize main arguments as Series of a pd.Dataframe.
+    """This function generalize main arguments as Series of a pd.Dataframe.
 
     Parameters
     ---------
