@@ -250,7 +250,7 @@ def skew(x, weights):
     return stdmoment(x=x, weights=weights, order=3)
 
 
-def shat2_h(x, weights, group, data=None):
+def shat2_group(x, weights, group, data=None):
     """Sample variance of `x_name`, calculated as the second-order central
     moment.
 
@@ -275,7 +275,7 @@ def shat2_h(x, weights, group, data=None):
     Returns
     -------
 
-    shat2_h : array or pd.Series
+    shat2_group : array or pd.Series
 
     Notes
     -----
@@ -300,7 +300,7 @@ def shat2_h(x, weights, group, data=None):
     return data.groupby(group).apply(sd)
 
 
-def vhat_h(x='x', weights='w', group='h', data=None):
+def vhat_group(x='x', weights='w', group='h', data=None):
     """Data a DataFrame calculates the sample variance for each stratum. The
     objective of this function is to make it easy to calculate the moments of
     the distribution that follows an estimator, eg. Can be used to calculate
@@ -334,7 +334,7 @@ def vhat_h(x='x', weights='w', group='h', data=None):
     >>> # Computes the variance of the mean
     >>> data = pd.DataFrame(data=[renta, peso, estrato],
                             columns=["renta", "peso", "estrato"])
-    >>> v = vhat_h(data,x_name='income')
+    >>> v = vhat_group(data,x_name='income')
     >>> v
     stratum
     1                700.917.728,64
@@ -388,7 +388,7 @@ def vhat_h(x='x', weights='w', group='h', data=None):
     return data.groupby(group).apply(v)
 
 
-def moment_h(x='x', weights='w', group='h', data=None, order=2):
+def moment_group(x='x', weights='w', group='h', data=None, order=2):
     """Calculates the asymmetry of each `h` stratum.
 
     Parameters
@@ -409,7 +409,7 @@ def moment_h(x='x', weights='w', group='h', data=None, order=2):
     ----
 
     Review calculations, it does not appear to be correct.
-    Attempt to make a generalization of vhat_h, for any estimator.
+    Attempt to make a generalization of vhat_group, for any estimator.
 
     .. warning:: Actually Does Not Work!
 
@@ -554,7 +554,7 @@ def gini(income='x', weights='w', data=None, sorted=False):
     return g
 
 
-def atk(income, weights=None, e=0.5, data=None):
+def atkinson(income, weights=None, e=0.5, data=None):
     """Calculate the coefficient of atkinson
 
     Parameters
@@ -596,18 +596,25 @@ def atk(income, weights=None, e=0.5, data=None):
     """
     if (income is None) and (data is None):
         raise ValueError('Must pass at least one of both `income` or `df`')
-    # non-null condition
+
+    if data is not None:
+        income = data[income].values
+        weights = data[weights].values
+
+    # not-null condition
     if np.any(income <= 0):
         mask = income > 0
         income = income[mask]
         if weights is not None:
             weights = weights[mask]
-    # more than one value
+
+    # not-empty condition
     if len(income) == 0:
         return 0
 
     N = len(income)  # observations
 
+    # not-empty wights
     if weights is None:
         weights = np.repeat(1, N)
 
@@ -635,7 +642,7 @@ def atk(income, weights=None, e=0.5, data=None):
     return atkinson
 
 
-def atk_h(income, weights, group, data=None, e=0.5):
+def atkinson_group(income, weights, group, data=None, e=0.5):
     """
 
     Parameters
@@ -680,13 +687,13 @@ def atk_h(income, weights, group, data=None, e=0.5):
 
     def a_h(df):
         '''
-        Funtion alias to calculate atk from a DataFrame
+        Funtion alias to calculate atkinson from a DataFrame
         '''
         if df is None:
             raise ValueError
 
-        res = atk(income=df[income].values, weights=df[weights].values,
-                  e=e) * len(df) / N
+        res = atkinson(income=df[income].values, weights=df[weights].values,
+                       e=e) * len(df) / N
         return res
 
     if data is not None:
@@ -694,7 +701,11 @@ def atk_h(income, weights, group, data=None, e=0.5):
         mu_by_group = data.groupby(group).apply(lambda dw: xbar(dw[income],
                                                                 dw[weights]))
 
-        return atk_by_group.sum() + atk(income=mu_by_group.values)
+        return atk_by_group.sum() + atkinson(income=mu_by_group.values)
     else:
         raise NotImplementedError
 
+
+def kakwani():
+
+    return

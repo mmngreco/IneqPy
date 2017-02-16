@@ -151,8 +151,8 @@ quasivariance, population variance of a stratified sample.</p>
 <p class="last">Rethinking this module, maybe must be a class.</p>
 </div>
 <dl class="function">
-<dt id="ineqpy.ineqpy.atk">
-<code class="descclassname">ineqpy.ineqpy.</code><code class="descname">atk</code><span class="sig-paren">(</span><em>income</em>, <em>weights=None</em>, <em>e=0.5</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ineqpy/ineqpy.html#atk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ineqpy.ineqpy.atk" title="Permalink to this definition">¶</a></dt>
+<dt id="ineqpy.ineqpy.atkinson">
+<code class="descclassname">ineqpy.ineqpy.</code><code class="descname">atkinson</code><span class="sig-paren">(</span><em>income</em>, <em>weights=None</em>, <em>e=0.5</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ineqpy/ineqpy.html#atkinson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ineqpy.ineqpy.atkinson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the coefficient of atkinson</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -193,8 +193,8 @@ must be between 0 and 1.</li>
 </dd></dl>
 
 <dl class="function">
-<dt id="ineqpy.ineqpy.atk_h">
-<code class="descclassname">ineqpy.ineqpy.</code><code class="descname">atk_h</code><span class="sig-paren">(</span><em>income</em>, <em>weights</em>, <em>group</em>, <em>data=None</em>, <em>e=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ineqpy/ineqpy.html#atk_h"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ineqpy.ineqpy.atk_h" title="Permalink to this definition">¶</a></dt>
+<dt id="ineqpy.ineqpy.atkinson_group">
+<code class="descclassname">ineqpy.ineqpy.</code><code class="descname">atkinson_group</code><span class="sig-paren">(</span><em>income</em>, <em>weights</em>, <em>group</em>, <em>data=None</em>, <em>e=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ineqpy/ineqpy.html#atkinson_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ineqpy.ineqpy.atkinson_group" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -370,8 +370,8 @@ that corresponds to plots axis.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="ineqpy.ineqpy.moment_h">
-<code class="descclassname">ineqpy.ineqpy.</code><code class="descname">moment_h</code><span class="sig-paren">(</span><em>x='x'</em>, <em>weights='w'</em>, <em>group='h'</em>, <em>data=None</em>, <em>order=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ineqpy/ineqpy.html#moment_h"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ineqpy.ineqpy.moment_h" title="Permalink to this definition">¶</a></dt>
+<dt id="ineqpy.ineqpy.moment_group">
+<code class="descclassname">ineqpy.ineqpy.</code><code class="descname">moment_group</code><span class="sig-paren">(</span><em>x='x'</em>, <em>weights='w'</em>, <em>group='h'</em>, <em>data=None</em>, <em>order=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ineqpy/ineqpy.html#moment_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ineqpy.ineqpy.moment_group" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the asymmetry of each <cite>h</cite> stratum.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -397,7 +397,7 @@ that corresponds to plots axis.</p>
 <div class="admonition-todo admonition" id="index-5">
 <p class="first admonition-title">Todo</p>
 <p>Review calculations, it does not appear to be correct.
-Attempt to make a generalization of vhat_h, for any estimator.</p>
+Attempt to make a generalization of vhat_group, for any estimator.</p>
 <div class="last admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">Actually Does Not Work!</p>
@@ -406,8 +406,8 @@ Attempt to make a generalization of vhat_h, for any estimator.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="ineqpy.ineqpy.shat2_h">
-<code class="descclassname">ineqpy.ineqpy.</code><code class="descname">shat2_h</code><span class="sig-paren">(</span><em>x</em>, <em>weights</em>, <em>group</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ineqpy/ineqpy.html#shat2_h"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ineqpy.ineqpy.shat2_h" title="Permalink to this definition">¶</a></dt>
+<dt id="ineqpy.ineqpy.shat2_group">
+<code class="descclassname">ineqpy.ineqpy.</code><code class="descname">shat2_group</code><span class="sig-paren">(</span><em>x</em>, <em>weights</em>, <em>group</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ineqpy/ineqpy.html#shat2_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ineqpy.ineqpy.shat2_group" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sample variance of <cite>x_name</cite>, calculated as the second-order central
 moment.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -428,7 +428,7 @@ order</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>shat2_h</strong></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>shat2_group</strong></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array or pd.Series</p>
@@ -537,8 +537,8 @@ weights <cite>w</cite>, for a homogeneous population.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="ineqpy.ineqpy.vhat_h">
-<code class="descclassname">ineqpy.ineqpy.</code><code class="descname">vhat_h</code><span class="sig-paren">(</span><em>x='x'</em>, <em>weights='w'</em>, <em>group='h'</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ineqpy/ineqpy.html#vhat_h"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ineqpy.ineqpy.vhat_h" title="Permalink to this definition">¶</a></dt>
+<dt id="ineqpy.ineqpy.vhat_group">
+<code class="descclassname">ineqpy.ineqpy.</code><code class="descname">vhat_group</code><span class="sig-paren">(</span><em>x='x'</em>, <em>weights='w'</em>, <em>group='h'</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ineqpy/ineqpy.html#vhat_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ineqpy.ineqpy.vhat_group" title="Permalink to this definition">¶</a></dt>
 <dd><p>Data a DataFrame calculates the sample variance for each stratum. The
 objective of this function is to make it easy to calculate the moments of
 the distribution that follows an estimator, eg. Can be used to calculate
@@ -555,7 +555,7 @@ the variance that follows the mean.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>vhat_h</strong> &#8211; A series with the values of the variance of each <cite>h</cite> stratum.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>vhat_group</strong> &#8211; A series with the values of the variance of each <cite>h</cite> stratum.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas.Series</p>
@@ -572,7 +572,7 @@ the variance that follows the mean.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Computes the variance of the mean</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">renta</span><span class="p">,</span> <span class="n">peso</span><span class="p">,</span> <span class="n">estrato</span><span class="p">],</span>
 <span class="go">                        columns=[&quot;renta&quot;, &quot;peso&quot;, &quot;estrato&quot;])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">vhat_h</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">x_name</span><span class="o">=</span><span class="s1">&#39;income&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">vhat_group</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">x_name</span><span class="o">=</span><span class="s1">&#39;income&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">v</span>
 <span class="go">stratum</span>
 <span class="go">1                700.917.728,64</span>
