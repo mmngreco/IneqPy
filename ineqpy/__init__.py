@@ -7,7 +7,7 @@ IneqPy
 from .ineqpy import *
 
 __author__ = "Maximiliano Greco"
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 __maintainer__ = "Maximiliano Greco"
 __email__ = "mmngreco@gmail.com"
 __status__ = "Production"

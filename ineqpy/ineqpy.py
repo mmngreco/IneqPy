@@ -174,6 +174,13 @@ def xbar(x, weights=None):
 
     xbar : 1d-array or pd.Series or float
     """
+    # todo need the same for weights ?
+    if np.any(np.isnan(x)):
+        idx = ~np.isnan(x)
+        x = x[idx]
+        if weights is not None:
+            weights = weights[idx]
+
     return np.average(x, weights=weights, axis=0)
 
 
@@ -331,6 +338,7 @@ def vhat_group(x='x', weights='w', group='h', data=None):
 
     Examples
     --------
+
     >>> # Computes the variance of the mean
     >>> data = pd.DataFrame(data=[renta, peso, estrato],
                             columns=["renta", "peso", "estrato"])
@@ -350,7 +358,7 @@ def vhat_group(x='x', weights='w', group='h', data=None):
 
     >>> # the value of de variance of the mean:
     >>> v_total = v.sum() / peso.sum() ** 2
-    24662655225.947945
+        24662655225.947945
     """
     if data is None:
         data = _to_df(x=x, weights=weights, group=group)
@@ -434,6 +442,41 @@ def moment_group(x='x', weights='w', group='h', data=None, order=2):
 '''Inequality functions'''
 
 
+def concentration(income, weights=None, sort=True, data=None):
+    """This function calculate the concentration index, according to the
+    notation used in [Jenkins1988]_ you can calculate the
+    :math: C_x = 2 / x · cov(x, F_x)
+    if x = g(x) then C_x becomes C_y
+    when there are taxes:
+    y = g(x) = x - t(x)
+
+    :param x:
+    :param y:
+    :param sort_x:
+    :param data:
+    :return:
+
+    """
+    if data is not None:
+        income = data[income].values
+        if weights is not None:
+            weights = data[weights].values
+
+    if weights is None:
+        weights = np.repeat(1, len(income))
+
+    if sort:
+        idx_sort = np.argsort(income)
+        income = income[idx_sort]
+        weights = weights[idx_sort]
+
+    f_x = weights / weights.sum()
+    F_x = f_x.cumsum()
+    mu = np.sum(income * f_x)
+    cov = np.cov(income, F_x, rowvar=False, aweights=f_x)[0,1]
+    return 2 * cov / mu
+
+
 def lorenz(income, weights, data=None):
     """This function compute the lorenz curve and returns a DF with two columns
     of axis x and y.
@@ -463,19 +506,20 @@ def lorenz(income, weights, data=None):
 
     """
 
-    if data is None:
-        data = _to_df(income=income, weights=weights)
-        income='income'
-        weights='weights'
-        data[income] = data.income * data.weights
-        res = data.sort_values(by=weights).cumsum() / data.sum()
-    else:
-        data[income] = data[income] * data[weights]
-        res = data.sort_values(by=weights).cumsum() / data.sum()
+    if data is not None:
+        income = data[income].values
+        weights = data[weights].values
+    total_income = income * weights
+    idx_sort = np.argsort(weights)
+    weights = weights[idx_sort].cumsum() / weights.sum()
+    weights = weights.reshape(len(weights), 1)
+    total_income = total_income[idx_sort].cumsum() / total_income.sum()
+    total_income = total_income.reshape(len(total_income), 1)
+    res = pd.DataFrame(np.c_[weights, total_income], columns=['x', 'y'])
     return res
 
 
-def gini(income='x', weights='w', data=None, sorted=False):
+def gini(income, weights=None, data=None, sort=True):
     """Calcula el indice de Gini,
 
     Parameters
@@ -524,17 +568,6 @@ def gini(income='x', weights='w', data=None, sorted=False):
     --------
 
     """
-    if data is None:
-        data = _to_df(income=income, weights=weights)
-        income = 'income'
-        weights = 'weights'
-    # if any(df[income] <= 0):
-    #     stage = df.loc[df[income] <= 0].copy().sum()
-    #     stage[income] = 0
-    #     df = pd.concat([stage.to_frame().T, df.loc[df[income] > 0]], axis=0)
-    if not sorted:
-        data = data[[income, weights]].sort_values(income,
-                                                   ascending=True).copy()
     # another aproach
     # x = df[income]
     # f_x = df[weights]
@@ -545,13 +578,7 @@ def gini(income='x', weights='w', data=None, sorted=False):
     # sn = si.iloc[-1]
     # g = (1 - np.divide(np.sum(f_x * (si_1 + si)), sn))
     # return G, G2, G3, G4
-    x = data[income]
-    f_x = data[weights] / data[weights].sum()
-    F_x = f_x.cumsum()
-    mu = np.sum(x * f_x)
-    cov = np.cov(x, F_x, rowvar=False, aweights=f_x)[0,1]
-    g = 2 * cov / mu
-    return g
+    return concentration(income=income, weights=weights, sort=sort, data=data)
 
 
 def atkinson(income, weights=None, e=0.5, data=None):
@@ -676,8 +703,12 @@ def atkinson_group(income, weights, group, data=None, e=0.5):
     --------
 
     """
-    # df = df.loc[df[x] > 0].copy()
-    # df.loc[:, weights] /= df[weights].sum()
+    if weights is None:
+        if data is None:
+            weights = np.reapeat(1, len(income))
+        else:
+            weights = np.reapeat(1, len(data))
+
     if data is None:
         data = _to_df(income=income, weights=weights, group=group)
         income = 'income'
@@ -706,6 +737,126 @@ def atkinson_group(income, weights, group, data=None, e=0.5):
         raise NotImplementedError
 
 
-def kakwani():
+def kakwani(tax, income_after_tax, weights, data):
 
-    return
+    if weights is None:
+        if data is None:
+            weights = np.reapeat(1, len(tax))
+        else:
+            weights = np.reapeat(1, len(data))
+
+    if data is None:
+        data = _to_df(income_after_tax=income_after_tax,
+                      tax=tax,
+                      weights=weights)
+        income_after_tax = 'income_after_tax'
+        tax = 'tax'
+        weights = 'weights'
+    c_t = concentration(income=tax, weights=weights, sort=True, data=data)
+    g_y = concentration(income=income_after_tax, weights=weights, sort=True,
+                        data=data)
+    return c_t - g_y
+
+
+def reynolds_smolensky(income_before_tax, income_after_tax, weights, data=None):
+
+    if weights is None:
+        if data is None:
+            weights = np.repeat(1, len(income_before_tax))
+        else:
+            weights = np.repeat(1, len(data))
+
+    if data is not None:
+        income_after_tax = data[income_after_tax].values
+        income_before_tax = data[income_before_tax].values
+        weights = data[weights].values
+    g_y = concentration(income=income_after_tax, weights=weights, data=data)
+    g_x = concentration(income=income_before_tax, weights=weights, data=data)
+    return g_x - g_y
+
+# todo
+# def suits():
+#     return
+
+
+def theil(income, weights=None, data=None):
+    """This function calculates the theil index
+
+    Parameters
+    ----------
+
+    income :
+    weights :
+    data :
+
+    Returns
+    -------
+    theil : float
+    """
+
+    if weights is None:
+        if data is None:
+            weights = np.repeat(1, len(income))
+        else:
+            weights = np.repeat(1, len(data))
+
+    if data is not None:
+        income = data[income].values
+        weights = data[weights].values
+
+    if np.any(income <= 0):
+        mask = income > 0
+        income = income[mask]
+        weights = weights[mask]
+
+    mu = xbar(income, weights)
+    f_i = weights / np.sum(weights)
+    t = np.sum((f_i * income / mu) * np.log(income / mu))
+    return t
+
+
+def avg_tax_rate(base, tax, weights=None, data=None):
+    """This function cumpute the average tax rate from base income and total tax
+
+    :param base:
+    :param tax:
+    :param data:
+    :return:
+
+
+    Notes
+    -----
+
+    Siguiendo la metodología iniciada en Picos, Pérez y González (2011) como en
+    la muestra de declarantes de 2008, 2009, 2010 y 2011. En el Gráfico 6 se
+    recogen los valores medios para cinco definiciones de tipos medios
+    calculados individualmente:
+
+    tm1: cociente entre el resultado de aplicar las escalas del impuesto a las
+         bases liquidables y la base liquidable, que refleja el efecto de las
+         escalas del impuesto.
+    tm2: cociente entre el resultado de aplicar las escalas del impuesto a las
+         bases liquidables y la base imponible, que añade a lo anterior el
+         efecto de las reducciones aplicadas en dicha base.
+    tm3: cociente entre el resultado de aplicar las escalas del impuesto a las
+         bases liquidables y la renta del periodo, que añade a lo anterior el
+         efecto de la reducción por rendimientos del trabajo.
+    tm4: cociente entre la cuota íntegra y la renta del periodo, que añade a lo
+         anterior el efecto del mínimo personal y familiar.
+    tm5: cociente entre la cuota resultante de la autoliquidación3 y la renta
+         del periodo, que añade a lo anterior el efecto de las deducciones en
+         cuota.
+    """
+    # todo introduce weights calc to be correct average
+    if data is None:
+        res = [xbar(t, weights) / xbar(b, weights) for t, b in zip(tax, base)]
+    else:
+        num_df = data[tax].apply(lambda x: xbar(x, data[weights])).values
+        den_df = data[base].apply(lambda x: xbar(x, data[weights])).values
+        res = num_df / den_df
+        if type(base) == str:
+            names = base + '_' + tax
+        else:
+            names = [tax[i] + '_' + b for i, b in enumerate(base)]
+        res = pd.Series(res, index=names)
+    return res
