@@ -1,11 +1,9 @@
-from distutils.core import setup
-
-description = open('README.rst').readlines()
+from setuptools import setup
 
 setup(name='IneqPy',
       version='0.0.2',
       description='A Python Package To Quantitative Analysis Of Inequality',
-      long_description=open('README.rst').read(),
+      #long_description=description,
       author='Maximiliano Greco',
       author_email='mmngreco@gmail.com',
       url='https://github.com/mmngreco/IneqPy',
@@ -18,7 +16,6 @@ setup(name='IneqPy',
                    'Programming Language :: Python :: 3.2',
                    'Programming Language :: Python :: 3.3',
                    'Programming Language :: Python :: 3.4',
-                   'Programming Language :: Python :: 3.5',
-                    ],
+                   'Programming Language :: Python :: 3.5'],
       install_requires=['numpy', 'pandas'],
      )
