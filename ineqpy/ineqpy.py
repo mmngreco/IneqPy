@@ -158,7 +158,7 @@ def stdmoment(x, weights=None, param=None, order=3, ddof=0):
     return res
 
 
-def xbar(x, weights=None):
+def xbar(x, weights=None, data=None):
     """Calculate the mean of `x` given weights `w`.
 
     Parameters
@@ -175,6 +175,11 @@ def xbar(x, weights=None):
     xbar : 1d-array or pd.Series or float
     """
     # todo need the same for weights ?
+    if data is not None:
+        x = data[x].values
+        if weights is not None:
+            weights = data[weights].values
+
     if np.any(np.isnan(x)):
         idx = ~np.isnan(x)
         x = x[idx]
@@ -184,7 +189,7 @@ def xbar(x, weights=None):
     return np.average(x, weights=weights, axis=0)
 
 
-def var(x, weights=None, ddof=0):
+def var(x, weights=None, data=None, ddof=0):
     """Calculate the population variance of `x` given
     weights `w`, for a homogeneous population.
 
@@ -208,12 +213,16 @@ def var(x, weights=None, ddof=0):
 
     If stratificated sample must pass with groupby each strata.
     """
+    if data is not None:
+        x = data[x].values
+        if weights is not None:
+            weights = data[weights].values
     if weights is None:
         weights = np.repeat([1], len(x))
     return cmoment(x, weights=weights, order=2, ddof=ddof)
 
 
-def kurt(x, weights):
+def kurt(x, weights, data=None):
     """Calculate the asymmetry coefficient
 
     Parameters
@@ -234,10 +243,14 @@ def kurt(x, weights):
     It is an alias of the standardized fourth-order moment.
 
     """
+    if data is not None:
+        x = data[x].values
+        if weights is not None:
+            weights = data[weights].values
     return stdmoment(x=x, weights=weights, order=4)
 
 
-def skew(x, weights):
+def skew(x, weights, data=None):
     """Returns the asymmetry coefficient of a sample.
 
     Parameters
@@ -254,6 +267,10 @@ def skew(x, weights):
     It is an alias of the standardized third-order moment.
 
     """
+    if data is not None:
+        x = data[x].values
+        if weights is not None:
+            weights = data[weights].values
     return stdmoment(x=x, weights=weights, order=3)
 
 
