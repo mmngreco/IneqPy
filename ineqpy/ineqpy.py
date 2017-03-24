@@ -63,13 +63,13 @@ def _apply_to_df(func, df, x, weights, *args, **kwargs):
     return func(df[x], df[weights], *args, **kwargs)
 
 
-def cmoment(x, weights=None, order=2, param=None, ddof=0):
+def cmoment(variable, weights=None, order=2, param=None, ddof=0):
     """Calculate the central moment of `x` with respect to `param` of order `n`,
     given the weights `w`.
 
     Parameters
     ----------
-    x : 1d-array
+    variable : 1d-array
         Variable
     weights : 1d-array
         Weights
@@ -102,22 +102,71 @@ def cmoment(x, weights=None, order=2, param=None, ddof=0):
     """
     # return np.sum((x-c)^n*counts) / np.sum(counts)
     if param is None:
-        param = xbar(x, weights)
+        param = mean(variable, weights)
     elif not isinstance(param, (np.ndarray, int, float)):
         raise NotImplementedError
     if weights is None:
-        weights = np.repeat([1], len(x))
-    return np.sum((x - param) ** order * weights) / (np.sum(weights) - ddof)
+        weights = np.repeat([1], len(variable))
+    return np.sum((variable - param) ** order * weights) / \
+           (np.sum(weights) - ddof)
 
 
-def stdmoment(x, weights=None, param=None, order=3, ddof=0):
+def quantile(variable, weights, q, data=None, interpolate=True):
+    """Calculate the value of a quantile given a variable and his weights.
+
+    Parameters
+    ----------
+    variable : str or array
+    weights :  str or array
+    q : float
+    data : pandas.DataFrame
+    interpolate : bool
+
+    Returns
+    -------
+    quantile : float or pd.Series
+
+    """
+
+    if isinstance(q, list):
+        kw = {'variable': variable,
+              'weights': weights,
+              'data': data,
+              'interpolate': interpolate}
+        res_join = [quantile(q=qi, **kw) for qi in q]
+        return pd.Series(res_join, index=q)
+
+    if data is not None:
+        name = variable
+        variable = data[name].values
+        if weights is None:
+            weights = np.ones(variable.shape)
+        else:
+            weights = data[weights].values
+    if weights is None:
+        weights = np.ones(variable.shape)
+
+    weights /= weights.sum()
+    order = np.argsort(variable, axis=0)
+    weights = weights[order]
+    F = weights.cumsum(0)
+    variable = variable[order]
+
+    if interpolate:
+        res = np.interp(q, F, variable)
+    else:
+        res = variable[F <= q][-1]
+    return res
+
+
+def std_moment(variable, weights=None, param=None, order=3, ddof=0):
     """Calculate the standardized moment of order `c` for the variable` x` with
     respect to `c`.
 
     Parameters
-    ---------
+    ----------
 
-    x : 1d-array
+    variable : 1d-array
        Random Variable
     weights : 1d-array, optional
        Weights or probability
