@@ -200,68 +200,65 @@ def std_moment(variable, weights=None, param=None, order=3, ddof=0):
 
     """
     if weights is None:
-        weights = np.repeat([1], len(x))
+        weights = np.repeat([1], len(variable))
     if param is None:
-        param = xbar(x, weights)
+        param = mean(variable, weights)
     # m = np.subtract(x, c)
     # m = np.power(m, n) * w / np.sum(w)
     # m = np.sum(m)
-    # m = np.divide(m, np.power(var(x, w, ddof=ddof), n / 2))
+    # m = np.divide(m, np.power(variance(x, w, ddof=ddof), n / 2))
     # return m
-    res = cmoment(x, weights, order, param=param, ddof=ddof)
-    res /= var(x, weights, ddof=ddof) ** (order / 2)
+    res = cmoment(variable, weights, order, param=param, ddof=ddof)
+    res /= variance(variable, weights, ddof=ddof) ** (order / 2)
     return res
 
 
-def xbar(x, weights=None, data=None):
-    """Calculate the mean of `x` given weights `w`.
+def mean(variable, weights=None, data=None):
+    """Calculate the mean of `variable` given `weights`.
 
     Parameters
     ----------
-
-    x : 1d-array or pd.Series or pd.DataFrame
+    variable : 1d-array or pd.Series or pd.DataFrame
         Variable on which the mean is estimated
-    w : 1d-array or pd.Series or pd.DataFrame, optional
+    weights : 1d-array or pd.Series or pd.DataFrame, optional
         Weights of the `x` variable of a dimension
+    data : pandas.DataFrame
+        is possible pass a DataFrame with variable and weights, then you must
+        pass as `variable` and `weights` the column name of both Series stored
+        in `data`.
 
     Returns
     -------
-
-    xbar : 1d-array or pd.Series or float
+    mean : 1d-array or pd.Series or float
     """
-    # todo need the same for weights ?
     if data is not None:
-        x = data[x].values
+        variable = data[variable].values
         if weights is not None:
             weights = data[weights].values
-
-    if np.any(np.isnan(x)):
-        idx = ~np.isnan(x)
-        x = x[idx]
+    if np.any(np.isnan(variable)):
+        idx = ~np.isnan(variable)
+        variable = variable[idx]
         if weights is not None:
             weights = weights[idx]
 
-    return np.average(x, weights=weights, axis=0)
+    return np.average(variable, weights=weights, axis=0)
 
 
-def var(x, weights=None, data=None, ddof=0):
-    """Calculate the population variance of `x` given
-    weights `w`, for a homogeneous population.
-
+def variance(variable, weights=None, data=None, ddof=0):
+    """Calculate the population variance of `variable` given `weights`.
 
     Parameters
     ----------
-
-    x : 1d-array or pd.Series or pd.DataFrame
+    variable : 1d-array or pd.Series or pd.DataFrame
         Variable on which the quasivariation is estimated
-    w : 1d-array or pd.Series or pd.DataFrame
-        Weights of the `x` variable of a dimension
+    weights : 1d-array or pd.Series or pd.DataFrame
+        Weights of the `variable`.
+    data :
 
     Returns
     -------
-
-    Shat2 : 1d-array or pd.Series or float
-        Estimation of quasivariance of `x`
+    variance : 1d-array or pd.Series or float
+        Estimation of quasivariance of `variable`
 
     Notes
     -----
@@ -269,48 +266,70 @@ def var(x, weights=None, data=None, ddof=0):
     If stratificated sample must pass with groupby each strata.
     """
     if data is not None:
-        x = data[x].values
+        variable = data[variable].values
         if weights is not None:
             weights = data[weights].values
     if weights is None:
-        weights = np.repeat([1], len(x))
-    return cmoment(x, weights=weights, order=2, ddof=ddof)
+        weights = np.repeat([1], len(variable))
+    return cmoment(variable, weights=weights, order=2, ddof=ddof)
+
+def coefficient_variation(variable, weights=None, data=None):
+    """Calculate the coefficient of variation of a `variable` given weights.
+
+    Parameters
+    ----------
+    variable :
+    weights :
+    data :
+
+    Returns
+    -------
+    coefficient_variation : float
+
+    """
+    # todo complete docstring
+    if data is not None:
+        variable = data[variable].values
+        if weights is not None:
+            weights = data[weights].values
+
+    if weights is None:
+        weights = np.repeat([1], len(variable))
+
+    return mean(variable, weights) / variance(variable, weights) ** 0.5
 
 
-def kurt(x, weights, data=None):
+def kurt(variable, weights, data=None):
     """Calculate the asymmetry coefficient
 
     Parameters
     ---------
-
-    x : 1d-array
+    variable : 1d-array
     w : 1d-array
 
     Returns
     -------
-
     kurt : float
         Kurtosis coefficient.
 
     Notes
     -----
-
     It is an alias of the standardized fourth-order moment.
 
     """
     if data is not None:
-        x = data[x].values
+        variable = data[variable].values
         if weights is not None:
             weights = data[weights].values
-    return stdmoment(x=x, weights=weights, order=4)
+    return std_moment(variable=variable, weights=weights, order=4)
 
 
-def skew(x, weights, data=None):
+def skew(variable, weights, data=None):
     """Returns the asymmetry coefficient of a sample.
 
     Parameters
     ---------
-    x : 1d-array
+    variable : 1d-array
     w : 1d-array
 
     Returns
@@ -323,19 +342,19 @@ def skew(x, weights, data=None):
 
     """
     if data is not None:
-        x = data[x].values
+        variable = data[variable].values
         if weights is not None:
             weights = data[weights].values
-    return stdmoment(x=x, weights=weights, order=3)
+    return std_moment(variable=variable, weights=weights, order=3)
 
 
-def shat2_group(x, weights, group, data=None):
+def shat2_group(variable, weights, group, data=None):
     """Sample variance of `x_name`, calculated as the second-order central
     moment.
 
     Parameters
     ---------
-    x : array or str
+    variable : array or str
         variable `x` apply the statistic. If `data` is None then must pass this
         argument as array, else as string name in `data`
     weights : array or str
@@ -368,18 +387,18 @@ def shat2_group(x, weights, group, data=None):
     """
 
     if data is None:
-        data = _to_df(x=x, weights=weights)
-        x = 'x'
+        data = _to_df(x=variable, weights=weights)
+        variable = 'x'
         weights = 'weights'
 
     def sd(df):
         x = df.loc[:, x].copy().values
         weights = np.repeat([1], len(df))
-        return cmoment(x, weights, 2, param=xbar(x))
+        return cmoment(x, weights, 2, param=mean(x))
     return data.groupby(group).apply(sd)
 
 
-def vhat_group(x='x', weights='w', group='h', data=None):
+def vhat_group(variable='x', weights='w', group='h', data=None):
     """Data a DataFrame calculates the sample variance for each stratum. The
     objective of this function is to make it easy to calculate the moments of
     the distribution that follows an estimator, eg. Can be used to calculate
@@ -414,7 +433,7 @@ def vhat_group(x='x', weights='w', group='h', data=None):
     >>> # Computes the variance of the mean
     >>> data = pd.DataFrame(data=[renta, peso, estrato],
                             columns=["renta", "peso", "estrato"])
-    >>> v = vhat_group(data,x_name='income')
+    >>> v = vhat_group(data)
     >>> v
     stratum
     1                700.917.728,64
@@ -433,8 +452,8 @@ def vhat_group(x='x', weights='w', group='h', data=None):
         24662655225.947945
     """
     if data is None:
-        data = _to_df(x=x, weights=weights, group=group)
-        x = 'x'
+        data = _to_df(x=variable, weights=weights, group=group)
+        variable = 'x'
         weights = 'weights'
         group = 'group'
 
@@ -448,33 +467,30 @@ def vhat_group(x='x', weights='w', group='h', data=None):
 
         Returns
         -------
-
         vhat : float
             Value of the population variance for the stratum `h`
 
         Notes
         -----
-
         Source:
         .. math:: r`N_h ^2 \cdot fpc \cdot \frac{ \hatS ^2 _h }{n_h}`
 
         """
-        xi = df[x].copy().values
+        xi = df[variable].copy().values
         Nh = df[weights].sum()
         fpc = 1 - (len(df) / Nh)
         ddof = 1 if len(df) > 1 else 0
-        shat2h = cmoment(x=xi, order=2, ddof=ddof)
+        shat2h = cmoment(variable=xi, order=2, ddof=ddof)
         return (Nh ** 2) * fpc * shat2h / len(df)
     return data.groupby(group).apply(v)
 
 
-def moment_group(x='x', weights='w', group='h', data=None, order=2):
+def moment_group(variable='x', weights='w', group='h', data=None, order=2):
     """Calculates the asymmetry of each `h` stratum.
 
     Parameters
     ----------
-
-    x : array or str
+    variable : array or str
     weights : array or str
     group : array or str
     data : pd.DataFrame, optional
@@ -482,12 +498,10 @@ def moment_group(x='x', weights='w', group='h', data=None, order=2):
 
     Returns
     -------
-
     moment_of_order : float
 
     TODO
     ----
-
     Review calculations, it does not appear to be correct.
     Attempt to make a generalization of vhat_group, for any estimator.
 
@@ -496,25 +510,25 @@ def moment_group(x='x', weights='w', group='h', data=None, order=2):
 
     """
     if data is None:
-        data = _to_df(x=x, weights=weights, group=group)
-        x = 'x'
+        data = _to_df(x=variable, weights=weights, group=group)
+        variable = 'x'
         weights = 'weights'
         group = 'group'
 
     def mh(df):
-        x = df.loc[:, x].copy().values
+        x = df[variable].copy().values
         weights = np.repeat([1], len(df))
         Nh = df.loc[:, weights].sum()
         fpc = 1 - (len(df) / Nh)
         ddof = 1 if len(df) > 1 else 0
-        stdm = stdmoment(x=x, weights=weights, order=order, ddof=ddof)
+        stdm = std_moment(variable=x, weights=weights, order=order, ddof=ddof)
         return (Nh ** order) * fpc * stdm / len(df)
     return data.groupby(group).apply(mh)
 
 '''Inequality functions'''
 
 
-def concentration(income, weights=None, sort=True, data=None):
+def concentration(income, weights=None, data=None, sort=True):
     """This function calculate the concentration index, according to the
     notation used in [Jenkins1988]_ you can calculate the
     :math: C_x = 2 / x · cov(x, F_x)
@@ -641,10 +655,10 @@ def gini(income, weights=None, data=None, sort=True):
     # sn = si.iloc[-1]
     # g = (1 - np.divide(np.sum(f_x * (si_1 + si)), sn))
     # return G, G2, G3, G4
-    return concentration(income=income, weights=weights, sort=sort, data=data)
+    return concentration(income=income, weights=weights, data=data, sort=sort)
 
 
-def atkinson(income, weights=None, e=0.5, data=None):
+def atkinson(income, weights=None, data=None, e=0.5):
     """Calculate the coefficient of atkinson
 
     Parameters
@@ -700,7 +714,7 @@ def atkinson(income, weights=None, e=0.5, data=None):
     if weights is None:
         weights = np.repeat(1, N)
 
-    mu = xbar(income, weights)
+    mu = mean(income, weights)
     f_i = weights / sum(weights)  # density function
     # another aproach
     # e value condition
@@ -745,24 +759,19 @@ def atkinson_group(income, weights, group, data=None, e=0.5):
     -------
     atkinson_by_group : float
 
-    Notes
-    -----
-
+    Reference
+    ---------
     Source: https://en.wikipedia.org/wiki/Atkinson_index
 
     TODO
     ----
-    Review function, has different results with stata.
-
-    Examples
-    --------
-
+    - Review function, has different results with stata.
     """
     if weights is None:
         if data is None:
-            weights = np.reapeat(1, len(income))
+            weights = np.repeat([1], len(income))
         else:
-            weights = np.reapeat(1, len(data))
+            weights = np.repeat([1], len(data))
 
     if data is None:
         data = _to_df(income=income, weights=weights, group=group)
@@ -772,19 +781,18 @@ def atkinson_group(income, weights, group, data=None, e=0.5):
     N = len(data)
 
     def a_h(df):
-        '''
+        """
         Funtion alias to calculate atkinson from a DataFrame
-        '''
+        """
         if df is None:
             raise ValueError
 
         res = atkinson(income=df[income].values, weights=df[weights].values,
                        e=e) * len(df) / N
         return res
-
     if data is not None:
         atk_by_group = data.groupby(group).apply(a_h)
-        mu_by_group = data.groupby(group).apply(lambda dw: xbar(dw[income],
+        mu_by_group = data.groupby(group).apply(lambda dw: mean(dw[income],
                                                                 dw[weights]))
 
         return atk_by_group.sum() + atkinson(income=mu_by_group.values)
@@ -792,13 +800,25 @@ def atkinson_group(income, weights, group, data=None, e=0.5):
         raise NotImplementedError
 
 
-def kakwani(tax, income_after_tax, weights, data):
+def kakwani(tax, income_after_tax, weights=None, data=None):
+    """Compute the Kakwani index.
 
+    Parameters
+    ----------
+    tax_variable
+    income_after_tax
+    weights
+    data
+
+    Returns
+    -------
+
+    """
     if weights is None:
         if data is None:
-            weights = np.reapeat(1, len(tax))
+            weights = np.repeat([1], len(tax))
         else:
-            weights = np.reapeat(1, len(data))
+            weights = np.repeat([1], len(data))
 
     if data is None:
         data = _to_df(income_after_tax=income_after_tax,
@@ -807,19 +827,31 @@ def kakwani(tax, income_after_tax, weights, data):
         income_after_tax = 'income_after_tax'
         tax = 'tax'
         weights = 'weights'
-    c_t = concentration(income=tax, weights=weights, sort=True, data=data)
-    g_y = concentration(income=income_after_tax, weights=weights, sort=True,
-                        data=data)
+    c_t = concentration(income=tax, weights=weights, data=data, sort=True)
+    g_y = concentration(income=income_after_tax, weights=weights, data=data,
+                        sort=True)
     return c_t - g_y
 
 
 def reynolds_smolensky(income_before_tax, income_after_tax, weights, data=None):
+    """
 
+    Parameters
+    ----------
+    income_before_tax
+    income_after_tax
+    weights
+    data
+
+    Returns
+    -------
+
+    """
     if weights is None:
         if data is None:
-            weights = np.repeat(1, len(income_before_tax))
+            weights = np.repeat([1], len(income_before_tax))
         else:
-            weights = np.repeat(1, len(data))
+            weights = np.repeat([1], len(data))
 
     if data is not None:
         income_after_tax = data[income_after_tax].values
@@ -829,7 +861,7 @@ def reynolds_smolensky(income_before_tax, income_after_tax, weights, data=None):
     g_x = concentration(income=income_before_tax, weights=weights, data=data)
     return g_x - g_y
 
-# todo
+# todo to complete
 # def suits():
 #     return
 
@@ -850,9 +882,9 @@ def theil(income, weights=None, data=None):
 
     if weights is None:
         if data is None:
-            weights = np.repeat(1, len(income))
+            weights = np.repeat([1], len(income))
         else:
-            weights = np.repeat(1, len(data))
+            weights = np.repeat([1], len(data))
 
     if data is not None:
         income = data[income].values
@@ -863,54 +895,74 @@ def theil(income, weights=None, data=None):
         income = income[mask]
         weights = weights[mask]
 
-    mu = xbar(income, weights)
+    mu = mean(income, weights)
     f_i = weights / np.sum(weights)
     t = np.sum((f_i * income / mu) * np.log(income / mu))
     return t
 
 
-def avg_tax_rate(base, tax, weights=None, data=None):
-    """This function cumpute the average tax rate from base income and total tax
+def avg_tax_rate(total_tax, total_base, weights=None, data=None):
+    """This function compute the average tax rate given a base income and a
+    total tax.
 
-    :param base:
-    :param tax:
-    :param data:
-    :return:
+    Parameters
+    ----------
+    total_base : str or numpy.array
+    total_tax : str or numpy.array
+    data : pd.DataFrame
 
+    Returns
+    -------
+    avg_tax_rate : float or pd.Series
+        Is the ratio between mean the tax income and base of income.
 
-    Notes
-    -----
+    Reference
+    ---------
 
-    Siguiendo la metodología iniciada en Picos, Pérez y González (2011) como en
-    la muestra de declarantes de 2008, 2009, 2010 y 2011. En el Gráfico 6 se
-    recogen los valores medios para cinco definiciones de tipos medios
-    calculados individualmente:
-
-    tm1: cociente entre el resultado de aplicar las escalas del impuesto a las
-         bases liquidables y la base liquidable, que refleja el efecto de las
-         escalas del impuesto.
-    tm2: cociente entre el resultado de aplicar las escalas del impuesto a las
-         bases liquidables y la base imponible, que añade a lo anterior el
-         efecto de las reducciones aplicadas en dicha base.
-    tm3: cociente entre el resultado de aplicar las escalas del impuesto a las
-         bases liquidables y la renta del periodo, que añade a lo anterior el
-         efecto de la reducción por rendimientos del trabajo.
-    tm4: cociente entre la cuota íntegra y la renta del periodo, que añade a lo
-         anterior el efecto del mínimo personal y familiar.
-    tm5: cociente entre la cuota resultante de la autoliquidación3 y la renta
-         del periodo, que añade a lo anterior el efecto de las deducciones en
-         cuota.
+    Siguiendo la metodología propuesto en Picos, Pérez y González (2011):
+    tm1 : cociente entre el resultado de aplicar las escalas del impuesto a las
+          bases liquidables y la base liquidable, que refleja el efecto de las
+          escalas del impuesto.
+    tm2 : cociente entre el resultado de aplicar las escalas del impuesto a las
+          bases liquidables y la base imponible, que añade a lo anterior el
+          efecto de las reducciones aplicadas en dicha base.
+    tm3 : cociente entre el resultado de aplicar las escalas del impuesto a las
+          bases liquidables y la renta del periodo, que añade a lo anterior el
+          efecto de la reducción por rendimientos del trabajo.
+    tm4 : cociente entre la cuota íntegra y la renta del periodo, que añade a lo
+          anterior el efecto del mínimo personal y familiar.
+    tm5 : cociente entre la cuota resultante de la autoliquidación3 y la renta
+          del periodo, que añade a lo anterior el efecto de las deducciones en
+          cuota.
     """
-    # todo introduce weights calc to be correct average
-    if data is None:
-        res = [xbar(t, weights) / xbar(b, weights) for t, b in zip(tax, base)]
-    else:
-        num_df = data[tax].apply(lambda x: xbar(x, data[weights])).values
-        den_df = data[base].apply(lambda x: xbar(x, data[weights])).values
-        res = num_df / den_df
-        if type(base) == str:
-            names = base + '_' + tax
+    is_list = False
+    n_cols = 1
+
+    if isinstance(total_base, (list, np.ndarray)):
+        is_list = True
+        n_cols = len(total_base)
+
+    if data is not None:
+        base_name = total_base
+        tax_name = total_tax
+        total_base = data[total_base].values
+        total_tax = data[total_tax].values
+        if weights is None:
+            weights = np.ones(total_base.shape)
         else:
-            names = [tax[i] + '_' + b for i, b in enumerate(base)]
-        res = pd.Series(res, index=names)
+            weights = data[weights].values
+
+    if weights is None:
+        weights = np.ones(total_base.shape)
+
+    numerator = mean(total_tax, weights)
+    denominator = mean(total_base, weights)
+    res = numerator / denominator
+
+    if type(base_name) == str == type(tax_name):
+        names = [base_name + '_' + tax_name]
+    else:
+        names = [b + '_' + tax_name[i] for i, b in enumerate(base_name)]
+
+    res = pd.Series(res, index=names)
     return res
