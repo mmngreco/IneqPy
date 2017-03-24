@@ -2,14 +2,13 @@
 
 """A PYTHON PACKAGE TO QUANTITATIVE ANALYSIS OF INEQUALITY.
 
-Collection of estimators of a stratified sample associated to single
-individuals, in this module are calculations as the mean, variance,
-quasivariance, population variance of a stratified sample.
+This package provide an easy way to realize a quantitative analysis of
+inequality, also make easy work with stratified data, in this module you can
+find statistics and inequality indicators to this task.
 
 Todo
 ----
-
-Rethinking this module as Class.
+- Rethinking this module as Class.
 
 """
 import pandas as pd
@@ -17,20 +16,27 @@ import numpy as np
 
 # TODO implementar L-moments
 # def legendre_pol(x):
-#     """
-#     https://en.wikipedia.org/wiki/Legendre_polynomials
-#     https://es.wikipedia.org/wiki/Polinomios_de_Legendre
-#     https://en.wikipedia.org/wiki/Binomial_coefficient
-#     http://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/lmoment.htm
-#     """
-#     return None
+#  """
+#  https://en.wikipedia.org/wiki/Legendre_polynomials
+#  https://es.wikipedia.org/wiki/Polinomios_de_Legendre
+#  https://en.wikipedia.org/wiki/Binomial_coefficient
+#  http://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/lmoment.htm
+#  """
+#  return None
 
 
 def _to_df(*args, **kwargs):
+    res = None
     if args != ():
         res = pd.DataFrame([*args]).T
-    elif kwargs is not None:
-        res = pd.DataFrame.from_dict(kwargs, orient='columns')
+
+    if kwargs is not None:
+        if res is not None:
+            res = pd.concat([res,
+                             pd.DataFrame.from_dict(kwargs, orient='columns')],
+                            axis=1)
+        else:
+            res = pd.DataFrame.from_dict(kwargs, orient='columns')
     return res
 
 
@@ -125,7 +131,7 @@ def stdmoment(x, weights=None, param=None, order=3, ddof=0):
     Returns
     -------
 
-    stdmoment : float
+    std_moment : float
        Returns the standardized `n` order moment.
 
     Notes
@@ -467,13 +473,19 @@ def concentration(income, weights=None, sort=True, data=None):
     when there are taxes:
     y = g(x) = x - t(x)
 
-    :param x:
-    :param y:
-    :param sort_x:
-    :param data:
-    :return:
+    Parameters
+    ----------
+    income :
+    weights :
+    data :
+    sort :
+
+    Returns
+    -------
 
     """
+    # todo complete docstring
+
     if data is not None:
         income = data[income].values
         if weights is not None:
@@ -500,23 +512,18 @@ def lorenz(income, weights, data=None):
 
     Parameters
     ----------
-
     data : pandas.DataFrame
-        A pandas.DataFrame thats contains data.
-
+        A pandas.DataFrame that contains data.
     income : str or 1d-array, optional
-        Population or wights, if a DataFrame is passed then `x` shuold be a
+        Population or wights, if a DataFrame is passed then `income` should be a
         name of the column of DataFrame, else can pass a pandas.Series or array.
-
     weights : str or 1d-array
         Income, monetary variable, if a DataFrame is passed then `y`is a name
         of the series on this DataFrame, however, you can pass a pd.Series or
         np.array.
 
-
     Returns
     -------
-
     lorenz : pandas.Dataframe
         Lorenz distribution in a Dataframe with two columns, labeled x and y,
         that corresponds to plots axis.
@@ -537,19 +544,16 @@ def lorenz(income, weights, data=None):
 
 
 def gini(income, weights=None, data=None, sort=True):
-    """Calcula el indice de Gini,
+    """Compute de index Gini.
 
     Parameters
     ---------
     data : pandas.DataFrame
         DataFrame that contains the data.
-
     income : str or np.array, optional
         Name of the monetary variable `x` in` df`
-
     weights : str or np.array, optional
         Name of the series containing the weights `x` in` df`
-
     sorted : bool, optional
         If the DataFrame is previously ordered by the variable `x`, it's must pass True, but False by default.
 
@@ -561,28 +565,21 @@ def gini(income, weights=None, data=None, sort=True):
     Notes
     -----
     The calculation is done following (discrete probability distribution):
-
     G = 1 - [∑_i^n f(y_i)·(S_{i-1} + S_i)]
-
     where:
-
     - y_i = Income
     - S_i = ∑_{j=1}^i y_i · f(y_i)
 
-    Source:
-
+    Reference
+    ---------
     - https://en.wikipedia.org/wiki/Gini_coefficient
     - CALCULATING INCOME DISTRIBUTION INDICES FROM MICRO-DATA - STEPHEN JENKINS
 
     TODO
     ----
-
     - Implement statistical deviation calculation, VAR (GINI)
     - Clear comments
     - Rename output
-
-    Examples
-    --------
 
     """
     # another aproach
@@ -606,37 +603,29 @@ def atkinson(income, weights=None, e=0.5, data=None):
     income : array or str
         If `data` is none `income` must be an 1D-array, when `data` is a
         pd.DataFrame, you must pass the name of income variable as string.
-
     weights : array or str, optional
         If `data` is none `weights` must be an 1D-array, when `data` is a
         pd.DataFrame, you must pass the name of weights variable as string.
-
     e : int, optional
         Epsilon parameter interpreted by atkinson index as inequality adversion,
         must be between 0 and 1.
-
     data : pd.DataFrame, optional
         data is a pd.DataFrame that contains the variables.
-
 
     Returns
     -------
     atkinson : float
 
-    Notes
-    -----
-
+    Reference
+    ---------
     Source: https://en.wikipedia.org/wiki/Atkinson_index
 
     TODO
     ----
-
     - Implement: CALCULATING INCOME DISTRIBUTION INDICES FROM MICRO-DATA
       http://www.jstor.org/stable/41788716
 
     .. warning:: The results has difference with stata, maybe have a bug.
-
-
     """
     if (income is None) and (data is None):
         raise ValueError('Must pass at least one of both `income` or `df`')
@@ -801,7 +790,6 @@ def theil(income, weights=None, data=None):
 
     Parameters
     ----------
-
     income :
     weights :
     data :
