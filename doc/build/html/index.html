@@ -245,9 +245,9 @@ Data of example:</p>
 2
 3
 4
-5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">ineqpy</span><span class="o">.</span><span class="n">xbar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">renta</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">factor</span><span class="p">)</span>
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">ineqpy</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">renta</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">factor</span><span class="p">)</span>
 <span class="mf">20444.700666031338</span>
-<span class="n">ineqpy</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">renta</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">factor</span><span class="p">)</span>
+<span class="n">ineqpy</span><span class="o">.</span><span class="n">variance</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">renta</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">factor</span><span class="p">)</span>
 <span class="mf">2982220948.7413292</span>
 <span class="n">x</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">renta</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">factor</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
@@ -291,15 +291,15 @@ column:</p>
  9
 10
 11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">ineqpy</span><span class="o">.</span><span class="n">stdmoment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># = 0</span>
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">ineqpy</span><span class="o">.</span><span class="n">std_moment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># = 0</span>
 <span class="mf">2.4624948200717338e-17</span>
-<span class="n">ineqpy</span><span class="o">.</span><span class="n">stdmoment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># = 1</span>
+<span class="n">ineqpy</span><span class="o">.</span><span class="n">std_moment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># = 1</span>
 <span class="mf">1.0</span>
-<span class="n">ineqpy</span><span class="o">.</span><span class="n">stdmoment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># = skew</span>
+<span class="n">ineqpy</span><span class="o">.</span><span class="n">std_moment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># = skew</span>
 <span class="mf">5.9965055750379426</span>
 <span class="n">ineqpy</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
 <span class="mf">5.9965055750379426</span>
-<span class="n">ineqpy</span><span class="o">.</span><span class="n">stdmoment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># = kurtosis</span>
+<span class="n">ineqpy</span><span class="o">.</span><span class="n">std_moment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># = kurtosis</span>
 <span class="mf">42.319928851703004</span>
 <span class="n">ineqpy</span><span class="o">.</span><span class="n">kurt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
 <span class="mf">42.319928851703004</span>
@@ -369,7 +369,7 @@ column:</p>
   
 
     <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
+        variance DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
             VERSION:'0.0.1',
             COLLAPSE_INDEX:false,

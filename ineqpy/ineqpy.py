@@ -63,7 +63,7 @@ def _apply_to_df(func, df, x, weights, *args, **kwargs):
     return func(df[x], df[weights], *args, **kwargs)
 
 
-def cmoment(variable, weights=None, order=2, param=None, ddof=0):
+def c_moment(variable, weights=None, order=2, param=None, ddof=0):
     """Calculate the central moment of `x` with respect to `param` of order `n`,
     given the weights `w`.
 
@@ -111,7 +111,34 @@ def cmoment(variable, weights=None, order=2, param=None, ddof=0):
            (np.sum(weights) - ddof)
 
 
-def quantile(variable, weights, q, data=None, interpolate=True):
+def density(data=None, variable=None, weights=None, groups=None):
+    """Calculates density in percentage.
+    
+    Parameters
+    ----------
+    variable
+    weights
+    groups
+    data
+
+    Returns
+    -------
+
+    """
+    if data is None:
+        data = pd.DataFrame(np.c_[variable, weights, groups], columns=list('vwg'))
+        variable, weights, groups = list('vwg')
+    if groups is not None:
+        den = data.groupby(groups)\
+                  .apply(lambda df: df[weights].sum() /
+                                    (df[variable].max()-df[variable].min()))
+        den /= den.sum()
+    else:
+        den = data[weights].sum() / (data[variable].max() - data[variable].min())
+    return den
+
+
+def quantile(data=None, variable=None, weights=None, q=0.5, interpolate=True):
     """Calculate the value of a quantile given a variable and his weights.
 
     Parameters
@@ -133,7 +160,7 @@ def quantile(variable, weights, q, data=None, interpolate=True):
               'weights': weights,
               'data': data,
               'interpolate': interpolate}
-        res_join = [quantile(q=qi, **kw) for qi in q]
+        res_join = [quantile(**kw, q=qi) for qi in q]
         return pd.Series(res_join, index=q)
 
     if data is not None:
@@ -165,7 +192,6 @@ def std_moment(variable, weights=None, param=None, order=3, ddof=0):
 
     Parameters
     ----------
-
     variable : 1d-array
        Random Variable
     weights : 1d-array, optional
@@ -179,22 +205,17 @@ def std_moment(variable, weights=None, param=None, order=3, ddof=0):
 
     Returns
     -------
-
     std_moment : float
        Returns the standardized `n` order moment.
 
-    Notes
-    -----
-
-    Source:
-
+    References
+    ----------
     - https://en.wikipedia.org/wiki/Moment_(mathematics)#Significance_of_the_moments
     - https://en.wikipedia.org/wiki/Standardized_moment
 
 
     TODO
     ----
-
     It is the general case of the raw and central moments. Review
     implementation.
 
@@ -208,12 +229,12 @@ def std_moment(variable, weights=None, param=None, order=3, ddof=0):
     # m = np.sum(m)
     # m = np.divide(m, np.power(variance(x, w, ddof=ddof), n / 2))
     # return m
-    res = cmoment(variable, weights, order, param=param, ddof=ddof)
+    res = c_moment(variable, weights, order, param=param, ddof=ddof)
     res /= variance(variable, weights, ddof=ddof) ** (order / 2)
     return res
 
 
-def mean(variable, weights=None, data=None):
+def mean(data=None, variable=None, weights=None):
     """Calculate the mean of `variable` given `weights`.
 
     Parameters
@@ -244,7 +265,7 @@ def mean(variable, weights=None, data=None):
     return np.average(variable, weights=weights, axis=0)
 
 
-def variance(variable, weights=None, data=None, ddof=0):
+def variance(data=None, variable=None, weights=None, ddof=0):
     """Calculate the population variance of `variable` given `weights`.
 
     Parameters
@@ -271,9 +292,9 @@ def variance(variable, weights=None, data=None, ddof=0):
             weights = data[weights].values
     if weights is None:
         weights = np.repeat([1], len(variable))
-    return cmoment(variable, weights=weights, order=2, ddof=ddof)
+    return c_moment(variable, weights=weights, order=2, ddof=ddof)
 
-def coefficient_variation(variable, weights=None, data=None):
+def coefficient_variation(data=None, variable=None, weights=None):
     """Calculate the coefficient of variation of a `variable` given weights.
 
     Parameters
@@ -299,7 +320,7 @@ def coefficient_variation(variable, weights=None, data=None):
     return mean(variable, weights) / variance(variable, weights) ** 0.5
 
 
-def kurt(variable, weights, data=None):
+def kurt(data=None, variable=None, weights=None):
     """Calculate the asymmetry coefficient
 
     Parameters
@@ -324,7 +345,7 @@ def kurt(variable, weights, data=None):
     return std_moment(variable=variable, weights=weights, order=4)
 
 
-def skew(variable, weights, data=None):
+def skew(data=None, variable=None, weights=None):
     """Returns the asymmetry coefficient of a sample.
 
     Parameters
@@ -348,7 +369,7 @@ def skew(variable, weights, data=None):
     return std_moment(variable=variable, weights=weights, order=3)
 
 
-def shat2_group(variable, weights, group, data=None):
+def quasivariance_hat_group(data=None, variable=None, weights=None, group=None):
     """Sample variance of `x_name`, calculated as the second-order central
     moment.
 
@@ -392,13 +413,13 @@ def shat2_group(variable, weights, group, data=None):
         weights = 'weights'
 
     def sd(df):
-        x = df.loc[:, x].copy().values
+        x = df.loc[:, variable].copy().values
         weights = np.repeat([1], len(df))
-        return cmoment(x, weights, 2, param=mean(x))
+        return c_moment(x, weights, 2, param=mean(x))
     return data.groupby(group).apply(sd)
 
 
-def vhat_group(variable='x', weights='w', group='h', data=None):
+def variance_hat_group(data=None, variable='x', weights='w', group='h'):
     """Data a DataFrame calculates the sample variance for each stratum. The
     objective of this function is to make it easy to calculate the moments of
     the distribution that follows an estimator, eg. Can be used to calculate
@@ -433,7 +454,7 @@ def vhat_group(variable='x', weights='w', group='h', data=None):
     >>> # Computes the variance of the mean
     >>> data = pd.DataFrame(data=[renta, peso, estrato],
                             columns=["renta", "peso", "estrato"])
-    >>> v = vhat_group(data)
+    >>> v = variance_hat_group(data)
     >>> v
     stratum
     1                700.917.728,64
@@ -480,12 +501,12 @@ def vhat_group(variable='x', weights='w', group='h', data=None):
         Nh = df[weights].sum()
         fpc = 1 - (len(df) / Nh)
         ddof = 1 if len(df) > 1 else 0
-        shat2h = cmoment(variable=xi, order=2, ddof=ddof)
+        shat2h = c_moment(variable=xi, order=2, ddof=ddof)
         return (Nh ** 2) * fpc * shat2h / len(df)
     return data.groupby(group).apply(v)
 
 
-def moment_group(variable='x', weights='w', group='h', data=None, order=2):
+def moment_group(data=None, variable='x', weights='w', group='h', order=2):
     """Calculates the asymmetry of each `h` stratum.
 
     Parameters
@@ -528,7 +549,7 @@ def moment_group(variable='x', weights='w', group='h', data=None, order=2):
 '''Inequality functions'''
 
 
-def concentration(income, weights=None, data=None, sort=True):
+def concentration(data=None, income=None, weights=None, sort=True):
     """This function calculate the concentration index, according to the
     notation used in [Jenkins1988]_ you can calculate the
     :math: C_x = 2 / x · cov(x, F_x)
@@ -569,7 +590,7 @@ def concentration(income, weights=None, data=None, sort=True):
     return 2 * cov / mu
 
 
-def lorenz(income, weights, data=None):
+def lorenz(data=None, income=None, weights=None):
     """This function compute the lorenz curve and returns a DF with two columns
     of axis x and y.
 
@@ -606,7 +627,7 @@ def lorenz(income, weights, data=None):
     return res
 
 
-def gini(income, weights=None, data=None, sort=True):
+def gini(data=None, income=None, weights=None, sort=True):
     """Compute de index Gini.
 
     Parameters
@@ -655,10 +676,10 @@ def gini(income, weights=None, data=None, sort=True):
     # sn = si.iloc[-1]
     # g = (1 - np.divide(np.sum(f_x * (si_1 + si)), sn))
     # return G, G2, G3, G4
-    return concentration(income=income, weights=weights, data=data, sort=sort)
+    return concentration(data=data, income=income, weights=weights, sort=sort)
 
 
-def atkinson(income, weights=None, data=None, e=0.5):
+def atkinson(data=None, income=None, weights=None, e=0.5):
     """Calculate the coefficient of atkinson
 
     Parameters
@@ -738,7 +759,7 @@ def atkinson(income, weights=None, data=None, e=0.5):
     return atkinson
 
 
-def atkinson_group(income, weights, group, data=None, e=0.5):
+def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
     """
 
     Parameters
@@ -787,8 +808,10 @@ def atkinson_group(income, weights, group, data=None, e=0.5):
         if df is None:
             raise ValueError
 
-        res = atkinson(income=df[income].values, weights=df[weights].values,
-                       e=e) * len(df) / N
+        res = atkinson(
+                income=df[income].values,
+                weights=df[weights].values,
+                e=e) * len(df) / N
         return res
     if data is not None:
         atk_by_group = data.groupby(group).apply(a_h)
@@ -800,7 +823,7 @@ def atkinson_group(income, weights, group, data=None, e=0.5):
         raise NotImplementedError
 
 
-def kakwani(tax, income_after_tax, weights=None, data=None):
+def kakwani(data=None, tax=None, income_after_tax=None, weights=None):
     """Compute the Kakwani index.
 
     Parameters
@@ -827,13 +850,14 @@ def kakwani(tax, income_after_tax, weights=None, data=None):
         income_after_tax = 'income_after_tax'
         tax = 'tax'
         weights = 'weights'
-    c_t = concentration(income=tax, weights=weights, data=data, sort=True)
-    g_y = concentration(income=income_after_tax, weights=weights, data=data,
+    c_t = concentration(data=data, income=tax, weights=weights, sort=True)
+    g_y = concentration(data=data, income=income_after_tax, weights=weights,
                         sort=True)
     return c_t - g_y
 
 
-def reynolds_smolensky(income_before_tax, income_after_tax, weights, data=None):
+def reynolds_smolensky(data=None, income_before_tax=None, income_after_tax=None,
+                       weights=None):
     """
 
     Parameters
@@ -857,8 +881,8 @@ def reynolds_smolensky(income_before_tax, income_after_tax, weights, data=None):
         income_after_tax = data[income_after_tax].values
         income_before_tax = data[income_before_tax].values
         weights = data[weights].values
-    g_y = concentration(income=income_after_tax, weights=weights, data=data)
-    g_x = concentration(income=income_before_tax, weights=weights, data=data)
+    g_y = concentration(data=data, income=income_after_tax, weights=weights)
+    g_x = concentration(data=data, income=income_before_tax, weights=weights)
     return g_x - g_y
 
 # todo to complete
@@ -866,7 +890,7 @@ def reynolds_smolensky(income_before_tax, income_after_tax, weights, data=None):
 #     return
 
 
-def theil(income, weights=None, data=None):
+def theil(data=None, income=None, weights=None):
     """This function calculates the theil index
 
     Parameters
@@ -901,7 +925,7 @@ def theil(income, weights=None, data=None):
     return t
 
 
-def avg_tax_rate(total_tax, total_base, weights=None, data=None):
+def avg_tax_rate(data=None, total_tax=None, total_base=None, weights=None):
     """This function compute the average tax rate given a base income and a
     total tax.
 
@@ -918,7 +942,6 @@ def avg_tax_rate(total_tax, total_base, weights=None, data=None):
 
     Reference
     ---------
-
     Siguiendo la metodología propuesto en Picos, Pérez y González (2011):
     tm1 : cociente entre el resultado de aplicar las escalas del impuesto a las
           bases liquidables y la base liquidable, que refleja el efecto de las
@@ -937,6 +960,8 @@ def avg_tax_rate(total_tax, total_base, weights=None, data=None):
     """
     is_list = False
     n_cols = 1
+    base_name = None
+    tax_name = None
 
     if isinstance(total_base, (list, np.ndarray)):
         is_list = True

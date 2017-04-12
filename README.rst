@@ -74,9 +74,9 @@ Descriptive statistics
 
 .. code-block:: python
 
-    ineqpy.xbar(x=d.renta, weights=d.factor)
+    ineqpy.mean(x=d.renta, weights=d.factor)
     20444.700666031338
-    ineqpy.var(x=d.renta, weights=d.factor)
+    ineqpy.variance(x=d.renta, weights=d.factor)
     2982220948.7413292
     x, w = d.renta.values, d.factor.values
 
@@ -99,15 +99,15 @@ A helpful table of interpretation of the moments
 
 .. code-block:: python
 
-    ineqpy.stdmoment(x, w, 1)  # = 0
+    ineqpy.std_moment(x, w, 1)  # = 0
     2.4624948200717338e-17
-    ineqpy.stdmoment(x, w, 2)  # = 1
+    ineqpy.std_moment(x, w, 2)  # = 1
     1.0
-    ineqpy.stdmoment(x, w, 3)  # = skew
+    ineqpy.std_moment(x, w, 3)  # = skew
     5.9965055750379426
     ineqpy.skew(x, w)
     5.9965055750379426
-    ineqpy.stdmoment(x, w, 4)  # = kurtosis
+    ineqpy.std_moment(x, w, 4)  # = kurtosis
     42.319928851703004
     ineqpy.kurt(x, w)
     42.319928851703004
