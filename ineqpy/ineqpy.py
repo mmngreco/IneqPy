@@ -63,12 +63,14 @@ def _apply_to_df(func, df, x, weights, *args, **kwargs):
     return func(df[x], df[weights], *args, **kwargs)
 
 
-def c_moment(variable, weights=None, order=2, param=None, ddof=0):
+def c_moment(data=None, variable=None, weights=None, order=2, param=None,
+             ddof=0):
     """Calculate the central moment of `x` with respect to `param` of order `n`,
     given the weights `w`.
 
     Parameters
     ----------
+    data
     variable : 1d-array
         Variable
     weights : 1d-array
@@ -101,8 +103,12 @@ def c_moment(variable, weights=None, order=2, param=None, ddof=0):
 
     """
     # return np.sum((x-c)^n*counts) / np.sum(counts)
+    if data is not None:
+        variable = data[variable]
+        if weights is not None:
+            weights = data[weights]
     if param is None:
-        param = mean(variable, weights)
+        param = mean(variable=variable, weights=weights)
     elif not isinstance(param, (np.ndarray, int, float)):
         raise NotImplementedError
     if weights is None:
@@ -186,12 +192,14 @@ def quantile(data=None, variable=None, weights=None, q=0.5, interpolate=True):
     return res
 
 
-def std_moment(variable, weights=None, param=None, order=3, ddof=0):
+def std_moment(data=None, variable=None, weights=None, param=None, order=3,
+               ddof=0):
     """Calculate the standardized moment of order `c` for the variable` x` with
     respect to `c`.
 
     Parameters
     ----------
+    data
     variable : 1d-array
        Random Variable
     weights : 1d-array, optional
@@ -220,17 +228,16 @@ def std_moment(variable, weights=None, param=None, order=3, ddof=0):
     implementation.
 
     """
-    if weights is None:
-        weights = np.repeat([1], len(variable))
     if param is None:
-        param = mean(variable, weights)
+        param = mean(variable=variable, weights=weights)
     # m = np.subtract(x, c)
     # m = np.power(m, n) * w / np.sum(w)
     # m = np.sum(m)
     # m = np.divide(m, np.power(variance(x, w, ddof=ddof), n / 2))
     # return m
-    res = c_moment(variable, weights, order, param=param, ddof=ddof)
-    res /= variance(variable, weights, ddof=ddof) ** (order / 2)
+    res = c_moment(data=data, variable=variable, weights=weights, order=order, param=param,
+                   ddof=ddof)
+    res /= variance(data=data, variable=variable, weights=weights, ddof=ddof) ** (order / 2)
     return res
 
 
@@ -261,8 +268,7 @@ def mean(data=None, variable=None, weights=None):
         variable = variable[idx]
         if weights is not None:
             weights = weights[idx]
-
-    return np.average(variable, weights=weights, axis=0)
+    return np.average(a=variable, weights=weights, axis=0)
 
 
 def variance(data=None, variable=None, weights=None, ddof=0):
@@ -286,13 +292,9 @@ def variance(data=None, variable=None, weights=None, ddof=0):
 
     If stratificated sample must pass with groupby each strata.
     """
-    if data is not None:
-        variable = data[variable].values
-        if weights is not None:
-            weights = data[weights].values
     if weights is None:
         weights = np.repeat([1], len(variable))
-    return c_moment(variable, weights=weights, order=2, ddof=ddof)
+    return c_moment(data=data, variable=variable, weights=weights, order=2, ddof=ddof)
 
 def coefficient_variation(data=None, variable=None, weights=None):
     """Calculate the coefficient of variation of a `variable` given weights.
@@ -317,7 +319,8 @@ def coefficient_variation(data=None, variable=None, weights=None):
     if weights is None:
         weights = np.repeat([1], len(variable))
 
-    return mean(variable, weights) / variance(variable, weights) ** 0.5
+    return mean(variable=variable, weights=weights) / \
+           variance(variable=variable, weights=weights) ** 0.5
 
 
 def kurt(data=None, variable=None, weights=None):
@@ -413,9 +416,9 @@ def quasivariance_hat_group(data=None, variable=None, weights=None, group=None):
         weights = 'weights'
 
     def sd(df):
-        x = df.loc[:, variable].copy().values
-        weights = np.repeat([1], len(df))
-        return c_moment(x, weights, 2, param=mean(x))
+        # x = df.loc[:, variable].copy().values
+        # weights = np.repeat([1], len(df))
+        return c_moment(data=df, variable=variable, weights=weights, param=mean(x))
     return data.groupby(group).apply(sd)
 
 
@@ -942,21 +945,7 @@ def avg_tax_rate(data=None, total_tax=None, total_base=None, weights=None):
 
     Reference
     ---------
-    Siguiendo la metodología propuesto en Picos, Pérez y González (2011):
-    tm1 : cociente entre el resultado de aplicar las escalas del impuesto a las
-          bases liquidables y la base liquidable, que refleja el efecto de las
-          escalas del impuesto.
-    tm2 : cociente entre el resultado de aplicar las escalas del impuesto a las
-          bases liquidables y la base imponible, que añade a lo anterior el
-          efecto de las reducciones aplicadas en dicha base.
-    tm3 : cociente entre el resultado de aplicar las escalas del impuesto a las
-          bases liquidables y la renta del periodo, que añade a lo anterior el
-          efecto de la reducción por rendimientos del trabajo.
-    tm4 : cociente entre la cuota íntegra y la renta del periodo, que añade a lo
-          anterior el efecto del mínimo personal y familiar.
-    tm5 : cociente entre la cuota resultante de la autoliquidación3 y la renta
-          del periodo, que añade a lo anterior el efecto de las deducciones en
-          cuota.
+    Picos, Pérez y González (2011)
     """
     is_list = False
     n_cols = 1
@@ -980,8 +969,8 @@ def avg_tax_rate(data=None, total_tax=None, total_base=None, weights=None):
     if weights is None:
         weights = np.ones(total_base.shape)
 
-    numerator = mean(total_tax, weights)
-    denominator = mean(total_base, weights)
+    numerator = mean(variable=total_tax, weights=weights)
+    denominator = mean(variable=total_base, weights=weights)
     res = numerator / denominator
 
     if type(base_name) == str == type(tax_name):
