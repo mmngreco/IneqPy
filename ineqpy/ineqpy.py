@@ -579,7 +579,7 @@ def concentration(data=None, income=None, weights=None, sort=True):
             weights = data[weights].values
 
     if weights is None:
-        weights = np.repeat(1, len(income))
+        weights = np.ones(len(income))
 
     if sort:
         idx_sort = np.argsort(income)
@@ -738,7 +738,7 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
     if weights is None:
         weights = np.repeat(1, N)
 
-    mu = mean(income, weights)
+    mu = mean(variable=income, weights=weights)
     f_i = weights / sum(weights)  # density function
     # another aproach
     # e value condition
@@ -879,11 +879,10 @@ def reynolds_smolensky(data=None, income_before_tax=None, income_after_tax=None,
             weights = np.repeat([1], len(income_before_tax))
         else:
             weights = np.repeat([1], len(data))
-
-    if data is not None:
-        income_after_tax = data[income_after_tax].values
-        income_before_tax = data[income_before_tax].values
-        weights = data[weights].values
+    # if data is not None:
+    #     income_after_tax = data[income_after_tax].values
+    #     income_before_tax = data[income_before_tax].values
+    #     weights = data[weights].values
     g_y = concentration(data=data, income=income_after_tax, weights=weights)
     g_x = concentration(data=data, income=income_before_tax, weights=weights)
     return g_x - g_y
@@ -922,7 +921,7 @@ def theil(data=None, income=None, weights=None):
         income = income[mask]
         weights = weights[mask]
 
-    mu = mean(income, weights)
+    mu = mean(variable=income, weights=weights)
     f_i = weights / np.sum(weights)
     t = np.sum((f_i * income / mu) * np.log(income / mu))
     return t
@@ -947,36 +946,27 @@ def avg_tax_rate(data=None, total_tax=None, total_base=None, weights=None):
     ---------
     Picos, Pérez y González (2011)
     """
-    is_list = False
+    has_list_of_names = False
     n_cols = 1
     base_name = None
     tax_name = None
 
     if isinstance(total_base, (list, np.ndarray)):
-        is_list = True
+        has_list_of_names = True
         n_cols = len(total_base)
 
     if data is not None:
         base_name = total_base
         tax_name = total_tax
-        total_base = data[total_base].values
-        total_tax = data[total_tax].values
-        if weights is None:
-            weights = np.ones(total_base.shape)
-        else:
-            weights = data[weights].values
 
-    if weights is None:
-        weights = np.ones(total_base.shape)
-
-    numerator = mean(variable=total_tax, weights=weights)
-    denominator = mean(variable=total_base, weights=weights)
+    numerator = mean(data=data, variable=total_tax , weights=weights)
+    denominator = mean(data=data, variable=total_base, weights=weights)
     res = numerator / denominator
 
-    if type(base_name) == str == type(tax_name):
-        names = [base_name + '_' + tax_name]
+    if not has_list_of_names:
+        names = [tax_name + '_' + base_name]
     else:
-        names = [b + '_' + tax_name[i] for i, b in enumerate(base_name)]
+        names = [tax_name[i] + '_' + b for i, b in enumerate(base_name)]
 
     res = pd.Series(res, index=names)
     return res
