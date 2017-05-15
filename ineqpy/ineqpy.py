@@ -896,7 +896,7 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
         raise NotImplementedError
 
 
-def kakwani(data=None, tax=None, income_before_tax=None, weights=None):
+def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
     """The Kakwani (1977) index of tax progressivity is defined as twice the 
     area between the concentration curves for taxes and pre-tax income, 
     or equivalently, the concentration index for t(x) minus the Gini index for 
@@ -913,7 +913,7 @@ def kakwani(data=None, tax=None, income_before_tax=None, weights=None):
     tax_variable : array-like or str
         This variable represent tax payment of person, if pass array-like
         then data must be None, else you pass str-name column in `data`.
-    income_before_tax : array-like or str
+    income_pre_tax : array-like or str
         This variable represent income of person, if pass array-like
         then data must be None, else you pass str-name column in `data`.
     weights : array-like or str
@@ -936,14 +936,14 @@ def kakwani(data=None, tax=None, income_before_tax=None, weights=None):
             weights = np.repeat([1], len(data))
 
     if data is None:
-        data = _to_df(income_after_tax=income_before_tax,
+        data = _to_df(income_pre_tax=income_pre_tax,
                       tax=tax,
                       weights=weights)
-        income_before_tax = 'income_after_tax'
+        income_pre_tax = 'income_pre_tax'
         tax = 'tax'
         weights = 'weights'
     c_t = concentration(data=data, income=tax, weights=weights, sort=True)
-    g_y = concentration(data=data, income=income_before_tax, weights=weights,
+    g_y = concentration(data=data, income=income_pre_tax, weights=weights,
                         sort=True)
     return c_t - g_y
 
