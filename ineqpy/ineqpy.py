@@ -103,9 +103,13 @@ def c_moment(data=None, variable=None, weights=None, order=2, param=None,
     """
     # return np.sum((x-c)^n*counts) / np.sum(counts)
     if data is not None:
+        data = data.copy()
         variable = data[variable]
-        if weights is not None:
-            weights = data[weights]
+        weights = data[weights] if weights is not None else None
+    else:
+        variable = variable.copy()
+        weights = weights.copy() if weights is not None else None
+
     if param is None:
         param = mean(variable=variable, weights=weights)
     elif not isinstance(param, (np.ndarray, int, float)):
@@ -182,14 +186,15 @@ def quantile(data=None, variable=None, weights=None, q=0.5, interpolate=True):
         return pd.Series(res_join, index=q)
 
     if data is not None:
+        data = data.copy()
         name = variable
         variable = data[name].values
-        if weights is None:
-            weights = np.ones(variable.shape)
-        else:
-            weights = data[weights].values
-    if weights is None:
-        weights = np.ones(variable.shape)
+        weights = np.ones(variable.shape) if weights is None else \
+                  data[weights].values
+    else:
+        variable = variable.copy()
+        weights = weights.copy() if weights is not None else \
+                  np.ones(variable.shape)
 
     weights /= weights.sum()
     order = np.argsort(variable, axis=0)
@@ -267,9 +272,13 @@ def mean(data=None, variable=None, weights=None):
     mean : 1d-array or pd.Series or float
     """
     if data is not None:
+        data = data.copy()
         variable = data[variable].values
-        if weights is not None:
-            weights = data[weights].values
+        weights = data[weights].values if weights is not None else None
+    else:
+        variable = variable.copy()
+        weights = weights.copy()
+
     if np.any(np.isnan(variable)):
         idx = ~np.isnan(variable)
         variable = variable[idx]
@@ -306,8 +315,6 @@ def variance(data=None, variable=None, weights=None, ddof=0):
     -----
     If stratificated sample must pass with groupby each strata.
     """
-    if weights is None:
-        weights = np.repeat([1], len(variable))
     return c_moment(data=data, variable=variable, weights=weights, order=2, ddof=ddof)
 
 def coefficient_variation(data=None, variable=None, weights=None):
@@ -336,11 +343,7 @@ def coefficient_variation(data=None, variable=None, weights=None):
     # todo complete docstring
     if data is not None:
         variable = data[variable].values
-        if weights is not None:
-            weights = data[weights].values
-
-    if weights is None:
-        weights = np.repeat([1], len(variable))
+        weights = data[weights].values if weights is not None else np.ones(len(variable))
 
     return mean(variable=variable, weights=weights) / \
            variance(variable=variable, weights=weights) ** 0.5
@@ -458,9 +461,8 @@ def quasivariance_hat_group(data=None, variable=None, weights=None, group=None):
         weights = 'weights'
 
     def sd(df):
-        # x = df.loc[:, variable].copy().values
-        # weights = np.repeat([1], len(df))
         return c_moment(data=df, variable=variable, weights=weights, param=mean(x))
+
     return data.groupby(group).apply(sd)
 
 
@@ -548,6 +550,7 @@ def variance_hat_group(data=None, variable='x', weights='w', group='h'):
         ddof = 1 if len(df) > 1 else 0
         shat2h = c_moment(variable=xi, order=2, ddof=ddof)
         return (Nh ** 2) * fpc * shat2h / len(df)
+
     return data.groupby(group).apply(v)
 
 
@@ -624,12 +627,13 @@ def concentration(data=None, income=None, weights=None, sort=True):
     # todo complete docstring
 
     if data is not None:
+        data = data.copy()
         income = data[income].values
         if weights is not None:
             weights = data[weights].values
-
-    if weights is None:
-        weights = np.ones(len(income))
+    else:
+        income = income.copy()
+        weights = weights.copy() if weights is not None else np.ones(len(income))
 
     if sort:
         idx_sort = np.argsort(income)
@@ -675,8 +679,13 @@ def lorenz(data=None, income=None, weights=None):
     """
 
     if data is not None:
+        data = data.copy()
         income = data[income].values
         weights = data[weights].values
+    else:
+        income = income.copy()
+        weights = weights.copy() if weights is not None else np.ones(len(income))
+
     total_income = income * weights
     idx_sort = np.argsort(weights)
     weights = weights[idx_sort].cumsum() / weights.sum()
@@ -791,8 +800,12 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
         raise ValueError('Must pass at least one of both `income` or `df`')
 
     if data is not None:
+        data = data.copy()
         income = data[income].values
         weights = data[weights].values
+    else:
+        income = income.copy()
+        weights = weights.copy() if weights is not None else None
 
     # not-null condition
     if np.any(income <= 0):
@@ -809,7 +822,7 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
 
     # not-empty wights
     if weights is None:
-        weights = np.repeat(1, N)
+        weights = np.ones(N)
 
     mu = mean(variable=income, weights=weights)
     f_i = weights / sum(weights)  # density function
@@ -887,6 +900,7 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
         return res
 
     if data is not None:
+        data = data.copy()
         atk_by_group = data.groupby(group).apply(a_h)
         mu_by_group = data.groupby(group).apply(lambda dw: mean(dw[income],
                                                                 dw[weights]))
@@ -1033,8 +1047,12 @@ def theil(data=None, income=None, weights=None):
             weights = np.repeat([1], len(data))
 
     if data is not None:
+        data = data.copy()
         income = data[income].values
         weights = data[weights].values
+    else:
+        income = income.copy()
+        weights = weights.copy()
 
     if np.any(income <= 0):
         mask = income > 0
@@ -1078,8 +1096,13 @@ def avg_tax_rate(data=None, total_tax=None, total_base=None, weights=None):
         n_cols = len(total_base)
 
     if data is not None:
+        data = data.copy()
         base_name = total_base
         tax_name = total_tax
+    else:
+        total_base = total_base.copy()
+        total_tax = total_tax.copy()
+        weights = weights.copy() if weights is not None else None
 
     numerator = mean(data=data, variable=total_tax , weights=weights)
     denominator = mean(data=data, variable=total_base, weights=weights)
