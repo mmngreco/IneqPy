@@ -258,19 +258,19 @@ def mean(data=None, variable=None, weights=None):
 
     Parameters
     ----------
-    variable : 1d-array or pd.Series or pd.DataFrame
-        Variable on which the mean is estimated
-    weights : 1d-array or pd.Series or pd.DataFrame, optional
-        Weights of the `x` variable of a dimension
+    variable : array-like or str
+        Variable on which the mean is estimated.
+    weights : array-like or str
+        Weights of the `x` variable.
     data : pandas.DataFrame
-        is possible pass a DataFrame with variable and weights, then you must
-        pass as `variable` and `weights` the column name of both Series stored
-        in `data`.
+        Is possible pass a DataFrame with variable and weights, then you must
+        pass as `variable` and `weights` the column name stored in `data`.
 
     Returns
     -------
-    mean : 1d-array or pd.Series or float
+    mean : array-like or float
     """
+    # if pass a DataFrame separate variables.
     if data is not None:
         data = data.copy()
         variable = data[variable].values
@@ -596,36 +596,34 @@ def moment_group(data=None, variable='x', weights='w', group='h', order=2):
 
 '''Inequality functions'''
 
-
 def concentration(data=None, income=None, weights=None, sort=True):
-    r"""This function calculate the concentration index, according to the
+    """This function calculate the concentration index, according to the
     notation used in [Jenkins1988]_ you can calculate the:
     C_x = 2 / x · cov(x, F_x)
-    
     if x = g(x) then C_x becomes C_y
-    
     when there are taxes:
-    
+
     y = g(x) = x - t(x)
 
     Parameters
     ----------
-    income :
-    weights :
-    data :
-    sort :
+    income : array-like
+    weights : array-like
+    data : pandas.DataFrame
+    sort : bool
 
     Returns
     -------
-    
+    concentration : array-like
+
     References
     ----------
-    Jenkins, S. (1988). Calculating income distribution indices 
+    Jenkins, S. (1988). Calculating income distribution indices
     from micro-data. National Tax Journal. http://doi.org/10.2307/41788716
-
     """
-    # todo complete docstring
+    # TODO complete docstring
 
+    # check if DataFrame is passed, if yes then extract variables else make a copy
     if data is not None:
         data = data.copy()
         income = data[income].values
@@ -635,11 +633,12 @@ def concentration(data=None, income=None, weights=None, sort=True):
         income = income.copy()
         weights = weights.copy() if weights is not None else np.ones(len(income))
 
+    # if sort is true then sort the variables.
     if sort:
         idx_sort = np.argsort(income)
         income = income[idx_sort]
         weights = weights[idx_sort]
-
+    # main calc
     f_x = weights / weights.sum()
     F_x = f_x.cumsum()
     mu = np.sum(income * f_x)
@@ -824,9 +823,11 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
     if weights is None:
         weights = np.ones(N)
 
+    # auxiliar variables: mean and distribution
     mu = mean(variable=income, weights=weights)
     f_i = weights / sum(weights)  # density function
 
+    # main calc
     if e == 1:
         atkinson = 1 - np.power(np.e, np.sum(f_i * np.log(income) - np.log(mu)))
     elif (0 <= e) or (e < 1):
@@ -887,6 +888,7 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
         income = 'income'
         weights = 'weights'
         group = 'group'
+
     N = len(data)
 
     def a_h(df):
@@ -899,6 +901,7 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
         res = atkinson(income=df[income].values, weights=df[weights].values, e=e) * len(df) / N
         return res
 
+    # main calc:
     if data is not None:
         data = data.copy()
         atk_by_group = data.groupby(group).apply(a_h)
@@ -956,6 +959,8 @@ def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
         income_pre_tax = 'income_pre_tax'
         tax = 'tax'
         weights = 'weights'
+
+    # main calc
     c_t = concentration(data=data, income=tax, weights=weights, sort=True)
     g_y = concentration(data=data, income=income_pre_tax, weights=weights,
                         sort=True)
@@ -1059,10 +1064,12 @@ def theil(data=None, income=None, weights=None):
         income = income[mask]
         weights = weights[mask]
 
+    # variables needed
     mu = mean(variable=income, weights=weights)
     f_i = weights / np.sum(weights)
-    t = np.sum((f_i * income / mu) * np.log(income / mu))
-    return t
+    # main calc
+    theil = np.sum((f_i * income / mu) * np.log(income / mu))
+    return theil
 
 
 def avg_tax_rate(data=None, total_tax=None, total_base=None, weights=None):
