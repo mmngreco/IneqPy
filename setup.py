@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='IneqPy',
-      version='0.0.2',
+      version='v0.1.1-alpha',
       description='A Python Package To Quantitative Analysis Of Inequality',
       #long_description=description,
       author='Maximiliano Greco',
