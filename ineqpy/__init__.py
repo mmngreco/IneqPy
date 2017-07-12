@@ -4,7 +4,7 @@ IneqPy
 
 '''
 
-from .ineqpy import *
+from .inequality import *
 
 __author__ = "Maximiliano Greco"
 __version__ = "0.0.2"
