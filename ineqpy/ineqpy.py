@@ -71,7 +71,7 @@ def c_moment(data=None, variable=None, weights=None, order=2, param=None,
 
     Parameters
     ----------
-    data : 
+    data :
     variable : 1d-array
         Variable
     weights : 1d-array
@@ -123,14 +123,14 @@ def c_moment(data=None, variable=None, weights=None, order=2, param=None,
 def density(data=None, variable=None, weights=None, groups=None):
     """Calculates density in percentage. This make division of variable inferring
     width in groups as max - min.
-    
+
     Parameters
     ----------
     data : pd.DataFrame, optional
         pandas.DataFrame that contains all variables needed.
-    variable : 
-    weights : 
-    groups : 
+    variable :
+    weights :
+    groups :
 
     Returns
     -------
@@ -138,8 +138,8 @@ def density(data=None, variable=None, weights=None, groups=None):
 
     References
     ----------
-    Histogram. (2017, May 9). In Wikipedia, The Free Encyclopedia. Retrieved 
-    14:47, May 15, 2017, from 
+    Histogram. (2017, May 9). In Wikipedia, The Free Encyclopedia. Retrieved
+    14:47, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Histogram&oldid=779516918
 
 
@@ -277,7 +277,10 @@ def mean(data=None, variable=None, weights=None):
         weights = data[weights].values if weights is not None else None
     else:
         variable = variable.copy()
-        weights = weights.copy()
+        if weights is not None:
+            weights = weights.copy()
+        else:
+            weights = np.ones(len(variable))
 
     if np.any(np.isnan(variable)):
         idx = ~np.isnan(variable)
@@ -307,8 +310,8 @@ def variance(data=None, variable=None, weights=None, ddof=0):
 
     References
     ---------
-    Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia. 
-    Retrieved 14:40, May 15, 2017, from 
+    Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
+    Retrieved 14:40, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
 
     Notes
@@ -319,9 +322,9 @@ def variance(data=None, variable=None, weights=None, ddof=0):
 
 def coefficient_variation(data=None, variable=None, weights=None):
     """Calculate the coefficient of variation of a `variable` given weights.
-    The coefficient of variation is the square root of the variance of the 
-    incomes divided by the mean income. It has the advantages of being 
-    mathematically tractable and is subgroup decomposable, but is not bounded 
+    The coefficient of variation is the square root of the variance of the
+    incomes divided by the mean income. It has the advantages of being
+    mathematically tractable and is subgroup decomposable, but is not bounded
     from above.
 
     Parameters
@@ -337,7 +340,7 @@ def coefficient_variation(data=None, variable=None, weights=None):
     References
     ----------
     Coefficient of variation. (2017, May 5). In Wikipedia, The Free Encyclopedia.
-    Retrieved 15:03, May 15, 2017, from 
+    Retrieved 15:03, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Coefficient_of_variation&oldid=778842331
     """
     # todo complete docstring
@@ -364,10 +367,10 @@ def kurt(data=None, variable=None, weights=None):
 
     References
     ---------
-    Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia. 
-    Retrieved 14:40, May 15, 2017, from 
+    Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
+    Retrieved 14:40, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
-    
+
 
     Notes
     -----
@@ -387,7 +390,7 @@ def skew(data=None, variable=None, weights=None):
     Parameters
     ---------
     data : pandas.DataFrame
-        
+
     variable : array-like, str
     weights : array-like, str
 
@@ -397,10 +400,10 @@ def skew(data=None, variable=None, weights=None):
 
     References
     ---------
-    Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia. 
-    Retrieved 14:40, May 15, 2017, from 
+    Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
+    Retrieved 14:40, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
-    
+
 
     Notes
     -----
@@ -439,13 +442,13 @@ def quasivariance_hat_group(data=None, variable=None, weights=None, group=None):
     Returns
     -------
     shat2_group : array or pd.Series
-    
+
     References
     ---------
-    Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia. 
-    Retrieved 14:40, May 15, 2017, from 
+    Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
+    Retrieved 14:40, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
-    
+
     Notes
     -----
     This function is useful to calculate the variance of the mean.
@@ -647,9 +650,9 @@ def concentration(data=None, income=None, weights=None, sort=True):
 
 
 def lorenz(data=None, income=None, weights=None):
-    """In economics, the Lorenz curve is a graphical representation of the 
-    distribution of income or of wealth. It was developed by Max O. Lorenz in 
-    1905 for representing inequality of the wealth distribution. This function 
+    """In economics, the Lorenz curve is a graphical representation of the
+    distribution of income or of wealth. It was developed by Max O. Lorenz in
+    1905 for representing inequality of the wealth distribution. This function
     compute the lorenz curve and returns a DF with two columns of axis x and y.
 
     Parameters
@@ -669,11 +672,11 @@ def lorenz(data=None, income=None, weights=None):
     lorenz : pandas.Dataframe
         Lorenz distribution in a Dataframe with two columns, labeled x and y,
         that corresponds to plots axis.
-    
+
     References
     ----------
-    Lorenz curve. (2017, February 11). In Wikipedia, The Free Encyclopedia. 
-    Retrieved 14:34, May 15, 2017, from 
+    Lorenz curve. (2017, February 11). In Wikipedia, The Free Encyclopedia.
+    Retrieved 14:34, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Lorenz_curve&oldid=764853675
     """
 
@@ -696,17 +699,17 @@ def lorenz(data=None, income=None, weights=None):
 
 
 def gini(data=None, income=None, weights=None, sort=True):
-    """The Gini coefficient (sometimes expressed as a Gini ratio or a 
-    normalized Gini index) is a measure of statistical dispersion intended to 
-    represent the income or wealth distribution of a nation's residents, and is 
-    the most commonly used measure of inequality. It was developed by Corrado 
+    """The Gini coefficient (sometimes expressed as a Gini ratio or a
+    normalized Gini index) is a measure of statistical dispersion intended to
+    represent the income or wealth distribution of a nation's residents, and is
+    the most commonly used measure of inequality. It was developed by Corrado
     Gini.
-    The Gini coefficient measures the inequality among values of a frequency 
-    distribution (for example, levels of income). A Gini coefficient of zero 
-    expresses perfect equality, where all values are the same (for example, 
-    where everyone has the same income). A Gini coefficient of 1 (or 100%) 
-    expresses maximal inequality among values (e.g., for a large number of 
-    people, where only one person has all the income or consumption, and all 
+    The Gini coefficient measures the inequality among values of a frequency
+    distribution (for example, levels of income). A Gini coefficient of zero
+    expresses perfect equality, where all values are the same (for example,
+    where everyone has the same income). A Gini coefficient of 1 (or 100%)
+    expresses maximal inequality among values (e.g., for a large number of
+    people, where only one person has all the income or consumption, and all
     others have none, the Gini coefficient will be very nearly one).
 
     Parameters
@@ -718,7 +721,7 @@ def gini(data=None, income=None, weights=None, sort=True):
     weights : str or np.array, optional
         Name of the series containing the weights `x` in` df`
     sorted : bool, optional
-        If the DataFrame is previously ordered by the variable `x`, it's must 
+        If the DataFrame is previously ordered by the variable `x`, it's must
         pass True, but False by default.
 
     Returns
@@ -736,11 +739,11 @@ def gini(data=None, income=None, weights=None, sort=True):
 
     Reference
     ---------
-    - Gini coefficient. (2017, May 8). In Wikipedia, The Free Encyclopedia. 
-      Retrieved 14:30, May 15, 2017, from 
+    - Gini coefficient. (2017, May 8). In Wikipedia, The Free Encyclopedia.
+      Retrieved 14:30, May 15, 2017, from
       https://en.wikipedia.org/w/index.php?title=Gini_coefficient&oldid=779424616
-    
-    - Jenkins, S. (1988). Calculating income distribution indices 
+
+    - Jenkins, S. (1988). Calculating income distribution indices
     from micro-data. National Tax Journal. http://doi.org/10.2307/41788716
 
     TODO
@@ -752,16 +755,16 @@ def gini(data=None, income=None, weights=None, sort=True):
 
 
 def atkinson(data=None, income=None, weights=None, e=0.5):
-    """More precisely labelled a family of income inequality measures, the 
-    theoretical range of Atkinson values is 0 to 1, with 0 being a state of 
+    """More precisely labelled a family of income inequality measures, the
+    theoretical range of Atkinson values is 0 to 1, with 0 being a state of
     equal distribution.
-    An intuitive interpretation of this index is possible: Atkinson values can 
-    be used to calculate the proportion of total income that would be required 
-    to achieve an equal level of social welfare as at present if incomes were 
-    perfectly distributed. 
-    
+    An intuitive interpretation of this index is possible: Atkinson values can
+    be used to calculate the proportion of total income that would be required
+    to achieve an equal level of social welfare as at present if incomes were
+    perfectly distributed.
+
     For example, an Atkinson index value of 0.20 suggests
-    that we could achieve the same level of social welfare with only 
+    that we could achieve the same level of social welfare with only
     1 – 0.20 = 80% of income. The theoretical range of Atkinson values is 0 to 1,
     with 0 being a state of equal distribution.
 
@@ -785,8 +788,8 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
 
     Reference
     ---------
-    Atkinson index. (2017, March 12). In Wikipedia, The Free Encyclopedia. 
-    Retrieved 14:35, May 15, 2017, from 
+    Atkinson index. (2017, March 12). In Wikipedia, The Free Encyclopedia.
+    Retrieved 14:35, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Atkinson_index&oldid=769991852
 
     TODO
@@ -840,11 +843,11 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
 
 
 def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
-    r"""The Atkinson index (also known as the Atkinson measure or Atkinson 
-    inequality measure) is a measure of income inequality developed by 
-    British economist Anthony Barnes Atkinson. The measure is useful in 
-    determining which end of the distribution contributed most to the observed 
-    inequality.The index is subgroup decomposable. This means that overall 
+    r"""The Atkinson index (also known as the Atkinson measure or Atkinson
+    inequality measure) is a measure of income inequality developed by
+    British economist Anthony Barnes Atkinson. The measure is useful in
+    determining which end of the distribution contributed most to the observed
+    inequality.The index is subgroup decomposable. This means that overall
     inequality in the population can be computed as the sum of the corresponding
     Atkinson indices within each group, and the Atkinson index of the group mean
     incomes.
@@ -869,8 +872,8 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
 
     Reference
     ---------
-    Atkinson index. (2017, March 12). In Wikipedia, The Free Encyclopedia. 
-    Retrieved 14:52, May 15, 2017, from 
+    Atkinson index. (2017, March 12). In Wikipedia, The Free Encyclopedia.
+    Retrieved 14:52, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Atkinson_index&oldid=769991852
 
     TODO
@@ -914,11 +917,11 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
 
 
 def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
-    """The Kakwani (1977) index of tax progressivity is defined as twice the 
-    area between the concentration curves for taxes and pre-tax income, 
-    or equivalently, the concentration index for t(x) minus the Gini index for 
+    """The Kakwani (1977) index of tax progressivity is defined as twice the
+    area between the concentration curves for taxes and pre-tax income,
+    or equivalently, the concentration index for t(x) minus the Gini index for
     x, i.e.
-    
+
     K = C(t) - G(x)
       = (2/t) cov [t(x), F(x)] - (2/x) cov [x, F(x)].
 
@@ -940,10 +943,10 @@ def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
     Returns
     -------
     kakwani : float
-    
+
     References
     ----------
-    Jenkins, S. (1988). Calculating income distribution indices from micro-data. 
+    Jenkins, S. (1988). Calculating income distribution indices from micro-data.
     National Tax Journal. http://doi.org/10.2307/41788716
     """
     if weights is None:
@@ -969,12 +972,12 @@ def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
 
 def reynolds_smolensky(data=None, income_pre_tax=None, income_post_tax=None,
                        weights=None):
-    """The Reynolds-Smolensky (1977) index of the redistributive effect of 
-    taxes, which can also be interpreted as an index of progressivity 
+    """The Reynolds-Smolensky (1977) index of the redistributive effect of
+    taxes, which can also be interpreted as an index of progressivity
     (Lambert 1985), is defined as:
-    
-    L = Gx - Gy 
-      = [2/x]cov[x,F(x)] - [2/ybar] cov [y, F(y)]. 
+
+    L = Gx - Gy
+      = [2/x]cov[x,F(x)] - [2/ybar] cov [y, F(y)].
 
     Parameters
     ----------
@@ -994,7 +997,7 @@ def reynolds_smolensky(data=None, income_pre_tax=None, income_post_tax=None,
     Returns
     -------
     reynolds_smolensky : float
-    
+
     References
     ----------
     Jenkins, S. (1988). Calculating income distribution indices from micro-data.
@@ -1015,11 +1018,11 @@ def reynolds_smolensky(data=None, income_pre_tax=None, income_post_tax=None,
 
 
 def theil(data=None, income=None, weights=None):
-    """The Theil index is a statistic primarily used to measure economic 
-    inequality and other economic phenomena. It is a special case of the 
-    generalized entropy index. It can be viewed as a measure of redundancy, 
-    lack of diversity, isolation, segregation, inequality, non-randomness, and 
-    compressibility. It was proposed by econometrician Henri Theil. 
+    """The Theil index is a statistic primarily used to measure economic
+    inequality and other economic phenomena. It is a special case of the
+    generalized entropy index. It can be viewed as a measure of redundancy,
+    lack of diversity, isolation, segregation, inequality, non-randomness, and
+    compressibility. It was proposed by econometrician Henri Theil.
 
     Parameters
     ----------
@@ -1036,11 +1039,11 @@ def theil(data=None, income=None, weights=None):
     Returns
     -------
     theil : float
-    
+
     References
     ----------
-    Theil index. (2016, December 17). In Wikipedia, The Free Encyclopedia. 
-    Retrieved 14:17, May 15, 2017, from 
+    Theil index. (2016, December 17). In Wikipedia, The Free Encyclopedia.
+    Retrieved 14:17, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Theil_index&oldid=755407818
 
     """
@@ -1089,8 +1092,8 @@ def avg_tax_rate(data=None, total_tax=None, total_base=None, weights=None):
 
     Reference
     ---------
-    Panel de declarantes de IRPF 1999-2007: Metodología, estructura y variables. 
-    (2011). Panel de declarantes de IRPF 1999-2007: 
+    Panel de declarantes de IRPF 1999-2007: Metodología, estructura y variables.
+    (2011). Panel de declarantes de IRPF 1999-2007:
     Metodología, estructura y variables. Documentos.
     """
     has_list_of_names = False
