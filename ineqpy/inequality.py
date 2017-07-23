@@ -24,7 +24,7 @@ import pandas as pd
 #  http://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/lmoment.htm
 #  """
 #  return None
-from ineqpy.stats import mean
+from ineqpy.statistics import mean
 from utils.msic import _to_df
 
 

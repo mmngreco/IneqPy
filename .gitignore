@@ -10,3 +10,9 @@ IneqPy\.egg-info/
 ineqpy/__pycache__/
 
 examples/\.ipynb_checkpoints/
+
+utils/__pycache__/
+
+tests/\.ipynb_checkpoints/
+
+*.pyc

@@ -3,7 +3,7 @@ IneqPy
 
 
 '''
-
+from .statistics import *
 from .inequality import *
 
 __author__ = "Maximiliano Greco"

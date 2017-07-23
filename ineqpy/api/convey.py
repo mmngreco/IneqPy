@@ -1,27 +1,30 @@
 import pandas as pd
-import numpy as np
+from .. import statistics
+from .. import inequality
+from functools import partial
 
 
 class Survey(pd.DataFrame):
 
-    def __init__(self, data, weights, groups=None):
-
-        self.data = data
+    def __init__(self, data, index, columns, weights=None, group=None):
+        super().__init__(data, index, columns)
         self.weights = weights
-        self.groups = groups
+        self.group = group
 
-    def mean(self):
-        return
 
-    def
+class Convey(Survey):
 
-class Summary():
-    def __init__(self):
-        return
+    @classmethod
+    def wrapper(cls):
+        for method in dir(statistics):
+            if method.startswith('_'): continue
+            if hasattr(getattr(my_module, method), 'weights'):
+                func = partial(getattr(my_module, method), weights=self.weights)
+            setattr(cls, method, func)
 
-    def inequality(self):
-        return
-
-    def stattistics(self):
-        return
+        for method in dir(inequality):
+            if method.startswith('_'): continue
+            if hasattr(getattr(my_module, method), 'weights'):
+                func = partial(getattr(my_module, method), weights=self.weights)
+            setattr(cls, method, func)
 

@@ -149,9 +149,9 @@ def std_moment(data=None, variable=None, weights=None, param=None, order=3,
     """
     if param is None:
         param = mean(variable=variable, weights=weights)
-    res = c_moment(data=data, variable=variable, weights=weights, order=order, param=param,
-                   ddof=ddof)
-    res /= variance(data=data, variable=variable, weights=weights, ddof=ddof) ** (order / 2)
+    res = c_moment(data=data, variable=variable, weights=weights, order=order,
+                   param=param, ddof=ddof)
+    res /= var(data=data, variable=variable, weights=weights, ddof=ddof) ** (order / 2)
     return res
 
 
@@ -179,7 +179,7 @@ def mean(data=None, variable=None, weights=None):
         weights = data[weights].values if weights is not None else None
     else:
         variable = variable.copy()
-        weights = weights.copy()
+        weights = weights.copy() if weights is not None else np.ones(len(variable))
 
     if np.any(np.isnan(variable)):
         idx = ~np.isnan(variable)
@@ -210,9 +210,6 @@ def density(data=None, variable=None, weights=None, groups=None):
     Histogram. (2017, May 9). In Wikipedia, The Free Encyclopedia. Retrieved
     14:47, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Histogram&oldid=779516918
-
-
-
     """
     if data is None:
         data = pd.DataFrame(np.c_[variable, weights, groups], columns=list('vwg'))
@@ -227,7 +224,7 @@ def density(data=None, variable=None, weights=None, groups=None):
     return den
 
 
-def variance(data=None, variable=None, weights=None, ddof=0):
+def var(data=None, variable=None, weights=None, ddof=0):
     """Calculate the population variance of `variable` given `weights`.
 
     Parameters
@@ -255,7 +252,8 @@ def variance(data=None, variable=None, weights=None, ddof=0):
     -----
     If stratificated sample must pass with groupby each strata.
     """
-    return c_moment(data=data, variable=variable, weights=weights, order=2, ddof=ddof)
+    return c_moment(data=data, variable=variable, weights=weights, order=2,
+                    ddof=ddof)
 
 
 def coefficient_variation(data=None, variable=None, weights=None):
@@ -286,8 +284,9 @@ def coefficient_variation(data=None, variable=None, weights=None):
         variable = data[variable].values
         weights = data[weights].values if weights is not None else np.ones(len(variable))
 
-    return mean(variable=variable, weights=weights) / \
-           variance(variable=variable, weights=weights) ** 0.5
+    return var(variable=variable, weights=weights) ** 0.5 / \
+           mean(variable=variable, weights=weights)
+
 
 
 def kurt(data=None, variable=None, weights=None):
