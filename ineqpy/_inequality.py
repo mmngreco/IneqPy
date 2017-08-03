@@ -24,11 +24,10 @@ import pandas as pd
 #  http://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/lmoment.htm
 #  """
 #  return None
-from ineqpy.statistics import mean
-from .utils.misc import _to_df
+from .statistics import mean
+from .utils import misc
 
-
-def concentration(data=None, income=None, weights=None, sort=True):
+def concentration(income=None, weights=None, sort=True):
     """This function calculate the concentration index, according to the
     notation used in [Jenkins1988]_ you can calculate the:
     C_x = 2 / x · cov(x, F_x)
@@ -41,7 +40,6 @@ def concentration(data=None, income=None, weights=None, sort=True):
     ----------
     income : array-like
     weights : array-like
-    data : pandas.DataFrame
     sort : bool
 
     Returns
@@ -56,19 +54,12 @@ def concentration(data=None, income=None, weights=None, sort=True):
     # TODO complete docstring
 
     # check if DataFrame is passed, if yes then extract variables else make a copy
-    if data is not None:
-        income = data[income].values
-        if weights is not None:
-            weights = data[weights].values
-    else:
-        income = income.copy()
-        weights = weights.copy() if weights is not None else np.ones(len(income))
+    income = income.copy()
+    weights = misc._check_weights(weights)
 
     # if sort is true then sort the variables.
     if sort:
-        idx_sort = np.argsort(income)
-        income = income[idx_sort]
-        weights = weights[idx_sort]
+        income, weights = misc._sort_values(by, pair)
     # main calc
     f_x = weights / weights.sum()
     F_x = f_x.cumsum()
@@ -77,7 +68,7 @@ def concentration(data=None, income=None, weights=None, sort=True):
     return 2 * cov / mu
 
 
-def lorenz(data=None, income=None, weights=None):
+def lorenz(income=None, weights=None):
     """In economics, the Lorenz curve is a graphical representation of the 
     distribution of income or of wealth. It was developed by Max O. Lorenz in 
     1905 for representing grouped of the wealth distribution. This function
@@ -85,8 +76,6 @@ def lorenz(data=None, income=None, weights=None):
 
     Parameters
     ----------
-    data : pandas.DataFrame
-        A pandas.DataFrame that contains data.
     income : str or 1d-array, optional
         Population or wights, if a DataFrame is passed then `income` should be a
         name of the column of DataFrame, else can pass a pandas.Series or array.
@@ -108,14 +97,8 @@ def lorenz(data=None, income=None, weights=None):
     https://en.wikipedia.org/w/index.php?title=Lorenz_curve&oldid=764853675
     """
 
-    if data is not None:
-        data = data.copy()
-        income = data[income].values
-        weights = data[weights].values
-    else:
-        income = income.copy()
-        weights = weights.copy() if weights is not None else np.ones(len(income))
-
+    income = income.copy()
+    weights = misc._check_weights(weights, as_of=income)
     total_income = income * weights
     idx_sort = np.argsort(weights)
     weights = weights[idx_sort].cumsum() / weights.sum()
@@ -126,7 +109,7 @@ def lorenz(data=None, income=None, weights=None):
     return res
 
 
-def gini(data=None, income=None, weights=None, sort=True):
+def gini(income=None, weights=None, sort=True):
     """The Gini coefficient (sometimes expressed as a Gini ratio or a 
     normalized Gini index) is a measure of statistical dispersion intended to 
     represent the income or wealth distribution of a nation's residents, and is 
@@ -179,10 +162,11 @@ def gini(data=None, income=None, weights=None, sort=True):
     - Implement statistical deviation calculation, VAR (GINI)
 
     """
-    return concentration(data=data, income=income, weights=weights, sort=sort)
+    weights = misc._check_weights(weights, as_of=income)
+    return concentration(income=income, weights=weights, sort=sort)
 
 
-def atkinson(data=None, income=None, weights=None, e=0.5):
+def atkinson(income=None, weights=None, e=0.5):
     """More precisely labelled a family of income grouped measures, the
     theoretical range of Atkinson values is 0 to 1, with 0 being a state of 
     equal distribution.
@@ -226,33 +210,19 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
       http://www.jstor.org/stable/41788716
     - The results has difference with stata, maybe have a bug.
     """
-    if (income is None) and (data is None):
+    if (income is None):
         raise ValueError('Must pass at least one of both `income` or `df`')
 
-    if data is not None:
-        data = data.copy()
-        income = data[income].values
-        weights = data[weights].values
-    else:
-        income = income.copy()
-        weights = weights.copy() if weights is not None else None
+    income = income.copy()
+    weights = misc._check_weights(weights, as_of=income)
 
     # not-null condition
-    if np.any(income <= 0):
-        mask = income > 0
-        income = income[mask]
-        if weights is not None:
-            weights = weights[mask]
-
+    income, weights = _not_null_condition(income, weights)
     # not-empty condition
     if len(income) == 0:
-        return 0
+        raise ValueError('Not enough income values to calculate the result.')
 
     N = len(income)  # observations
-
-    # not-empty wights
-    if weights is None:
-        weights = np.ones(N)
 
     # auxiliar variables: mean and distribution
     mu = mean(variable=income, weights=weights)
@@ -262,15 +232,14 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
     if e == 1:
         atkinson = 1 - np.power(np.e, np.sum(f_i * np.log(income) - np.log(mu)))
     elif (0 <= e) or (e < 1):
-        atkinson = 1 - np.power(np.sum(f_i * np.power(income / mu, 1 - e)),
-                                1 / (1 - e))
+        factor = 1 / (1 - e)
+        atkinson = 1 - np.power(np.sum(f_i * np.power(income / mu, 1 - e)), factor)
     else:
-        assert (e < 0) or (e > 1), "Not valid e value,  0 ≤ e ≤ 1"
-        atkinson = None
+        assert (e < 0) or (e > 1), "Not valid `e` value,  0 ≤ e ≤ 1"
     return atkinson
 
 
-def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
+def kakwani(tax=None, income_pre_tax=None, weights=None):
     """The Kakwani (1977) index of tax progressivity is defined as twice the 
     area between the concentration curves for taxes and pre-tax income, 
     or equivalently, the concentration index for t(x) minus the Gini index for 
@@ -281,9 +250,6 @@ def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
 
     Parameters
     ----------
-    data : pandas.DataFrame
-        This variable is a DataFrame that contains all data required in
-        columns.
     tax_variable : array-like or str
         This variable represent tax payment of person, if pass array-like
         then data must be None, else you pass str-name column in `data`.
@@ -303,28 +269,15 @@ def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
     Jenkins, S. (1988). Calculating income distribution indices from micro-data. 
     National Tax Journal. http://doi.org/10.2307/41788716
     """
-    if weights is None:
-        if data is None:
-            weights = np.repeat([1], len(tax))
-        else:
-            weights = np.repeat([1], len(data))
-
-    if data is None:
-        data = _to_df(income_pre_tax=income_pre_tax,
-                      tax=tax,
-                      weights=weights)
-        income_pre_tax = 'income_pre_tax'
-        tax = 'tax'
-        weights = 'weights'
+    weights = misc._check_weights(weights, as_of=tax)
 
     # main calc
-    c_t = concentration(data=data, income=tax, weights=weights, sort=True)
-    g_y = concentration(data=data, income=income_pre_tax, weights=weights,
-                        sort=True)
+    c_t = concentration(income=tax, weights=weights, sort=True)
+    g_y = concentration(income=income_pre_tax, weights=weights, sort=True)
     return c_t - g_y
 
 
-def reynolds_smolensky(data=None, income_pre_tax=None, income_post_tax=None,
+def reynolds_smolensky(income_pre_tax=None, income_post_tax=None,
                        weights=None):
     """The Reynolds-Smolensky (1977) index of the redistributive effect of 
     taxes, which can also be interpreted as an index of progressivity 
@@ -335,16 +288,13 @@ def reynolds_smolensky(data=None, income_pre_tax=None, income_post_tax=None,
 
     Parameters
     ----------
-    data : pandas.DataFrame
-        This variable is a DataFrame that contains all data required in it's
-        columns.
-    income_pre_tax : array-like or str
+    income_pre_tax : array-like
         This variable represent tax payment of person, if pass array-like
         then data must be None, else you pass str-name column in `data`.
-    income_post_tax : array-like or str
+    income_post_tax : array-like
         This variable represent income of person, if pass array-like
         then data must be None, else you pass str-name column in `data`.
-    weights : array-like or str
+    weights : array-like
         This variable represent weights of each person, if pass array-like
         then data must be None, else you pass str-name column in `data`.
 
@@ -357,21 +307,13 @@ def reynolds_smolensky(data=None, income_pre_tax=None, income_post_tax=None,
     Jenkins, S. (1988). Calculating income distribution indices from micro-data.
     National Tax Journal. http://doi.org/10.2307/41788716
     """
-    if weights is None:
-        if data is None:
-            weights = np.repeat([1], len(income_pre_tax))
-        else:
-            weights = np.repeat([1], len(data))
-    g_y = concentration(data=data, income=income_post_tax, weights=weights)
-    g_x = concentration(data=data, income=income_pre_tax, weights=weights)
+    weights = misc._check_weights(weights, income_post_tax)
+    g_y = concentration(income=income_post_tax, weights=weights)
+    g_x = concentration(income=income_pre_tax, weights=weights)
     return g_x - g_y
 
-# todo to complete
-# def suits():
-#     return
 
-
-def theil(data=None, income=None, weights=None):
+def theil(income=None, weights=None):
     """The Theil index is a statistic primarily used to measure economic 
     grouped and other economic phenomena. It is a special case of the
     generalized entropy index. It can be viewed as a measure of redundancy, 
@@ -380,9 +322,6 @@ def theil(data=None, income=None, weights=None):
 
     Parameters
     ----------
-    data : pandas.DataFrame
-        This variable is a DataFrame that contains all data required in it's
-        columns.
     income : array-like or str
         This variable represent tax payment of person, if pass array-like
         then data must be None, else you pass str-name column in `data`.
@@ -401,25 +340,8 @@ def theil(data=None, income=None, weights=None):
     https://en.wikipedia.org/w/index.php?title=Theil_index&oldid=755407818
 
     """
-
-    if weights is None:
-        if data is None:
-            weights = np.repeat([1], len(income))
-        else:
-            weights = np.repeat([1], len(data))
-
-    if data is not None:
-        data = data.copy()
-        income = data[income].values
-        weights = data[weights].values
-    else:
-        income = income.copy()
-        weights = weights.copy()
-
-    if np.any(income <= 0):
-        mask = income > 0
-        income = income[mask]
-        weights = weights[mask]
+    weights = misc._check_weights(weights, income)
+    income, weights = _not_null_condition(income, weights)
 
     # variables needed
     mu = mean(variable=income, weights=weights)
@@ -452,24 +374,19 @@ def avg_tax_rate(data=None, total_tax=None, total_base=None, weights=None):
     """
     has_list_of_names = False
     n_cols = 1
-    base_name = None
-    tax_name = None
+    base_name = 'base'
+    tax_name = 'tax'
 
     if isinstance(total_base, (list, np.ndarray)):
         has_list_of_names = True
         n_cols = len(total_base)
 
-    if data is not None:
-        data = data.copy()
-        base_name = total_base
-        tax_name = total_tax
-    else:
-        total_base = total_base.copy()
-        total_tax = total_tax.copy()
-        weights = weights.copy() if weights is not None else None
+    total_base = total_base.copy()
+    total_tax = total_tax.copy()
+    weights = misc._check_weights(weights, total_base)
 
-    numerator = mean(data=data, variable=total_tax, weights=weights)
-    denominator = mean(data=data, variable=total_base, weights=weights)
+    numerator = mean(variable=total_tax, weights=weights)
+    denominator = mean(variable=total_base, weights=weights)
     res = numerator / denominator
 
     if not has_list_of_names:
@@ -477,5 +394,5 @@ def avg_tax_rate(data=None, total_tax=None, total_base=None, weights=None):
     else:
         names = [tax_name[i] + '_' + b for i, b in enumerate(base_name)]
 
-    res = pd.Series(res, index=names)
+    res = dict(zip(names, res))
     return res
