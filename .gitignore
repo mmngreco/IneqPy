@@ -16,3 +16,5 @@ utils/__pycache__/
 tests/\.ipynb_checkpoints/
 
 *.pyc
+
+\.ropeproject/
