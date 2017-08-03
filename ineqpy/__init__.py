@@ -1,7 +1,5 @@
 '''
 IneqPy
-
-
 '''
 from .statistics import *
 from .inequality import *
@@ -11,5 +9,3 @@ __version__ = "0.0.2"
 __maintainer__ = "Maximiliano Greco"
 __email__ = "mmngreco@gmail.com"
 __status__ = "Production"
-
-print("IneqPy: A PYTHON PACKAGE TO QUANTITATIVE ANALYSIS OF INEQUALITY LODADED")
