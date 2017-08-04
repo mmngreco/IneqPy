@@ -18,10 +18,10 @@ def _attach_method(module, instance):
         setattr(instance, method_name, func)
 
 
-class Survey(object):
+class Survey(object, pd.DataFrame):
 
     def __init__(self, data, index=None, columns=None, weights=None, group=None):
-        self.data = pd.DataFrame(data=data, index=index, columns=columns)
+        super(pd.DataFrame, self).__init__(data, index, columns)
         self.weights = weights
         self.group = group
         _attach_method(statistics, self)
