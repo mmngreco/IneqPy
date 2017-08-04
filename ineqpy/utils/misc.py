@@ -53,11 +53,11 @@ def _not_null_condition(income, weights):
     return income, weights
 
 
-def _sort_values(by, pair):
-    idx_sort = np.argsort(by)
-    by = by[idx_sort]
-    pair = pair[idx_sort]
-    return by, pair
+def _sort_values(values, partner):
+    idx_sort = np.argsort(values)
+    values = values[idx_sort]
+    partner = partner[idx_sort]
+    return values, partner
 
 def _clean_nans_values(this, pair):
     if np.any(np.isnan(this)):
