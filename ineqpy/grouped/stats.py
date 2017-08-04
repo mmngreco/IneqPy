@@ -1,6 +1,8 @@
 import numpy as np
 
 from ineqpy import c_moment, std_moment
+from ineqpy._statistics import c_moment, mean
+from ineqpy.utils import misc
 from utils.msic import _to_df
 
 
@@ -131,3 +133,55 @@ def moment_group(data=None, variable='x', weights='w', group='h', order=2):
         stdm = std_moment(variable=x, weights=weights, order=order, ddof=ddof)
         return (Nh ** order) * fpc * stdm / len(df)
     return data.groupby(group).apply(mh)
+
+
+def quasivariance_hat_group(variable=None, weights=None, group=None):
+    """Sample variance of `variable`, calculated as the second-order central
+    moment.
+
+    Parameters
+    ---------
+    data : pd.DataFrame, optional
+        pd.DataFrame that contains all variables needed.
+    variable : array or str
+        variable `x` apply the statistic. If `data` is None then must pass this
+        argument as array, else as string name in `data`
+    weights : array or str
+        weights can be interpreted as frequency, probability,
+        density function of `x`, each element in `x`. If `data` is None then
+        must pass this argument as array, else as string name in `data`
+    group : array or str
+        group is a categorical variable to calculate the statistical by each
+        group. If `data` is None then must pass this argument as array, else as
+        string name in `data`
+
+
+
+    Returns
+    -------
+    shat2_group : array or pd.Series
+
+    References
+    ---------
+    Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
+    Retrieved 14:40, May 15, 2017, from
+    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
+
+    Notes
+    -----
+    This function is useful to calculate the variance of the mean.
+
+    TODO
+    ----
+    Review function
+    """
+
+    if data is None:
+        data = misc._to_df(x=variable, weights=weights)
+        variable = 'x'
+        weights = 'weights'
+
+    def sd(df):
+        return c_moment(data=df, variable=variable, weights=weights, param=mean(x))
+
+    return data.groupby(group).apply(sd)
