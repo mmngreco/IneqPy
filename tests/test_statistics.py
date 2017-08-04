@@ -20,7 +20,7 @@ def data_weighted():
     return (x, w), (repeated_x, repeated_w)
 
 def data():
-    N = np.random.randint(20,1000,1)
+    N = np.random.randint(20, 1000, 1)
     x = np.random.randn(N, 4)
     w = abs(np.random.randn(N))
     return x, w
@@ -31,42 +31,47 @@ class TestStatistics(unittest.TestCase):
 
         for i in range(100):
             (x, w), (repeated_x, repeated_w) = data_weighted()
+            mssg = '\ni = {}' \
+                   '\nrepeated_x = {}' \
+                   '\nx = {}' \
+                   '\nw = {}'.format(i, str(repeated_x), str(x), str(w))
+            print(mssg)
 
             with self.subTest(name='mean', i=i):
                 real = np.mean(repeated_x)
                 obtained = _statistics.mean(x, w)
-                nptest.assert_almost_equal(obtained, real)
+                nptest.assert_almost_equal(obtained, real)#, err_msg=mssg)
 
             with self.subTest(name='variance', i=i):
                 real = np.var(repeated_x)
                 obtained = _statistics.var(x, w)
                 # assert
-                nptest.assert_almost_equal(obtained, real)
+                nptest.assert_almost_equal(obtained, real)#, err_msg=mssg)
 
             with self.subTest(name='kurtosis', i=i):
                 real = sc.kurtosis(repeated_x) + 3
                 obtained = _statistics.kurt(x, w)
                 # assert
-                nptest.assert_almost_equal(obtained, real)
+                nptest.assert_almost_equal(obtained, real)#, err_msg=mssg)
 
             with self.subTest(name='skewness', i=i):
                 real = sc.skew(repeated_x)
                 obtained = _statistics.skew(x, w)
-                nptest.assert_almost_equal(obtained, real)
+                nptest.assert_almost_equal(obtained, real)#, err_msg=mssg)
 
             with self.subTest(name='coef_variation', i=i):
                 real = np.var(repeated_x) ** 0.5 / abs(np.mean(repeated_x))
                 obtained = _statistics.coef_variation(x,w)
-                nptest.assert_almost_equal(obtained, real)
+                nptest.assert_almost_equal(obtained, real)#, err_msg=mssg)
 
             with self.subTest(name='quantile', i=i):
                 q = 75
                 x,w = _statistics.misc._sort_values(x,w)
                 repeated_x, repeated_w = _statistics.misc._sort_values(repeated_x, repeated_w)
                 real = pd.Series(repeated_x).quantile(q/100, interpolation='midpoint')
-                q_np = np.percentile(repeated_x, q, interpolation='midpoint')
+                real_np = np.percentile(repeated_x, q, interpolation='midpoint')
                 obtained = _statistics.quantile(x,w, q=q/100)
-                nptest.assert_almost_equal(obtained, real)
-
+                nptest.assert_almost_equal(obtained, real)#, err_msg=mssg)
+                nptest.assert_almost_equal(obtained, real_np, err_msg='numpy_version')
 if __name__ == '__main__':
     unittest.main()
