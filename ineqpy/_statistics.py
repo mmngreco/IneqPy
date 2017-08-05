@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from .utils import misc
+from . import utils
 
 
 def c_moment(variable=None, weights=None, order=2, param=None, ddof=0):
@@ -40,7 +40,7 @@ def c_moment(variable=None, weights=None, order=2, param=None, ddof=0):
     """
     # return np.sum((x-c)^n*counts) / np.sum(counts)
     variable = variable.copy()
-    weights = misc._check_weights(weights, as_of=variable)
+    weights = utils._check_weights(weights, as_of=variable)
 
     if param is None:
         param = mean(variable=variable, weights=weights)
@@ -51,40 +51,59 @@ def c_moment(variable=None, weights=None, order=2, param=None, ddof=0):
            (np.sum(weights) - ddof)
 
 
-def quantile(variable=None, weights=None, q=0.5, interpolate=True):
-    """Calculate the value of a quantile given a variable and his weights.
+# def quantile(variable=None, weights=None, q=0.5, interpolate=True):
+#     """Calculate the value of a quantile given a variable and his weights.
+#
+#     Parameters
+#     ----------
+#     variable : str or array
+#     weights :  str or array
+#     q : float
+#         Quantile level, if pass 0.5 means median.
+#     interpolate : bool
+#
+#     Returns
+#     -------
+#     quantile : float or pd.Series
+#
+#     """
+#     # Fixme : Doesn't work properly
+#
+#     w = utils._check_weights(weights, as_of=variable)
+#     x, w = utils._sort_values(variable, w)
+#     cum_weights = weights.cumsum(0)# - 0.5 * weights
+#     #cum_weights -= cum_weights[0]
+#     #cum_weights /= cum_weights[-1]
+#     q = np.array(q) * cum_weights[-1]
+#
+#     if interpolate:
+#         res = np.interp(q, cum_weights, variable)
+#     else:
+#         res = variable[cum_weights < q][-1]
+#     return res
 
+
+def percentile(variable, weights, percentile=50):
+    """
     Parameters
     ----------
     variable : str or array
     weights :  str or array
-    q : float
-        Quantile level, if pass 0.5 means median.
-    interpolate : bool
+    percentile : int or list
+        Percentile level, if pass 50 we get the median.
 
     Returns
     -------
-    quantile : float or pd.Series
-
+    percentile : float
     """
-    q = np.array(q)
-    variable = variable.copy()
-    weights = misc._check_weights(weights, as_of=variable)
-    weights = weights * (1 / weights.sum()) # normalize
 
-    variable, weights = misc._sort_values(variable, weights)
-    cum_weights = weights.cumsum(0) - 0.5 * weights
-
-    # ensure distribution from 0 to 1
-    cum_weights -= cum_weights[0]
-    cum_weights /= cum_weights[-1]
-
-    if interpolate:
-        res = np.interp(q, cum_weights, variable)
-    else:
-        res = variable[cum_weights < q][-1]
-    return res
-
+    sorted_idx = np.argsort(variable)
+    cum_weights = np.cumsum(weights[sorted_idx])
+    percentile_idx = np.searchsorted(
+            cum_weights,
+            (percentile / 100.) * cum_weights[-1]
+    )
+    return variable[sorted_idx[percentile_idx]]
 
 def std_moment(variable=None, weights=None, param=None, order=3, ddof=0):
     """Calculate the standardized moment of order `c` for the variable` x` with
@@ -147,8 +166,8 @@ def mean(variable=None, weights=None):
     """
     # if pass a DataFrame separate variables.
     variable = variable.copy()
-    weights = misc._check_weights(weights, as_of=variable)
-    variable, weights = misc._clean_nans_values(variable, weights)
+    weights = utils._check_weights(weights, as_of=variable)
+    variable, weights = utils._clean_nans_values(variable, weights)
     return np.average(a=variable, weights=weights, axis=0)
 
 
