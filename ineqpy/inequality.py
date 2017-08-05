@@ -25,7 +25,7 @@ import pandas as pd
 #  """
 #  return None
 from ineqpy.statistics import mean
-from .utils.misc import _to_df
+from .utils import _to_df
 
 
 def concentration(data=None, income=None, weights=None, sort=True):
