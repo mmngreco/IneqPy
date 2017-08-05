@@ -1,5 +1,6 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
+
 
 def _to_df(*args, **kwargs):
     res = None
@@ -37,7 +38,10 @@ def _apply_to_df(func, df, x, weights, *args, **kwargs):
 
 
 def _check_weights(weights, as_of):
-    return weights.copy() if weights is not None else np.ones(len(as_of))
+    w = normalize_weights(
+            weights.copy() if weights is not None else np.ones(len(as_of))
+    )
+    return w
 
 
 def _not_null_condition(income, weights):
@@ -59,9 +63,28 @@ def _sort_values(values, partner):
     partner = partner[idx_sort]
     return values, partner
 
+
 def _clean_nans_values(this, pair):
     if np.any(np.isnan(this)):
         idx = ~np.isnan(this)
         this = this[idx]
         pair = pair[idx]
     return this, pair
+
+
+def generate_data_to_test(n_sample_range=(20,100)):
+    N_sample = np.random.randint(*n_sample_range)
+    weighted_x = np.random.randint(0, 1000, N_sample)
+    weights = np.random.randint(1, 9, N_sample)
+    repeated_x = np.array([])
+    repeated_w = np.array([])
+
+    for xi, wi in zip(weighted_x, weights):
+        repeated_x = np.append(repeated_x, np.repeat(xi, wi))
+        repeated_w = np.append(repeated_w, np.ones(wi))
+
+    return (weighted_x, weights), (repeated_x, repeated_w)
+
+
+def normalize_weights(weights):
+    return weights / np.sum(weights)
