@@ -1,4 +1,6 @@
+import ineqpy.misc
 from ineqpy import _statistics
+from ineqpy import utils
 import scipy.stats as sc
 import numpy as np
 import pandas as pd
@@ -6,36 +8,29 @@ import numpy.testing as nptest
 import pandas.testing as pdtest
 import unittest
 
-
-def data_weighted():
-    N = np.random.randint(20, 100)
-    x = np.random.randint(0, 1000, N)
-    w = np.random.randint(1, 9, N)
-    repeated_x = np.array([])
-    repeated_w = np.array([])
-
-    for xi, wi in zip(x, w):
-        repeated_x = np.append(repeated_x, np.repeat(xi, wi))
-        repeated_w = np.append(repeated_w, np.ones(wi))
-    return (x, w), (repeated_x, repeated_w)
-
-def data():
-    N = np.random.randint(20, 1000, 1)
-    x = np.random.randn(N, 4)
-    w = abs(np.random.randn(N))
-    return x, w
+generate_data_to_test = utils.generate_data_to_test
 
 class TestStatistics(unittest.TestCase):
 
-    def test_statistics(self):
-
-        for i in range(100):
-            (x, w), (repeated_x, repeated_w) = data_weighted()
+    @staticmethod
+    def print_values_when_error(real, obtained, i, repeated_x, x, w):
+        if abs(real - obtained) > 1e-6:
             mssg = '\ni = {}' \
                    '\nrepeated_x = {}' \
                    '\nx = {}' \
                    '\nw = {}'.format(i, str(repeated_x), str(x), str(w))
             print(mssg)
+            return mssg
+
+    def test_statistics(self):
+
+        for i in range(100):
+            (x, w), (repeated_x, repeated_w) = generate_data_to_test((3,7))
+            # mssg = '\ni = {}' \
+            #        '\nrepeated_x = {}' \
+            #        '\nx = {}' \
+            #        '\nw = {}'.format(i, str(repeated_x), str(x), str(w))
+            # print(mssg)
 
             with self.subTest(name='mean', i=i):
                 real = np.mean(repeated_x)
@@ -64,14 +59,16 @@ class TestStatistics(unittest.TestCase):
                 obtained = _statistics.coef_variation(x,w)
                 nptest.assert_almost_equal(obtained, real)#, err_msg=mssg)
 
-            with self.subTest(name='quantile', i=i):
-                q = 75
-                x,w = _statistics.misc._sort_values(x,w)
-                repeated_x, repeated_w = _statistics.misc._sort_values(repeated_x, repeated_w)
-                real = pd.Series(repeated_x).quantile(q/100, interpolation='midpoint')
-                real_np = np.percentile(repeated_x, q, interpolation='midpoint')
-                obtained = _statistics.quantile(x,w, q=q/100)
-                nptest.assert_almost_equal(obtained, real)#, err_msg=mssg)
-                nptest.assert_almost_equal(obtained, real_np, err_msg='numpy_version')
+            with self.subTest(name='percentile', i=i):
+                p = 50
+                real = np.percentile(repeated_x, p, interpolation='midpoint')
+                obtained = _statistics.percentile(x,w, percentile=p)
+                mssg = self.print_values_when_error(real, obtained, i, repeated_x, x, w)
+                nptest.assert_almost_equal(
+                        obtained,
+                        real,
+                        err_msg='\nnumpy_version, N = {}\n{}'.format(len(repeated_x), mssg)
+                )
+
 if __name__ == '__main__':
     unittest.main()
