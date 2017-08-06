@@ -43,7 +43,6 @@ def c_moment(data=None, variable=None, weights=None, order=2, param=None,
     """
     # return np.sum((x-c)^n*counts) / np.sum(counts)
     if data is not None:
-        data = data.copy()
         variable = data[variable]
         weights = data[weights] if weights is not None else None
     else:
@@ -88,7 +87,6 @@ def quantile(data=None, variable=None, weights=None, q=0.5, interpolate=True):
         return pd.Series(res_join, index=q)
 
     if data is not None:
-        data = data.copy()
         name = variable
         variable = data[name].values
         weights = np.ones(variable.shape) if weights is None else \
@@ -174,7 +172,6 @@ def mean(data=None, variable=None, weights=None):
     """
     # if pass a DataFrame separate variables.
     if data is not None:
-        data = data.copy()
         variable = data[variable].values
         weights = data[weights].values if weights is not None else None
     else:
