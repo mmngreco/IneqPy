@@ -14,16 +14,22 @@ def _attach_method(module, instance):
         func = getattr(module, method_name)  # get function
         if 'weights' in inspect.signature(func).parameters:  # replace weights variable
             func = partial(func, weights=instance.weights)
+        # func = partial(func, data=instance.data)
         func = MethodType(func, instance)
         setattr(instance, method_name, func)
 
 
-class Survey(object, pd.DataFrame):
+class Survey(pd.DataFrame):
 
-    def __init__(self, data, index=None, columns=None, weights=None, group=None):
-        super(pd.DataFrame, self).__init__(data, index, columns)
+    def __init__(self, data=None, index=None, columns=None, weights=None, group=None, **kw):
+        super(Survey, self).__init__(data=data, index=index, columns=columns, **kw)
         self.weights = weights
         self.group = group
         _attach_method(statistics, self)
         _attach_method(inequality, self)
 
+    @property
+    def _constructor(self):
+        return Survey
+
+    _constructor_sliced = pd.Series
