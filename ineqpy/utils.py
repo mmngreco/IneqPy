@@ -88,3 +88,9 @@ def generate_data_to_test(n_sample_range=(20,100)):
 
 def normalize_weights(weights):
     return weights / np.sum(weights)
+
+
+def _extract_values(data, variable, weights):
+    variable = data[variable].values
+    weights = data[weights].values
+    return variable, weights
