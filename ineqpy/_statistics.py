@@ -83,15 +83,14 @@ def c_moment(variable=None, weights=None, order=2, param=None, ddof=0):
 #     return res
 
 
-def percentile(variable, weights, percentile=50):
-    """
+def percentile(variable, weights, percentile=50, interpolation='lower'):
+    """Lower case
     Parameters
     ----------
     variable : str or array
     weights :  str or array
     percentile : int or list
         Percentile level, if pass 50 we get the median.
-
     Returns
     -------
     percentile : float
@@ -99,11 +98,23 @@ def percentile(variable, weights, percentile=50):
 
     sorted_idx = np.argsort(variable)
     cum_weights = np.cumsum(weights[sorted_idx])
-    percentile_idx = np.searchsorted(
+    lower_percentile_idx = np.searchsorted(
             cum_weights,
             (percentile / 100.) * cum_weights[-1]
     )
-    return variable[sorted_idx[percentile_idx]]
+
+    if interpolation is 'midpoint':
+        raise NotImplementedError
+        # res = (variable[sorted_idx[lower_percentile_idx]] +
+        #        variable[sorted_idx[lower_percentile_idx+1]]) / 2
+    elif interpolation is 'lower':
+        res = variable[sorted_idx[lower_percentile_idx]]
+    elif interpolation is 'higher':
+        res = variable[sorted_idx[lower_percentile_idx+1]]
+    else:
+        raise NotImplementedError
+
+    return res
 
 def std_moment(variable=None, weights=None, param=None, order=3, ddof=0):
     """Calculate the standardized moment of order `c` for the variable` x` with
