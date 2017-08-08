@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-
+from . import _statistics
+from . import utils
 from utils.msic import _to_df
 
 
@@ -41,25 +42,11 @@ def c_moment(data=None, variable=None, weights=None, order=2, param=None,
     Implement: https://en.wikipedia.org/wiki/L-moment#cite_note-wang:96-6
 
     """
-    # return np.sum((x-c)^n*counts) / np.sum(counts)
-    if data is not None:
-        variable = data[variable]
-        weights = data[weights] if weights is not None else None
-    else:
-        variable = variable.copy()
-        weights = weights.copy() if weights is not None else None
-
-    if param is None:
-        param = mean(variable=variable, weights=weights)
-    elif not isinstance(param, (np.ndarray, int, float)):
-        raise NotImplementedError
-    if weights is None:
-        weights = np.repeat([1], len(variable))
-    return np.sum((variable - param) ** order * weights) / \
-           (np.sum(weights) - ddof)
+    variable, weights = utils._extract_values(data, variable, weights)
+    return _statistics.c_moment(variable, weights, order, param, ddof)
 
 
-def quantile(data=None, variable=None, weights=None, q=0.5, interpolate=True):
+def percentile(data=None, variable=None, weights=None, p=50, interpolate=True):
     """Calculate the value of a quantile given a variable and his weights.
 
     Parameters
@@ -77,36 +64,9 @@ def quantile(data=None, variable=None, weights=None, q=0.5, interpolate=True):
     quantile : float or pd.Series
 
     """
+    variable, weights = utils._extract_values(data, variable, weights)
 
-    if isinstance(q, list):
-        kw = {'variable': variable,
-              'weights': weights,
-              'data': data,
-              'interpolate': interpolate}
-        res_join = [quantile(**kw, q=qi) for qi in q]
-        return pd.Series(res_join, index=q)
-
-    if data is not None:
-        name = variable
-        variable = data[name].values
-        weights = np.ones(variable.shape) if weights is None else \
-                  data[weights].values
-    else:
-        variable = variable.copy()
-        weights = weights.copy() if weights is not None else \
-                  np.ones(variable.shape)
-
-    weights /= weights.sum()
-    order = np.argsort(variable, axis=0)
-    weights = weights[order]
-    F = weights.cumsum(0)
-    variable = variable[order]
-
-    if interpolate:
-        res = np.interp(q, F, variable)
-    else:
-        res = variable[F <= q][-1]
-    return res
+    return _.statistics.percentile(variable, weights, p, interpolate)
 
 
 def std_moment(data=None, variable=None, weights=None, param=None, order=3,
@@ -145,12 +105,8 @@ def std_moment(data=None, variable=None, weights=None, param=None, order=3,
     implementation.
 
     """
-    if param is None:
-        param = mean(variable=variable, weights=weights)
-    res = c_moment(data=data, variable=variable, weights=weights, order=order,
-                   param=param, ddof=ddof)
-    res /= var(data=data, variable=variable, weights=weights, ddof=ddof) ** (order / 2)
-    return res
+    variable, weights = utils._extract_values(data, variable, weights)
+    return _statistics.std_moment(data, variable, weights, param, order, ddof)
 
 
 def mean(data=None, variable=None, weights=None):
@@ -171,19 +127,8 @@ def mean(data=None, variable=None, weights=None):
     mean : array-like or float
     """
     # if pass a DataFrame separate variables.
-    if data is not None:
-        variable = data[variable].values
-        weights = data[weights].values if weights is not None else None
-    else:
-        variable = variable.copy()
-        weights = weights.copy() if weights is not None else np.ones(len(variable))
-
-    if np.any(np.isnan(variable)):
-        idx = ~np.isnan(variable)
-        variable = variable[idx]
-        if weights is not None:
-            weights = weights[idx]
-    return np.average(a=variable, weights=weights, axis=0)
+    variable, weights = utils._extract_values(data, variable, weights)
+    return _statistics.mean(variable, weights)
 
 
 def density(data=None, variable=None, weights=None, groups=None):
@@ -208,17 +153,10 @@ def density(data=None, variable=None, weights=None, groups=None):
     14:47, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Histogram&oldid=779516918
     """
-    if data is None:
-        data = pd.DataFrame(np.c_[variable, weights, groups], columns=list('vwg'))
-        variable, weights, groups = list('vwg')
-    if groups is not None:
-        den = data.groupby(groups)\
-                  .apply(lambda df: df[weights].sum() /
-                                    (df[variable].max()-df[variable].min()))
-        den /= den.sum()
-    else:
-        den = data[weights].sum() / (data[variable].max() - data[variable].min())
-    return den
+    variable, weights = utils._extract_values(data, variable, weights)
+    if groups:
+        groups = data[groups].values
+    return _statistics.density(variable, weights, groups)
 
 
 def var(data=None, variable=None, weights=None, ddof=0):
@@ -249,11 +187,11 @@ def var(data=None, variable=None, weights=None, ddof=0):
     -----
     If stratificated sample must pass with groupby each strata.
     """
-    return c_moment(data=data, variable=variable, weights=weights, order=2,
-                    ddof=ddof)
+    variable, weights = utils._extract_values(data, variable, weights)
+    return _statistics.var(variable, weights, ddof)
 
 
-def coefficient_variation(data=None, variable=None, weights=None):
+def coef_variation(data=None, variable=None, weights=None):
     """Calculate the coefficient of variation of a `variable` given weights.
     The coefficient of variation is the square root of the variance of the
     incomes divided by the mean income. It has the advantages of being
@@ -276,13 +214,9 @@ def coefficient_variation(data=None, variable=None, weights=None):
     Retrieved 15:03, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Coefficient_of_variation&oldid=778842331
     """
-    # todo complete docstring
-    if data is not None:
-        variable = data[variable].values
-        weights = data[weights].values if weights is not None else np.ones(len(variable))
-
-    return var(variable=variable, weights=weights) ** 0.5 / \
-           mean(variable=variable, weights=weights)
+    # TODO complete docstring
+    variable, weights = utils._extract_values(data, variable, weights)
+    return _statistics.coef_variation(variable, weights)
 
 
 
@@ -311,11 +245,8 @@ def kurt(data=None, variable=None, weights=None):
     It is an alias of the standardized fourth-order moment.
 
     """
-    if data is not None:
-        variable = data[variable].values
-        if weights is not None:
-            weights = data[weights].values
-    return std_moment(variable=variable, weights=weights, order=4)
+    variable, weights = utils._extract_values(data, variable, weights)
+    return _statistics.kurt(variable, weights)
 
 
 def skew(data=None, variable=None, weights=None):
@@ -344,60 +275,5 @@ def skew(data=None, variable=None, weights=None):
     It is an alias of the standardized third-order moment.
 
     """
-    if data is not None:
-        variable = data[variable].values
-        if weights is not None:
-            weights = data[weights].values
-    return std_moment(variable=variable, weights=weights, order=3)
-
-
-def quasivariance_hat_group(data=None, variable=None, weights=None, group=None):
-    """Sample variance of `variable`, calculated as the second-order central
-    moment.
-
-    Parameters
-    ---------
-    data : pd.DataFrame, optional
-        pd.DataFrame that contains all variables needed.
-    variable : array or str
-        variable `x` apply the statistic. If `data` is None then must pass this
-        argument as array, else as string name in `data`
-    weights : array or str
-        weights can be interpreted as frequency, probability,
-        density function of `x`, each element in `x`. If `data` is None then
-        must pass this argument as array, else as string name in `data`
-    group : array or str
-        group is a categorical variable to calculate the statistical by each
-        group. If `data` is None then must pass this argument as array, else as
-        string name in `data`
-
-
-
-    Returns
-    -------
-    shat2_group : array or pd.Series
-
-    References
-    ---------
-    Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
-    Retrieved 14:40, May 15, 2017, from
-    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
-
-    Notes
-    -----
-    This function is useful to calculate the variance of the mean.
-
-    TODO
-    ----
-    Review function
-    """
-
-    if data is None:
-        data = _to_df(x=variable, weights=weights)
-        variable = 'x'
-        weights = 'weights'
-
-    def sd(df):
-        return c_moment(data=df, variable=variable, weights=weights, param=mean(x))
-
-    return data.groupby(group).apply(sd)
+    variable, weights = utils._extract_values(data, variable, weights)
+    return _statistics.skew(variable, weights)
