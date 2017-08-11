@@ -8,24 +8,14 @@ find statistics and grouped indicators to this task.
 
 Todo
 ----
-- Rethinking this module as Class.
 - https://en.wikipedia.org/wiki/Income_inequality_metrics
 
 """
 import numpy as np
 import pandas as pd
-
-# TODO implementar L-moments
-# def legendre_pol(x):
-#  """
-#  https://en.wikipedia.org/wiki/Legendre_polynomials
-#  https://es.wikipedia.org/wiki/Polinomios_de_Legendre
-#  https://en.wikipedia.org/wiki/Binomial_coefficient
-#  http://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/lmoment.htm
-#  """
-#  return None
 from .statistics import mean
-from .utils import misc
+from . import utils
+
 
 def concentration(income=None, weights=None, sort=True):
     """This function calculate the concentration index, according to the
@@ -55,11 +45,11 @@ def concentration(income=None, weights=None, sort=True):
 
     # check if DataFrame is passed, if yes then extract variables else make a copy
     income = income.copy()
-    weights = misc._check_weights(weights)
+    weights = utils.not_empty_weights(weights, income)
 
     # if sort is true then sort the variables.
     if sort:
-        income, weights = misc._sort_values(by, pair)
+        income, weights = ineqpy.misc._sort_values(by, pair)
     # main calc
     f_x = weights / weights.sum()
     F_x = f_x.cumsum()
@@ -98,7 +88,7 @@ def lorenz(income=None, weights=None):
     """
 
     income = income.copy()
-    weights = misc._check_weights(weights, as_of=income)
+    weights = ineqpy.misc._check_weights(weights, as_of=income)
     total_income = income * weights
     idx_sort = np.argsort(weights)
     weights = weights[idx_sort].cumsum() / weights.sum()
@@ -162,7 +152,7 @@ def gini(income=None, weights=None, sort=True):
     - Implement statistical deviation calculation, VAR (GINI)
 
     """
-    weights = misc._check_weights(weights, as_of=income)
+    weights = ineqpy.misc._check_weights(weights, as_of=income)
     return concentration(income=income, weights=weights, sort=sort)
 
 
@@ -214,7 +204,7 @@ def atkinson(income=None, weights=None, e=0.5):
         raise ValueError('Must pass at least one of both `income` or `df`')
 
     income = income.copy()
-    weights = misc._check_weights(weights, as_of=income)
+    weights = ineqpy.misc._check_weights(weights, as_of=income)
 
     # not-null condition
     income, weights = _not_null_condition(income, weights)
@@ -269,7 +259,7 @@ def kakwani(tax=None, income_pre_tax=None, weights=None):
     Jenkins, S. (1988). Calculating income distribution indices from micro-data. 
     National Tax Journal. http://doi.org/10.2307/41788716
     """
-    weights = misc._check_weights(weights, as_of=tax)
+    weights = ineqpy.misc._check_weights(weights, as_of=tax)
 
     # main calc
     c_t = concentration(income=tax, weights=weights, sort=True)
@@ -307,7 +297,7 @@ def reynolds_smolensky(income_pre_tax=None, income_post_tax=None,
     Jenkins, S. (1988). Calculating income distribution indices from micro-data.
     National Tax Journal. http://doi.org/10.2307/41788716
     """
-    weights = misc._check_weights(weights, income_post_tax)
+    weights = ineqpy.misc._check_weights(weights, income_post_tax)
     g_y = concentration(income=income_post_tax, weights=weights)
     g_x = concentration(income=income_pre_tax, weights=weights)
     return g_x - g_y
@@ -340,7 +330,7 @@ def theil(income=None, weights=None):
     https://en.wikipedia.org/w/index.php?title=Theil_index&oldid=755407818
 
     """
-    weights = misc._check_weights(weights, income)
+    weights = ineqpy.misc._check_weights(weights, income)
     income, weights = _not_null_condition(income, weights)
 
     # variables needed
@@ -383,7 +373,7 @@ def avg_tax_rate(data=None, total_tax=None, total_base=None, weights=None):
 
     total_base = total_base.copy()
     total_tax = total_tax.copy()
-    weights = misc._check_weights(weights, total_base)
+    weights = ineqpy.misc._check_weights(weights, total_base)
 
     numerator = mean(variable=total_tax, weights=weights)
     denominator = mean(variable=total_base, weights=weights)

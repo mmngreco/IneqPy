@@ -37,14 +37,14 @@ def _apply_to_df(func, df, x, weights, *args, **kwargs):
     return func(df[x], df[weights], *args, **kwargs)
 
 
-def _check_weights(weights, as_of):
-    w = normalize_weights(
+def not_empty_weights(weights, as_of):
+    w = normalize(
             weights.copy() if weights is not None else np.ones(len(as_of))
     )
     return w
 
 
-def _not_null_condition(income, weights):
+def not_null_condition(income, weights):
     income = income.copy()
     weights = weights.copy()
 
@@ -71,26 +71,31 @@ def _clean_nans_values(this, pair):
         pair = pair[idx]
     return this, pair
 
+def normalize(this):
+    return this / np.sum(this)
+
+
+def _extract_values(data, variable, weights):
+    variable = data[variable].values
+    weights = not_empty_weights(data[weights].values, as_of=variable)
+    return variable, weights
+
+
+def repeat_data_from_weighted(x, w):
+    if isinstance(w[0], float):
+        raise NotImplementedError
+
+    repeated_x = np.array([])
+    repeated_w = np.array([])
+
+    for xi, wi in zip(x, w):
+        repeated_x = np.append(repeated_x, np.repeat(xi, wi))
+        repeated_w = np.append(repeated_w, np.ones(wi))
+
+    return repeated_x, repeated_w
 
 def generate_data_to_test(n_sample_range=(20,100)):
     N_sample = np.random.randint(*n_sample_range)
     weighted_x = np.random.randint(0, 1000, N_sample)
     weights = np.random.randint(1, 9, N_sample)
-    repeated_x = np.array([])
-    repeated_w = np.array([])
-
-    for xi, wi in zip(weighted_x, weights):
-        repeated_x = np.append(repeated_x, np.repeat(xi, wi))
-        repeated_w = np.append(repeated_w, np.ones(wi))
-
-    return (weighted_x, weights), (repeated_x, repeated_w)
-
-
-def normalize_weights(weights):
-    return weights / np.sum(weights)
-
-
-def _extract_values(data, variable, weights):
-    variable = data[variable].values
-    weights = data[weights].values
-    return variable, weights
+    return weighted_x, weights

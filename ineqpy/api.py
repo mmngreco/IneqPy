@@ -1,6 +1,6 @@
 import pandas as pd
-from .. import statistics
-from .. import inequality
+from . import statistics
+from . import inequality
 from functools import partial
 from types import MethodType
 import inspect
@@ -21,8 +21,10 @@ def _attach_method(module, instance):
 
 class Survey(pd.DataFrame):
 
-    def __init__(self, data=None, index=None, columns=None, weights=None, group=None, **kw):
-        super(Survey, self).__init__(data=data, index=index, columns=columns, **kw)
+    def __init__(self, data=None, index=None, columns=None, weights=None,
+                 group=None, **kw):
+        super(Survey, self).__init__(data=data, index=index, columns=columns,
+                                     **kw)
         self.weights = weights
         self.group = group
         _attach_method(statistics, self)
@@ -32,4 +34,5 @@ class Survey(pd.DataFrame):
     def _constructor(self):
         return Survey
 
-    _constructor_sliced = pd.Series
+    # _constructor_sliced = pd.Series
+    _constructor_sliced = pd.DataFrame

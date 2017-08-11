@@ -1,8 +1,10 @@
 '''
 IneqPy
 '''
-from .statistics import *
 from .inequality import *
+from .statistics import *
+from . import api
+from . import utils
 
 __author__ = "Maximiliano Greco"
 __version__ = "0.0.2"

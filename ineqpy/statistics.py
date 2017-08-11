@@ -1,8 +1,6 @@
-import numpy as np
 import pandas as pd
 from . import _statistics
 from . import utils
-from utils.msic import _to_df
 
 
 def c_moment(data=None, variable=None, weights=None, order=2, param=None,
@@ -46,7 +44,7 @@ def c_moment(data=None, variable=None, weights=None, order=2, param=None,
     return _statistics.c_moment(variable, weights, order, param, ddof)
 
 
-def percentile(data=None, variable=None, weights=None, p=50, interpolate=True):
+def percentile(data=None, variable=None, weights=None, p=50, interpolate='lower'):
     """Calculate the value of a quantile given a variable and his weights.
 
     Parameters
@@ -61,12 +59,11 @@ def percentile(data=None, variable=None, weights=None, p=50, interpolate=True):
 
     Returns
     -------
-    quantile : float or pd.Series
+    percentile : float or pd.Series
 
     """
     variable, weights = utils._extract_values(data, variable, weights)
-
-    return _.statistics.percentile(variable, weights, p, interpolate)
+    return _statistics.percentile(variable, weights, p, interpolate)
 
 
 def std_moment(data=None, variable=None, weights=None, param=None, order=3,
@@ -127,8 +124,9 @@ def mean(data=None, variable=None, weights=None):
     mean : array-like or float
     """
     # if pass a DataFrame separate variables.
-    variable, weights = utils._extract_values(data, variable, weights)
-    return _statistics.mean(variable, weights)
+    if data is not None:
+        variable, weights = utils._extract_values(data, variable, weights)
+    return _statistics.mean(variable, utils.not_empty_weights(weights, variable))
 
 
 def density(data=None, variable=None, weights=None, groups=None):

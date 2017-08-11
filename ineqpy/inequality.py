@@ -14,18 +14,8 @@ Todo
 """
 import numpy as np
 import pandas as pd
-
-# TODO implementar L-moments
-# def legendre_pol(x):
-#  """
-#  https://en.wikipedia.org/wiki/Legendre_polynomials
-#  https://es.wikipedia.org/wiki/Polinomios_de_Legendre
-#  https://en.wikipedia.org/wiki/Binomial_coefficient
-#  http://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/lmoment.htm
-#  """
-#  return None
-from ineqpy.statistics import mean
-from .utils import _to_df
+from .statistics import mean
+from . import utils
 
 
 def concentration(data=None, income=None, weights=None, sort=True):
@@ -57,20 +47,13 @@ def concentration(data=None, income=None, weights=None, sort=True):
 
     # check if DataFrame is passed, if yes then extract variables else make a copy
     if data is not None:
-        income = data[income].values
-        if weights is not None:
-            weights = data[weights].values
-    else:
-        income = income.copy()
-        weights = weights.copy() if weights is not None else np.ones(len(income))
+        income, weights = utils._extract_values(data, income, weights)
 
     # if sort is true then sort the variables.
     if sort:
-        idx_sort = np.argsort(income)
-        income = income[idx_sort]
-        weights = weights[idx_sort]
+        income, weights = utils._sort_values(income, weights)
     # main calc
-    f_x = weights / weights.sum()
+    f_x = utils.normalize(weights)
     F_x = f_x.cumsum()
     mu = np.sum(income * f_x)
     cov = np.cov(income, F_x, rowvar=False, aweights=f_x)[0,1]
@@ -109,15 +92,10 @@ def lorenz(data=None, income=None, weights=None):
     """
 
     if data is not None:
-        data = data.copy()
-        income = data[income].values
-        weights = data[weights].values
-    else:
-        income = income.copy()
-        weights = weights.copy() if weights is not None else np.ones(len(income))
+        income, weights = utils._extract_values(data, income, weights)
 
     total_income = income * weights
-    idx_sort = np.argsort(weights)
+    idx_sort = np.argsort(income)
     weights = weights[idx_sort].cumsum() / weights.sum()
     weights = weights.reshape(len(weights), 1)
     total_income = total_income[idx_sort].cumsum() / total_income.sum()
@@ -230,29 +208,17 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
         raise ValueError('Must pass at least one of both `income` or `df`')
 
     if data is not None:
-        data = data.copy()
-        income = data[income].values
-        weights = data[weights].values
+        income, weights = utils._extract_values(data, income, weights)
     else:
         income = income.copy()
-        weights = weights.copy() if weights is not None else None
+        weights = utils.not_empty_weights(weights)
 
     # not-null condition
-    if np.any(income <= 0):
-        mask = income > 0
-        income = income[mask]
-        if weights is not None:
-            weights = weights[mask]
+    income, weights = utils.not_null_condition(income, weights)
 
     # not-empty condition
     if len(income) == 0:
         return 0
-
-    N = len(income)  # observations
-
-    # not-empty wights
-    if weights is None:
-        weights = np.ones(N)
 
     # auxiliar variables: mean and distribution
     mu = mean(variable=income, weights=weights)
@@ -303,20 +269,6 @@ def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
     Jenkins, S. (1988). Calculating income distribution indices from micro-data. 
     National Tax Journal. http://doi.org/10.2307/41788716
     """
-    if weights is None:
-        if data is None:
-            weights = np.repeat([1], len(tax))
-        else:
-            weights = np.repeat([1], len(data))
-
-    if data is None:
-        data = _to_df(income_pre_tax=income_pre_tax,
-                      tax=tax,
-                      weights=weights)
-        income_pre_tax = 'income_pre_tax'
-        tax = 'tax'
-        weights = 'weights'
-
     # main calc
     c_t = concentration(data=data, income=tax, weights=weights, sort=True)
     g_y = concentration(data=data, income=income_pre_tax, weights=weights,
@@ -357,11 +309,6 @@ def reynolds_smolensky(data=None, income_pre_tax=None, income_post_tax=None,
     Jenkins, S. (1988). Calculating income distribution indices from micro-data.
     National Tax Journal. http://doi.org/10.2307/41788716
     """
-    if weights is None:
-        if data is None:
-            weights = np.repeat([1], len(income_pre_tax))
-        else:
-            weights = np.repeat([1], len(data))
     g_y = concentration(data=data, income=income_post_tax, weights=weights)
     g_x = concentration(data=data, income=income_pre_tax, weights=weights)
     return g_x - g_y
@@ -401,29 +348,16 @@ def theil(data=None, income=None, weights=None):
     https://en.wikipedia.org/w/index.php?title=Theil_index&oldid=755407818
 
     """
-
-    if weights is None:
-        if data is None:
-            weights = np.repeat([1], len(income))
-        else:
-            weights = np.repeat([1], len(data))
-
     if data is not None:
-        data = data.copy()
-        income = data[income].values
-        weights = data[weights].values
+        income, weights = utils._extract_values(data, income, weights)
     else:
         income = income.copy()
         weights = weights.copy()
-
-    if np.any(income <= 0):
-        mask = income > 0
-        income = income[mask]
-        weights = weights[mask]
+    income, weights = utils.not_null_condition(income, weights)
 
     # variables needed
     mu = mean(variable=income, weights=weights)
-    f_i = weights / np.sum(weights)
+    f_i = utils.normalize(weights)
     # main calc
     theil = np.sum((f_i * income / mu) * np.log(income / mu))
     return theil
@@ -450,32 +384,27 @@ def avg_tax_rate(data=None, total_tax=None, total_base=None, weights=None):
     (2011). Panel de declarantes de IRPF 1999-2007: 
     Metodología, estructura y variables. Documentos.
     """
-    has_list_of_names = False
-    n_cols = 1
-    base_name = None
-    tax_name = None
-
-    if isinstance(total_base, (list, np.ndarray)):
-        has_list_of_names = True
+    if isinstance(total_base, (np.ndarray)):
+        n_cols = total_base.shape[1]
+    elif isinstance(total_base, (list)):
         n_cols = len(total_base)
-
-    if data is not None:
-        data = data.copy()
-        base_name = total_base
-        tax_name = total_tax
+    elif isinstance(total_base, (str)):
+        n_cols = 1
     else:
-        total_base = total_base.copy()
-        total_tax = total_tax.copy()
-        weights = weights.copy() if weights is not None else None
+        n_cols = total_base.shape[1]
 
     numerator = mean(data=data, variable=total_tax, weights=weights)
     denominator = mean(data=data, variable=total_base, weights=weights)
+    # main calc
     res = numerator / denominator
 
-    if not has_list_of_names:
-        names = [tax_name + '_' + base_name]
+    if data is not None:
+        base_name = total_base
+        tax_name = total_tax
     else:
-        names = [tax_name[i] + '_' + b for i, b in enumerate(base_name)]
+        base_name = ['base' % i for i in range(n_cols)]
+        tax_name = ['tax_%s' % i for i in range(n_cols)]
 
+    names = ['_'.join([t, b]) for t, b in zip(tax_name, base_name)]
     res = pd.Series(res, index=names)
     return res
