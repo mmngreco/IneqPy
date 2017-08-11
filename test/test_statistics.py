@@ -1,14 +1,10 @@
-import ineqpy.misc
-from ineqpy import _statistics
-from ineqpy import utils
+from . import _statistics
+from . import utils
 import scipy.stats as sc
 import numpy as np
-import pandas as pd
 import numpy.testing as nptest
-import pandas.testing as pdtest
 import unittest
 
-generate_data_to_test = utils.generate_data_to_test
 
 class TestStatistics(unittest.TestCase):
 
@@ -24,12 +20,8 @@ class TestStatistics(unittest.TestCase):
     def test_statistics(self):
 
         for i in range(100):
-            (x, w), (repeated_x, repeated_w) = generate_data_to_test((3,7))
-            # mssg = '\ni = {}' \
-            #        '\nrepeated_x = {}' \
-            #        '\nx = {}' \
-            #        '\nw = {}'.format(i, str(repeated_x), str(x), str(w))
-            # print(mssg)
+            (x, w) = utils.generate_data_to_test((3,7))
+            repeated_x, repeated_w = utils.repeat_data_from_weighted(x,w)
 
             with self.subTest(name='mean', i=i):
                 real = np.mean(repeated_x)
