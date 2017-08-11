@@ -34,5 +34,5 @@ class Survey(pd.DataFrame):
     def _constructor(self):
         return Survey
 
-    # _constructor_sliced = pd.Series
-    _constructor_sliced = pd.DataFrame
+    _constructor_sliced = pd.Series
+    # _constructor_sliced = pd.DataFrame
