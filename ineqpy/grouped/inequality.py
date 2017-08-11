@@ -1,7 +1,7 @@
 import numpy as np
-
-from ineqpy import atkinson, mean
-from utils.msic import _to_df
+from .. import inequality
+from .. import _statistics
+from .. import utils
 
 
 def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
@@ -42,14 +42,13 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
     ----
     - Review function, has different results with stata.
     """
+
     if weights is None:
         if data is None:
-            weights = np.repeat([1], len(income))
-        else:
-            weights = np.repeat([1], len(data))
+            weights = utils.not_empty_weights(weights, as_of)
 
     if data is None:
-        data = _to_df(income=income, weights=weights, group=group)
+        data = utils._to_df(income=income, weights=weights, group=group)
         income = 'income'
         weights = 'weights'
         group = 'group'
@@ -63,15 +62,22 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
         if df is None:
             raise ValueError
 
-        res = atkinson(income=df[income].values, weights=df[weights].values, e=e) * len(df) / N
+        res = inequality.atkinson(
+            income=df[income].values,
+            weights=df[weights].values,
+            e=e
+        ) * (len(df) / N)
+
         return res
 
     # main calc:
     if data is not None:
         data = data.copy()
         atk_by_group = data.groupby(group).apply(a_h)
-        mu_by_group = data.groupby(group).apply(lambda dw: mean(dw[income],
-                                                                dw[weights]))
+        mu_by_group = data.groupby(group)\
+                          .apply(lambda dw: _statistics.mean(dw[income],
+                                                             dw[weights])
+                          )
 
         return atk_by_group.sum() + atkinson(income=mu_by_group.values)
     else:

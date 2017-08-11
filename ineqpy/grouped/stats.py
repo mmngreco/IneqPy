@@ -1,9 +1,7 @@
 import numpy as np
-
-from ineqpy import c_moment, std_moment
-from ineqpy._statistics import c_moment, mean
-from ineqpy.utils import misc
-from utils.msic import _to_df
+form . import utils
+from .._statistics import c_moment, mean, std_moment
+from .. import utils
 
 
 def variance_hat_group(data=None, variable='x', weights='w', group='h'):
@@ -126,7 +124,7 @@ def moment_group(data=None, variable='x', weights='w', group='h', order=2):
 
     def mh(df):
         x = df[variable].copy().values
-        weights = np.repeat([1], len(df))
+        weights = utils.not_empty_weights(weights, x)
         Nh = df.loc[:, weights].sum()
         fpc = 1 - (len(df) / Nh)
         ddof = 1 if len(df) > 1 else 0
@@ -177,7 +175,7 @@ def quasivariance_hat_group(variable=None, weights=None, group=None):
     """
 
     if data is None:
-        data = misc._to_df(x=variable, weights=weights)
+        varia = utils._to_df(x=variable, weights=weights)
         variable = 'x'
         weights = 'weights'
 
