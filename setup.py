@@ -1,7 +1,8 @@
+import versioneer
 from setuptools import setup
 
 setup(name='IneqPy',
-      version='v0.1.1-alpha',
+      version=versioneer.get_version(),
       description='A Python Package To Quantitative Analysis Of Inequality',
       #long_description=description,
       author='Maximiliano Greco',
@@ -18,4 +19,5 @@ setup(name='IneqPy',
                    'Programming Language :: Python :: 3.4',
                    'Programming Language :: Python :: 3.5'],
       install_requires=['numpy', 'pandas'],
+      cmdclass=versioneer.get_cmdclass(),
      )
