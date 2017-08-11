@@ -13,7 +13,7 @@ examples/\.ipynb_checkpoints/
 
 utils/__pycache__/
 
-tests/\.ipynb_checkpoints/
+test/\.ipynb_checkpoints/
 
 *.pyc
 
