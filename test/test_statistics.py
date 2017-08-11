@@ -1,5 +1,5 @@
-from . import _statistics
-from . import utils
+from .. import _statistics
+from .. import utils
 import scipy.stats as sc
 import numpy as np
 import numpy.testing as nptest

@@ -1,4 +1,5 @@
 import numpy as np
+import ineqpy
 
 svy = ineqpy.api.Survey
 data = np.random.randint(0,100, (int(1e3),3))
