@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 from . import utils
 
 
@@ -40,7 +39,7 @@ def c_moment(variable=None, weights=None, order=2, param=None, ddof=0):
     """
     # return np.sum((x-c)^n*counts) / np.sum(counts)
     variable = variable.copy()
-    weights = utils._check_weights(weights, as_of=variable)
+    weights = utils.not_empty_weights(weights, as_of=variable)
 
     if param is None:
         param = mean(variable=variable, weights=weights)
@@ -104,9 +103,11 @@ def percentile(variable, weights, percentile=50, interpolation='lower'):
     )
 
     if interpolation is 'midpoint':
-        raise NotImplementedError
-        # res = (variable[sorted_idx[lower_percentile_idx]] +
-        #        variable[sorted_idx[lower_percentile_idx+1]]) / 2
+        res = np.interp(
+                lower_percentile_idx + 0.5,
+                np.arange(len(variable)),
+                variable[sorted_idx]
+        )
     elif interpolation is 'lower':
         res = variable[sorted_idx[lower_percentile_idx]]
     elif interpolation is 'higher':
@@ -177,7 +178,7 @@ def mean(variable=None, weights=None):
     """
     # if pass a DataFrame separate variables.
     variable = variable.copy()
-    weights = utils._check_weights(weights, as_of=variable)
+    weights = utils.not_empty_weights(weights, as_of=variable)
     variable, weights = utils._clean_nans_values(variable, weights)
     return np.average(a=variable, weights=weights, axis=0)
 
