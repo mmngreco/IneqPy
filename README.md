@@ -79,12 +79,11 @@ Descriptive statistics
 ----------------------
 
 ```python
-
-    ineqpy.mean(x=d.renta, weights=d.factor)
-    20444.700666031338
-    ineqpy.variance(x=d.renta, weights=d.factor)
-    2982220948.7413292
-    x, w = d.renta.values, d.factor.values
+>>> ineqpy.mean(variable=d.renta, weights=d.factor)
+20444.700666031338
+>>> ineqpy.variance(variable=d.renta, weights=d.factor)
+2982220948.7413292
+>>> x, w = d.renta.values, d.factor.values
 ```
 
 > Note that the standardized moment for order `n`, retrieve the value in that
@@ -102,17 +101,17 @@ Descriptive statistics
 A helpful table of interpretation of the moments
 
 ```python
->>> ineqpy.std_moment(x, w, 1)  # = 0
+>>> ineqpy.std_moment(variable=x, weights=w, 1)  # = 0
 2.4624948200717338e-17
->>> ineqpy.std_moment(x, w, 2)  # = 1
+>>> ineqpy.std_moment(variable=x, weights=w, 2)  # = 1
 1.0
->>> ineqpy.std_moment(x, w, 3)  # = skew
+>>> ineqpy.std_moment(variable=x, weights=w, 3)  # = skew
 5.9965055750379426
->>> ineqpy.skew(x, w)
+>>> ineqpy.skew(variable=x, weights=w)
 5.9965055750379426
->>> ineqpy.std_moment(x, w, 4)  # = kurtosis
+>>> ineqpy.std_moment(variable=x, weights=w, 4)  # = kurtosis
 42.319928851703004
->>> ineqpy.kurt(x, w)
+>>> ineqpy.kurt(variable=x, weights=w)
 42.319928851703004
 ```
 ---------------------
@@ -121,7 +120,7 @@ Inequality estimators
 
 ```python
 # pass a pandas.DataFrame and inputs as strings
->>> ineqpy.gini(df=d, income='renta', weights='factor')
+>>> ineqpy.gini(data=d, income='renta', weights='factor')
 0.76739136365917116
 # you can pass arrays too
 >>> ineqpy.gini(income=d.renta.values, weights=d.factor.values)
