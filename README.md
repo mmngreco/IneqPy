@@ -6,14 +6,15 @@ IneqPy Package
 This package provides statistics to do a properly quantitative analysis of
 inequality. Among the estimators provided by this package you can find:
 
-- Atkinson Index
-- Gini Index
-- Kakwani Index
-- Lorenz curve
-- Variance
-- Mean
-- Kurtosis
-- Skewness
+
+| Main Statistics                   | Inequality Indicators |
+| :--------------                   | :-------------------- |
+| Weighted Mean                     | Weighted Gini         |
+| Weighted Variance                 | Weighted Atkinson     |
+| Weighted Coefficient of variation | Weighted Theil        |
+| Weighted Kurtosis                 | Weighted Kakwani      |
+| Weighted Skewness                 | Weighted Lorenz curve |
+
 
 -----------
 First-steps
@@ -89,17 +90,14 @@ Descriptive statistics
 > Note that the standardized moment for order `n`, retrieve the value in that
   column:
 
-==== =========
- `n`  value
-==== =========
- 1    0
----- ---------
- 2    1
----- ---------
- 3    Skew
----- ---------
- 4    Kurtosis
-==== =========
+
+| `n` | value     |
+|:---:|:---------:|
+| 1   | 0         |
+| 2   | 1         |
+| 3   | Skew      |
+| 4   | Kurtosis  |
+
 
 A helpful table of interpretation of the moments
 
