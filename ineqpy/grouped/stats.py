@@ -1,5 +1,5 @@
 import numpy as np
-form . import utils
+from .. import utils
 from .._statistics import c_moment, mean, std_moment
 from .. import utils
 
