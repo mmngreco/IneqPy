@@ -1,15 +1,16 @@
 '''
 IneqPy
-
-
 '''
+from .inequality import *
+from .statistics import *
+from . import api
+from . import utils
+from ._version import get_versions
 
-from .ineqpy import *
-
+__version__ = get_versions()['version']
 __author__ = "Maximiliano Greco"
-__version__ = "0.0.2"
 __maintainer__ = "Maximiliano Greco"
 __email__ = "mmngreco@gmail.com"
 __status__ = "Production"
 
-print("IneqPy: A PYTHON PACKAGE TO QUANTITATIVE ANALYSIS OF INEQUALITY LODADED")
+del get_versions
