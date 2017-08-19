@@ -71,13 +71,14 @@ def _clean_nans_values(this, pair):
         pair = pair[idx]
     return this, pair
 
+
 def normalize(this):
     return this / np.sum(this)
 
 
 def _extract_values(data, variable, weights):
-    variable = data[variable].values
-    weights = not_empty_weights(data[weights].values, as_of=variable)
+    variable = data.loc[:, variable].values
+    weights = not_empty_weights(data.loc[:, weights].values, as_of=variable)
     return variable, weights
 
 
@@ -93,6 +94,7 @@ def repeat_data_from_weighted(x, w):
         repeated_w = np.append(repeated_w, np.ones(wi))
 
     return repeated_x, repeated_w
+
 
 def generate_data_to_test(n_sample_range=(20,100)):
     N_sample = np.random.randint(*n_sample_range)
