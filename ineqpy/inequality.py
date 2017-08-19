@@ -61,8 +61,8 @@ def concentration(data=None, income=None, weights=None, sort=True):
 
 
 def lorenz(data=None, income=None, weights=None):
-    """In economics, the Lorenz curve is a graphical representation of the 
-    distribution of income or of wealth. It was developed by Max O. Lorenz in 
+    """In economics, the Lorenz curve is a graphical representation of the
+    distribution of income or of wealth. It was developed by Max O. Lorenz in
     1905 for representing grouped of the wealth distribution. This function
     compute the lorenz curve and returns a DF with two columns of axis x and y.
 
@@ -83,11 +83,11 @@ def lorenz(data=None, income=None, weights=None):
     lorenz : pandas.Dataframe
         Lorenz distribution in a Dataframe with two columns, labeled x and y,
         that corresponds to plots axis.
-    
+
     References
     ----------
-    Lorenz curve. (2017, February 11). In Wikipedia, The Free Encyclopedia. 
-    Retrieved 14:34, May 15, 2017, from 
+    Lorenz curve. (2017, February 11). In Wikipedia, The Free Encyclopedia.
+    Retrieved 14:34, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Lorenz_curve&oldid=764853675
     """
 
@@ -100,22 +100,24 @@ def lorenz(data=None, income=None, weights=None):
     weights = weights.reshape(len(weights), 1)
     total_income = total_income[idx_sort].cumsum() / total_income.sum()
     total_income = total_income.reshape(len(total_income), 1)
-    res = pd.DataFrame(np.c_[weights, total_income], columns=['x', 'y'])
+    res = pd.DataFrame(np.c_[weights, total_income], columns=['Equality', 'Income'],
+                       index=weights)
+    res.index.name = 'x'
     return res
 
 
 def gini(data=None, income=None, weights=None, sort=True):
-    """The Gini coefficient (sometimes expressed as a Gini ratio or a 
-    normalized Gini index) is a measure of statistical dispersion intended to 
-    represent the income or wealth distribution of a nation's residents, and is 
+    """The Gini coefficient (sometimes expressed as a Gini ratio or a
+    normalized Gini index) is a measure of statistical dispersion intended to
+    represent the income or wealth distribution of a nation's residents, and is
     the most commonly used measure of grouped. It was developed by Corrado
     Gini.
     The Gini coefficient measures the grouped among values of a frequency
-    distribution (for example, levels of income). A Gini coefficient of zero 
-    expresses perfect equality, where all values are the same (for example, 
-    where everyone has the same income). A Gini coefficient of 1 (or 100%) 
+    distribution (for example, levels of income). A Gini coefficient of zero
+    expresses perfect equality, where all values are the same (for example,
+    where everyone has the same income). A Gini coefficient of 1 (or 100%)
     expresses maximal grouped among values (e.g., for a large number of
-    people, where only one person has all the income or consumption, and all 
+    people, where only one person has all the income or consumption, and all
     others have none, the Gini coefficient will be very nearly one).
 
     Parameters
@@ -127,7 +129,7 @@ def gini(data=None, income=None, weights=None, sort=True):
     weights : str or np.array, optional
         Name of the series containing the weights `x` in` df`
     sorted : bool, optional
-        If the DataFrame is previously ordered by the variable `x`, it's must 
+        If the DataFrame is previously ordered by the variable `x`, it's must
         pass True, but False by default.
 
     Returns
@@ -145,11 +147,11 @@ def gini(data=None, income=None, weights=None, sort=True):
 
     Reference
     ---------
-    - Gini coefficient. (2017, May 8). In Wikipedia, The Free Encyclopedia. 
-      Retrieved 14:30, May 15, 2017, from 
+    - Gini coefficient. (2017, May 8). In Wikipedia, The Free Encyclopedia.
+      Retrieved 14:30, May 15, 2017, from
       https://en.wikipedia.org/w/index.php?title=Gini_coefficient&oldid=779424616
-    
-    - Jenkins, S. (1988). Calculating income distribution indices 
+
+    - Jenkins, S. (1988). Calculating income distribution indices
     from micro-data. National Tax Journal. http://doi.org/10.2307/41788716
 
     TODO
@@ -162,15 +164,15 @@ def gini(data=None, income=None, weights=None, sort=True):
 
 def atkinson(data=None, income=None, weights=None, e=0.5):
     """More precisely labelled a family of income grouped measures, the
-    theoretical range of Atkinson values is 0 to 1, with 0 being a state of 
+    theoretical range of Atkinson values is 0 to 1, with 0 being a state of
     equal distribution.
-    An intuitive interpretation of this index is possible: Atkinson values can 
-    be used to calculate the proportion of total income that would be required 
-    to achieve an equal level of social welfare as at present if incomes were 
-    perfectly distributed. 
-    
+    An intuitive interpretation of this index is possible: Atkinson values can
+    be used to calculate the proportion of total income that would be required
+    to achieve an equal level of social welfare as at present if incomes were
+    perfectly distributed.
+
     For example, an Atkinson index value of 0.20 suggests
-    that we could achieve the same level of social welfare with only 
+    that we could achieve the same level of social welfare with only
     1 – 0.20 = 80% of income. The theoretical range of Atkinson values is 0 to 1,
     with 0 being a state of equal distribution.
 
@@ -194,8 +196,8 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
 
     Reference
     ---------
-    Atkinson index. (2017, March 12). In Wikipedia, The Free Encyclopedia. 
-    Retrieved 14:35, May 15, 2017, from 
+    Atkinson index. (2017, March 12). In Wikipedia, The Free Encyclopedia.
+    Retrieved 14:35, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Atkinson_index&oldid=769991852
 
     TODO
@@ -237,11 +239,11 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
 
 
 def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
-    """The Kakwani (1977) index of tax progressivity is defined as twice the 
-    area between the concentration curves for taxes and pre-tax income, 
-    or equivalently, the concentration index for t(x) minus the Gini index for 
+    """The Kakwani (1977) index of tax progressivity is defined as twice the
+    area between the concentration curves for taxes and pre-tax income,
+    or equivalently, the concentration index for t(x) minus the Gini index for
     x, i.e.
-    
+
     K = C(t) - G(x)
       = (2/t) cov [t(x), F(x)] - (2/x) cov [x, F(x)].
 
@@ -263,10 +265,10 @@ def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
     Returns
     -------
     kakwani : float
-    
+
     References
     ----------
-    Jenkins, S. (1988). Calculating income distribution indices from micro-data. 
+    Jenkins, S. (1988). Calculating income distribution indices from micro-data.
     National Tax Journal. http://doi.org/10.2307/41788716
     """
     # main calc
@@ -278,12 +280,12 @@ def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
 
 def reynolds_smolensky(data=None, income_pre_tax=None, income_post_tax=None,
                        weights=None):
-    """The Reynolds-Smolensky (1977) index of the redistributive effect of 
-    taxes, which can also be interpreted as an index of progressivity 
+    """The Reynolds-Smolensky (1977) index of the redistributive effect of
+    taxes, which can also be interpreted as an index of progressivity
     (Lambert 1985), is defined as:
-    
-    L = Gx - Gy 
-      = [2/x]cov[x,F(x)] - [2/ybar] cov [y, F(y)]. 
+
+    L = Gx - Gy
+      = [2/x]cov[x,F(x)] - [2/ybar] cov [y, F(y)].
 
     Parameters
     ----------
@@ -303,7 +305,7 @@ def reynolds_smolensky(data=None, income_pre_tax=None, income_post_tax=None,
     Returns
     -------
     reynolds_smolensky : float
-    
+
     References
     ----------
     Jenkins, S. (1988). Calculating income distribution indices from micro-data.
@@ -319,11 +321,11 @@ def reynolds_smolensky(data=None, income_pre_tax=None, income_post_tax=None,
 
 
 def theil(data=None, income=None, weights=None):
-    """The Theil index is a statistic primarily used to measure economic 
+    """The Theil index is a statistic primarily used to measure economic
     grouped and other economic phenomena. It is a special case of the
-    generalized entropy index. It can be viewed as a measure of redundancy, 
+    generalized entropy index. It can be viewed as a measure of redundancy,
     lack of diversity, isolation, segregation, grouped, non-randomness, and
-    compressibility. It was proposed by econometrician Henri Theil. 
+    compressibility. It was proposed by econometrician Henri Theil.
 
     Parameters
     ----------
@@ -340,11 +342,11 @@ def theil(data=None, income=None, weights=None):
     Returns
     -------
     theil : float
-    
+
     References
     ----------
-    Theil index. (2016, December 17). In Wikipedia, The Free Encyclopedia. 
-    Retrieved 14:17, May 15, 2017, from 
+    Theil index. (2016, December 17). In Wikipedia, The Free Encyclopedia.
+    Retrieved 14:17, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Theil_index&oldid=755407818
 
     """
@@ -380,8 +382,8 @@ def avg_tax_rate(data=None, total_tax=None, total_base=None, weights=None):
 
     Reference
     ---------
-    Panel de declarantes de IRPF 1999-2007: Metodología, estructura y variables. 
-    (2011). Panel de declarantes de IRPF 1999-2007: 
+    Panel de declarantes de IRPF 1999-2007: Metodología, estructura y variables.
+    (2011). Panel de declarantes de IRPF 1999-2007:
     Metodología, estructura y variables. Documentos.
     """
     if isinstance(total_base, (np.ndarray)):
