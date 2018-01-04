@@ -1,4 +1,16 @@
+"""
+
+References
+----------
+http://people.ds.cam.ac.uk/fanf2/hermes/doc/antiforgery/stats.pdf
+https://en.wikipedia.org/wiki/Weighted_arithmetic_mean#Weighted_sample_variance
+https://en.wikipedia.org/wiki/Algorithms%5Ffor%5Fcalculating%5Fvariance#Weighted_incremental_algorithm
+https://www.thinkbrg.com/media/publication/720_McCrary_ImplementingAlgorithms_Whitepaper_20151119_WEB.pdf
+"""
+
 import numpy as np
+from numba import guvectorize
+
 from . import utils
 
 
@@ -50,38 +62,6 @@ def c_moment(variable=None, weights=None, order=2, param=None, ddof=0):
            (np.sum(weights) - ddof)
 
 
-# def quantile(variable=None, weights=None, q=0.5, interpolate=True):
-#     """Calculate the value of a quantile given a variable and his weights.
-#
-#     Parameters
-#     ----------
-#     variable : str or array
-#     weights :  str or array
-#     q : float
-#         Quantile level, if pass 0.5 means median.
-#     interpolate : bool
-#
-#     Returns
-#     -------
-#     quantile : float or pd.Series
-#
-#     """
-#     # Fixme : Doesn't work properly
-#
-#     w = utils._check_weights(weights, as_of=variable)
-#     x, w = utils._sort_values(variable, w)
-#     cum_weights = weights.cumsum(0)# - 0.5 * weights
-#     #cum_weights -= cum_weights[0]
-#     #cum_weights /= cum_weights[-1]
-#     q = np.array(q) * cum_weights[-1]
-#
-#     if interpolate:
-#         res = np.interp(q, cum_weights, variable)
-#     else:
-#         res = variable[cum_weights < q][-1]
-#     return res
-
-
 def percentile(variable, weights, percentile=50, interpolation='lower'):
     """Lower case
     Parameters
@@ -116,6 +96,7 @@ def percentile(variable, weights, percentile=50, interpolation='lower'):
         raise NotImplementedError
 
     return res
+
 
 def std_moment(variable=None, weights=None, param=None, order=3, ddof=0):
     """Calculate the standardized moment of order `c` for the variable` x` with
@@ -168,9 +149,6 @@ def mean(variable=None, weights=None):
         Variable on which the mean is estimated.
     weights : array-like or str
         Weights of the `x` variable.
-    data : pandas.DataFrame
-        Is possible pass a DataFrame with variable and weights, then you must
-        pass as `variable` and `weights` the column name stored in `data`.
 
     Returns
     -------
@@ -220,7 +198,6 @@ def coef_variation(variable=None, weights=None):
 
     Parameters
     ----------
-    data : pandas.DataFrame
     variable : array-like or str
     weights : array-like or str
 
@@ -245,7 +222,7 @@ def kurt(variable=None, weights=None):
     Parameters
     ---------
     variable : 1d-array
-    w : 1d-array
+    weights : 1d-array
 
     Returns
     -------
@@ -257,7 +234,6 @@ def kurt(variable=None, weights=None):
     Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
     Retrieved 14:40, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
-
 
     Notes
     -----
@@ -272,8 +248,6 @@ def skew(variable=None, weights=None):
 
     Parameters
     ---------
-    data : pandas.DataFrame
-
     variable : array-like, str
     weights : array-like, str
 
@@ -287,7 +261,6 @@ def skew(variable=None, weights=None):
     Retrieved 14:40, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
 
-
     Notes
     -----
     It is an alias of the standardized third-order moment.
@@ -295,4 +268,143 @@ def skew(variable=None, weights=None):
     """
     return std_moment(variable=variable, weights=weights, order=3)
 
+
+@guvectorize("float64[:], float64[:], int64, float64[:]", '(n),(n),()->()',
+             nopython=True, cache=True)
+def wvar(x, w, kind, out):
+    """Calculate weighted variance of X.
+
+    Calculates the weighted variance of x according to a kind of weights.
+
+    Parameters
+    ----------
+    x : np.ndarray
+        Main variable.
+    w : np.ndarray
+        Weigths.
+    kind : int
+        Has three modes to calculate de variance, you can control that with this
+        argument, the values and the output are the next:
+        1 : population variance
+        2 : sample frequency variance
+        3 : sample reliability variance.
+    out : np.ndarray
+
+    Returns
+    -------
+    weighted_variance : float
+
+    References
+    ----------
+    https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Weighted_incremental_algorithm
+    """
+    wSum = wSum2 = mean = S = 0
+
+    for i in range(len(x)):  # Alternatively "for x, w in zip(data, weights):"
+        wSum = wSum + w[i]
+        wSum2 = wSum2 + w[i]*w[i]
+        meanOld = mean
+        mean = meanOld + (w[i] / wSum) * (x[i] - meanOld)
+        S = S + w[i] * (x[i] - meanOld) * (x[i] - mean)
+
+    if kind==1:
+        # population_variance
+        out[0] = S / wSum
+    elif kind == 2:
+        # Bessel's correction for weighted samples
+        # Frequency weights
+        # sample_frequency_variance
+        out[0] = S / (wSum - 1)
+    elif kind == 3:
+        # Reliability weights
+        # sample_reliability_variance
+        out[0] = S / (wSum - wSum2/wSum)
+
+
+@guvectorize("float64[:], float64[:], float64[:], int64, float64[:]",
+             "(n),(n),(n),()->()", nopython=True, cache=True)
+def wcov(x, y, w, kind, out):
+    """Compute weighted covariance between x and y.
+
+    Compute the weighted covariance between two variables, we can chose which
+    kind of covariance returns.
+
+    Parameters
+    ----------
+    x : np.array
+        Main variable.
+    y : np.array
+        Second variable.
+    w : np.array
+        Weights.
+    kind : int
+        Kind of weighted covariance is returned:
+            1 : population variance
+            2 : sample frequency variance
+            3 : sample reliability variance.
+    out : np.array
+
+    Returns
+    -------
+    weighted_covariance = float
+
+    References
+    ----------
+    https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Online
+    """
+    meanx = meany = 0
+    wsum = wsum2 = 0
+    C = 0
+    for i in range(len(x)):
+        wsum += w[i]
+        wsum2 += w[i]*w[i]
+        dx = x[i] - meanx
+        meanx += (w[i] / wsum) * dx
+        meany += (w[i] / wsum) * (y[i] - meany)
+        C += w[i] * dx * (y[i] - meany)
+
+    if kind==1:
+        # population_covar
+        out[0] = C / wsum
+    elif kind==1:
+        # Bessel's correction for sample variance
+        # Frequency weights
+        # sample_frequency_covar
+        out[0] = C / (wsum - 1)
+    elif kind==1:
+        # Reliability weights
+        # sample_reliability_covar
+        out[0] = C / (wsum - wsum2 / wsum)
+
+
+@guvectorize("float64[:], float64[:], float64[:]",
+             "(n),(n)->()", nopython=True, cache=True)
+def online_kurtosis(x, w, out):
+    n = mean = M2 = M3 = M4 = 0
+
+    for i in range(len(x)):
+        n1 = w[i]
+        n = n + w[i]
+        delta = x[i] - mean
+        delta_n = delta / n
+        delta_n2 = delta_n * delta_n
+        term1 = delta * delta_n * n1
+        mean = mean + w[i] * delta_n / n
+        M4 = M4 + term1 * delta_n2 * (n*n - 3*n + 3) + 6 * delta_n2 * M2 - 4 * delta_n * M3
+        M3 = M3 + term1 * delta_n * (n - 2) - 3 * delta_n * M2
+        M2 = M2 + term1
+
+    kurtosis = (n*M4) / (M2*M2) - 3
+
+
+@guvectorize("float64[:], float64[:], int64, float64[:]",
+             "(n),(n),()->()", nopython=True, cache=True)
+def Mk(x, w, k, out):
+    w_sum = wx_sum = 0
+
+    for i in range(len(x)):
+        wx_sum += w[i]*(x[i]**k)
+        w_sum += w[i]
+
+    out[0] = wx_sum / w_sum
 
