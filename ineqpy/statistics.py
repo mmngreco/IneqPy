@@ -1,20 +1,21 @@
 import pandas as pd
-from . import _statistics
+from . import _statistics as stat
 from . import utils
 
 
-def c_moment(data=None, variable=None, weights=None, order=2, param=None,
+def c_moment(variable=None, weights=None, data=None, order=2, param=None,
              ddof=0):
     """Calculate the central moment of `x` with respect to `param` of order `n`,
     given the weights `w`.
 
     Parameters
     ----------
-    data :
     variable : 1d-array
         Variable
     weights : 1d-array
         Weights
+    data : pandas.DataFrame
+        Contains all variables needed.
     order : int, optional
         Moment order, 2 by default (variance)
     param : int or array, optional
@@ -41,18 +42,18 @@ def c_moment(data=None, variable=None, weights=None, order=2, param=None,
 
     """
     variable, weights = utils._extract_values(data, variable, weights)
-    return _statistics.c_moment(variable, weights, order, param, ddof)
+    return stat.c_moment(variable, weights, order, param, ddof)
 
 
-def percentile(data=None, variable=None, weights=None, p=50, interpolate='lower'):
+def percentile(variable=None, weights=None, data=None, p=50, interpolate='lower'):
     """Calculate the value of a quantile given a variable and his weights.
 
     Parameters
     ----------
-    data : pd.DataFrame, optional
-        pd.DataFrame that contains all variables needed.
     variable : str or array
     weights :  str or array
+    data : pd.DataFrame, optional
+        pd.DataFrame that contains all variables needed.
     q : float
         Quantile level, if pass 0.5 means median.
     interpolate : bool
@@ -63,22 +64,22 @@ def percentile(data=None, variable=None, weights=None, p=50, interpolate='lower'
 
     """
     variable, weights = utils._extract_values(data, variable, weights)
-    return _statistics.percentile(variable, weights, p, interpolate)
+    return stat.percentile(variable, weights, p, interpolate)
 
 
-def std_moment(data=None, variable=None, weights=None, param=None, order=3,
+def std_moment(variable=None, weights=None, data=None, param=None, order=3,
                ddof=0):
     """Calculate the standardized moment of order `c` for the variable` x` with
     respect to `c`.
 
     Parameters
     ----------
-    data : pd.DataFrame, optional
-        pd.DataFrame that contains all variables needed.
     variable : 1d-array
        Random Variable
     weights : 1d-array, optional
        Weights or probability
+    data : pd.DataFrame, optional
+        pd.DataFrame that contains all variables needed.
     order : int, optional
        Order of Moment, three by default
     param : int or float or array, optional
@@ -103,10 +104,10 @@ def std_moment(data=None, variable=None, weights=None, param=None, order=3,
 
     """
     variable, weights = utils._extract_values(data, variable, weights)
-    return _statistics.std_moment(data, variable, weights, param, order, ddof)
+    return stat.std_moment(data, variable, weights, param, order, ddof)
 
 
-def mean(data=None, variable=None, weights=None):
+def mean(variable=None, weights=None, data=None):
     """Calculate the mean of `variable` given `weights`.
 
     Parameters
@@ -126,19 +127,25 @@ def mean(data=None, variable=None, weights=None):
     # if pass a DataFrame separate variables.
     if data is not None:
         variable, weights = utils._extract_values(data, variable, weights)
-    return _statistics.mean(variable, utils.not_empty_weights(weights, variable))
+    return stat.mean(
+            variable, utils.not_empty_weights(weights, variable)
+    )
 
 
-def density(data=None, variable=None, weights=None, groups=None):
-    """Calculates density in percentage. This make division of variable inferring
+def density(variable=None, weights=None, data=None, groups=None):
+    """Density in perfecntage.
+
+    Calculates density in percentage. This make division of variable inferring
     width in groups as max - min.
 
     Parameters
     ----------
+    variable : numpy.array or pandas.DataFrame
+        Main variable.
+    weights : numpy.array or pandas.DataFrame
+        Weights of main variable.
     data : pd.DataFrame, optional
         pandas.DataFrame that contains all variables needed.
-    variable :
-    weights :
     groups :
 
     Returns
@@ -154,11 +161,13 @@ def density(data=None, variable=None, weights=None, groups=None):
     variable, weights = utils._extract_values(data, variable, weights)
     if groups:
         groups = data[groups].values
-    return _statistics.density(variable, weights, groups)
+    return stat.density(variable, weights, groups)
 
 
-def var(data=None, variable=None, weights=None, ddof=0):
-    """Calculate the population variance of `variable` given `weights`.
+def var(variable=None, weights=None, data=None, ddof=0):
+    """Calculate the variance.
+
+    Calculate the population variance of `variable` given `weights`.
 
     Parameters
     ----------
@@ -169,7 +178,6 @@ def var(data=None, variable=None, weights=None, ddof=0):
     weights : 1d-array or pd.Series or pd.DataFrame
         Weights of the `variable`.
 
-
     Returns
     -------
     variance : 1d-array or pd.Series or float
@@ -179,18 +187,21 @@ def var(data=None, variable=None, weights=None, ddof=0):
     ---------
     Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
     Retrieved 14:40, May 15, 2017, from
-    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
+    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=
+    778996402
 
     Notes
     -----
     If stratificated sample must pass with groupby each strata.
     """
     variable, weights = utils._extract_values(data, variable, weights)
-    return _statistics.var(variable, weights, ddof)
+    return stat.var(variable, weights, ddof)
 
 
-def coef_variation(data=None, variable=None, weights=None):
-    """Calculate the coefficient of variation of a `variable` given weights.
+def coef_variation(variable=None, weights=None, data=None):
+    """Calculate the coefficient of variation.
+
+    Calculate the coefficient of variation of a `variable` given weights.
     The coefficient of variation is the square root of the variance of the
     incomes divided by the mean income. It has the advantages of being
     mathematically tractable and is subgroup decomposable, but is not bounded
@@ -198,9 +209,9 @@ def coef_variation(data=None, variable=None, weights=None):
 
     Parameters
     ----------
-    data : pandas.DataFrame
     variable : array-like or str
     weights : array-like or str
+    data : pandas.DataFrame
 
     Returns
     -------
@@ -209,22 +220,24 @@ def coef_variation(data=None, variable=None, weights=None):
     References
     ----------
     Coefficient of variation. (2017, May 5). In Wikipedia, The Free Encyclopedia.
-    Retrieved 15:03, May 15, 2017, from
-    https://en.wikipedia.org/w/index.php?title=Coefficient_of_variation&oldid=778842331
+    Retrieved 15:03, May 15, 2017, from https://en.wikipedia.org/w/index.php?
+    title=Coefficient_of_variation&oldid=778842331
     """
     # TODO complete docstring
     variable, weights = utils._extract_values(data, variable, weights)
-    return _statistics.coef_variation(variable, weights)
+    return stat.coef_variation(variable, weights)
 
 
 
-def kurt(data=None, variable=None, weights=None):
-    """Calculate the asymmetry coefficient
+def kurt(variable=None, weights=None, data=None):
+    """Calculate the Kurtosis coefficient.
 
     Parameters
     ---------
     variable : 1d-array
-    w : 1d-array
+    weights : 1d-array
+    data : pandas.DataFrame
+        Object which stores ``variable`` and ``weights``.
 
     Returns
     -------
@@ -234,20 +247,18 @@ def kurt(data=None, variable=None, weights=None):
     References
     ---------
     Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
-    Retrieved 14:40, May 15, 2017, from
-    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
-
+    Retrieved 14:40, May 15, 2017, from https://en.wikipedia.org/w/index.php?
+    title=Moment_(mathematics)&oldid=778996402
 
     Notes
     -----
     It is an alias of the standardized fourth-order moment.
-
     """
     variable, weights = utils._extract_values(data, variable, weights)
-    return _statistics.kurt(variable, weights)
+    return stat.kurt(variable, weights)
 
 
-def skew(data=None, variable=None, weights=None):
+def skew(variable=None, weights=None, data=None):
     """Returns the asymmetry coefficient of a sample.
 
     Parameters
@@ -256,6 +267,8 @@ def skew(data=None, variable=None, weights=None):
 
     variable : array-like, str
     weights : array-like, str
+    data : pandas.DataFrame
+        Object which stores ``variable`` and ``weights``.
 
     Returns
     -------
@@ -274,4 +287,4 @@ def skew(data=None, variable=None, weights=None):
 
     """
     variable, weights = utils._extract_values(data, variable, weights)
-    return _statistics.skew(variable, weights)
+    return stat.skew(variable, weights)
