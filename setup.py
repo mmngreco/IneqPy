@@ -20,6 +20,6 @@ setup(name='IneqPy',
                    'Programming Language :: Python :: 3.3',
                    'Programming Language :: Python :: 3.4',
                    'Programming Language :: Python :: 3.5'],
-      install_requires=['numpy', 'pandas'],
+      install_requires=['numpy', 'pandas', 'numba'],
       cmdclass=versioneer.get_cmdclass(),
      )
