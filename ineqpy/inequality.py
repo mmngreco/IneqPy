@@ -46,9 +46,9 @@ def concentration(data=None, income=None, weights=None, sort=True):
     # TODO complete docstring
 
     # check if DataFrame is passed, if yes then extract variables else make a copy
-    if data is not None:
-        income, weights = utils._extract_values(data, income, weights)
-
+    income, weights = utils._extract_values(data, income, weights)
+    if weights is None:
+        weights = utils.not_empty_weights(weights, as_of=income)
     # if sort is true then sort the variables.
     if sort:
         income, weights = utils._sort_values(income, weights)
@@ -101,7 +101,7 @@ def lorenz(data=None, income=None, weights=None):
     total_income = total_income[idx_sort].cumsum() / total_income.sum()
     total_income = total_income.reshape(len(total_income), 1)
     res = pd.DataFrame(np.c_[weights, total_income], columns=['Equality', 'Income'],
-                       index=weights)
+    index=weights)
     res.index.name = 'x'
     return res
 
@@ -209,11 +209,8 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
     if (income is None) and (data is None):
         raise ValueError('Must pass at least one of both `income` or `df`')
 
-    if data is not None:
-        income, weights = utils._extract_values(data, income, weights)
-    else:
-        income = income.copy()
-        weights = utils.not_empty_weights(weights)
+    income, weights = utils._extract_values(data, income, weights)
+    weights = utils.not_empty_weights(weights)
 
     # not-null condition
     income, weights = utils.not_null_condition(income, weights)
