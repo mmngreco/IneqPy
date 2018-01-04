@@ -38,9 +38,10 @@ def _apply_to_df(func, df, x, weights, *args, **kwargs):
 
 
 def not_empty_weights(weights, as_of):
-    w = normalize(
-            weights.copy() if weights is not None else np.ones(len(as_of))
-    )
+    if not (weights is None):
+        w = normalize(weights.copy())
+    else:
+        w = np.ones(len(as_of))
     return w
 
 
@@ -77,8 +78,9 @@ def normalize(this):
 
 
 def _extract_values(data, variable, weights):
-    variable = data.loc[:, variable].values
-    weights = not_empty_weights(data.loc[:, weights].values, as_of=variable)
+    if not (data is None):
+        variable = data.loc[:, variable].values
+        weights = not_empty_weights(data.loc[:, weights].values, as_of=variable)
     return variable, weights
 
 
