@@ -13,4 +13,10 @@ examples/\.ipynb_checkpoints/
 
 utils/__pycache__/
 
+test/\.ipynb_checkpoints/
+
 *.pyc
+
+\.ropeproject/
+
+*.sublime*
