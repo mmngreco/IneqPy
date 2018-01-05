@@ -126,3 +126,120 @@ Inequality estimators
 >>> ineqpy.gini(income=d.renta.values, weights=d.factor.values)
 0.76739136365917116
 ```
+
+Example of use:
+===============
+
+We generate random weighted data to show how ineqpy works. The variables
+simulate being:
+    x : Income
+    w : Weights
+
+To test with classical statistics we generate:
+    x_rep : Income values replicated w times each one.
+    w_rep : Ones column.
+
+Additional information:
+    np : numpy package
+    sp : scipy package
+    pd : pandas package
+    gsl_stat : GNU Scientific Library written in C.
+    ineq : IneqPy
+
+
+MEAN CALCULATIONS
+-----------------
+
+```python
+>>> np.mean(x_rep)       = 488.535714286
+>>> ineq.mean(x, w)      = 488.535714286
+>>> gsl_stat.wmean(w, x) = 488.5357142857143
+```
+
+VARIANCE
+--------
+
+```python
+>>> np.var(x_rep)                = 63086.1364796
+>>> ineq.var(x, w)               = 63086.1364796
+>>> ineq_stat.wvar(x, w, kind=1) = 63086.1364796
+>>> ineq_stat.wvar(x, w, kind=2) = 63247.4820972
+>>> gsl_stat.wvariance(w, x)     = 63993.161585889124
+>>> ineq_stat.wvar(x, w, kind=3) = 63993.1615859
+```
+
+COVARIANCE
+----------
+
+```python
+>>> np.cov(x_rep, x_rep)            =  [[ 63247.48209719  63247.48209719]
+ [ 63247.48209719  63247.48209719]]
+>>> ineq_stat.wcov(x, x, w, kind=1) =  63086.1364796
+>>> ineq_stat.wcov(x, x, w, kind=2) =  4.94065645841e-324
+>>> ineq_stat.wcov(x, x, w, kind=3) =  9.88131291682e-324
+```
+
+SKEWNESS CALCULATIONS
+---------------------
+
+```python
+>>> gsl_stat.wskew(w, x) =  -0.05742668111416989
+>>> sp_stat.skew(x_rep)  =  -0.058669605967865954
+>>> ineq.skew(x, w)      =  -0.0586696059679
+```
+
+KURTOSIS CALCULATIONS
+---------------------
+
+```python
+>>> sp_stat.kurtosis(x_rep)  =  -0.7919389201857214
+>>> gsl_stat.wkurtosis(w, x) =  -0.8540884810553052
+>>> ineq.kurt(x, w) - 3      =  -0.791938920186
+```
+
+PERCENTILES CALCULATIONS
+------------------------
+
+```pyhton
+>>> ineq_stat.percentile(x, w, 50) =  526
+>>> np.percentile(x_rep, 50)       =  526.0
+>>> ineq_stat.percentile(x, w, 25) =  293
+>>> np.percentile(x_rep, 25)       =  293.0
+>>> ineq_stat.percentile(x, w, 75) =  667
+>>> np.percentile(x_rep, 75)       =  670.0
+>>> ineq_stat.percentile(x, w, 10) =  135
+>>> np.percentile(x_rep, 10)       =  135.0
+>>> ineq_stat.percentile(x, w, 90) =  839
+>>> np.percentile(x_rep, 90)       =  839.0
+```
+
+Another way to use this is through the API module as shown below:
+
+API MODULE
+----------
+
+Build object:
+```python
+>>> data = svy(data=data, columns=columns, weights='w')
+>>> data.head()
+     x  w
+0  111  3
+1  711  4
+2  346  4
+3  667  1
+4  944  1
+```
+
+Statistics:
+
+```python
+>>> data.weights = w
+>>> df.mean(main_var)       = 488.535714286
+>>> df.percentile(main_var) = 526
+>>> df.var(main_var)        = 63086.1364796
+>>> df.skew(main_var)       = -0.0586696059679
+>>> df.kurt(main_var)       = 2.20806107981
+>>> df.gini(main_var)       = 0.298494329293
+>>> df.atkinson(main_var)   = 0.0925853855635
+>>> df.theil(main_var)      = 0.156137490566
+```
