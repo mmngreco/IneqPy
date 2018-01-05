@@ -132,7 +132,7 @@ def mean(variable=None, weights=None, data=None):
     )
 
 
-def density(variable=None, weights=None, data=None, groups=None):
+def density(variable=None, weights=None, groups=None, data=None):
     """Density in perfecntage.
 
     Calculates density in percentage. This make division of variable inferring
@@ -159,7 +159,7 @@ def density(variable=None, weights=None, data=None, groups=None):
     https://en.wikipedia.org/w/index.php?title=Histogram&oldid=779516918
     """
     variable, weights = utils._extract_values(data, variable, weights)
-    if groups:
+    if not (groups is None):
         groups = data[groups].values
     return stat.density(variable, weights, groups)
 

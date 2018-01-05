@@ -103,7 +103,7 @@ class Survey(pd.DataFrame):
         """
         if weights is None:
             weights = self.weights
-        return statistics.c_moment(self, variable, weights, order, param, ddof)
+        return statistics.c_moment(variable, weights, self, order, param, ddof)
 
     def percentile(self, variable=None, weights=None, p=50,
                    interpolate='lower'):
@@ -126,7 +126,7 @@ class Survey(pd.DataFrame):
         """
         if weights is None:
             weights = self.weights
-        return statistics.percentile(self, variable, weights, p, interpolate)
+        return statistics.percentile(variable, weights, self, p, interpolate)
 
     def std_moment(self, variable=None, weights=None, param=None, order=3,
                    ddof=0):
@@ -165,10 +165,9 @@ class Survey(pd.DataFrame):
         implementation.
 
         """
-
         if weights is None:
             weights = self.weights
-        return statistics.std_moment(self, variable, weights, param, order,
+        return statistics.std_moment(variable, weights, self, param, order,
                                       ddof)
 
     def mean(self, variable=None, weights=None):
@@ -192,7 +191,7 @@ class Survey(pd.DataFrame):
         # if pass a DataFrame separate variables.
         if weights is None:
             weights = self.weights
-        return statistics.mean(self, variable, weights)
+        return statistics.mean(variable, weights, self)
 
     def density(self, variable=None, weights=None, groups=None):
         """Calculates density in percentage. This make division of variable
@@ -218,7 +217,7 @@ class Survey(pd.DataFrame):
         """
         if weights is None:
             weights = self.weights
-        return statistics.density(self, variable, weights, groups)
+        return statistics.density(variable, weights, groups, self)
 
     def var(self, variable=None, weights=None, ddof=0):
         """Calculate the population variance of `variable` given `weights`.
@@ -252,7 +251,7 @@ class Survey(pd.DataFrame):
         """
         if weights is None:
             weights = self.weights
-        return statistics.var(self, variable, weights, ddof)
+        return statistics.var(variable, weights, self, ddof)
 
     def coef_variation(self, variable=None, weights=None):
         """Calculate the coefficient of variation of a `variable` given weights.
@@ -282,7 +281,7 @@ class Survey(pd.DataFrame):
         # TODO complete docstring
         if weights is None:
             weights = self.weights
-        return statistics.coef_variation(self, variable, weights)
+        return statistics.coef_variation(variable, weights, self)
 
     def kurt(self, variable=None, weights=None):
         """Calculate the asymmetry coefficient
@@ -305,15 +304,13 @@ class Survey(pd.DataFrame):
         https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&
         oldid=778996402
 
-
         Notes
         -----
         It is an alias of the standardized fourth-order moment.
-
         """
         if weights is None:
             weights = self.weights
-        return statistics.kurt(self, variable, weights)
+        return statistics.kurt(variable, weights, self)
 
     def skew(self, variable=None, weights=None):
         """Returns the asymmetry coefficient of a sample.
@@ -337,7 +334,6 @@ class Survey(pd.DataFrame):
         https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&
         oldid=778996402
 
-
         Notes
         -----
         It is an alias of the standardized third-order moment.
@@ -345,7 +341,7 @@ class Survey(pd.DataFrame):
         """
         if weights is None:
             weights = self.weights
-        return statistics.skew(self, variable, weights)
+        return statistics.skew(variable, weights, self)
 
     # INEQUALITY
     # ----------
@@ -378,7 +374,7 @@ class Survey(pd.DataFrame):
         # TODO complete docstring
         if weights is None:
             weights = self.weights
-        return inequality.concentration(self, income, weights, sort)
+        return inequality.concentration(income, weights, self, sort)
 
     def lorenz(self, income=None, weights=None):
         """In economics, the Lorenz curve is a graphical representation of the
@@ -414,7 +410,7 @@ class Survey(pd.DataFrame):
         """
         if weights is None:
             weights = self.weights
-        return inequality.lorenz(self, income, weights)
+        return inequality.lorenz(income, weights, self)
 
     def gini(self, income=None, weights=None, sort=True):
         """The Gini coefficient (sometimes expressed as a Gini ratio or a
@@ -472,21 +468,21 @@ class Survey(pd.DataFrame):
         """
         if weights is None:
             weights = self.weights
-        return inequality.gini(self, income, weights, sort)
+        return inequality.gini(income, weights, self, sort)
 
     def atkinson(self, income=None, weights=None, e=0.5):
         """More precisely labelled a family of income grouped measures, the
         theoretical range of Atkinson values is 0 to 1, with 0 being a state of
         equal distribution.
-        An intuitive interpretation of this index is possible: Atkinson values can
-        be used to calculate the proportion of total income that would be required
-        to achieve an equal level of social welfare as at present if incomes were
-        perfectly distributed.
+        An intuitive interpretation of this index is possible: Atkinson values
+        can be used to calculate the proportion of total income that would be
+        required to achieve an equal level of social welfare as at present if
+        incomes were perfectly distributed.
 
         For example, an Atkinson index value of 0.20 suggests
         that we could achieve the same level of social welfare with only
-        1 – 0.20 = 80% of income. The theoretical range of Atkinson values is 0 to 1,
-        with 0 being a state of equal distribution.
+        1 – 0.20 = 80% of income. The theoretical range of Atkinson values is 0
+        to 1, with 0 being a state of equal distribution.
 
         Parameters
         ---------
@@ -497,8 +493,8 @@ class Survey(pd.DataFrame):
             If `data` is none `weights` must be an 1D-array, when `data` is a
             pd.DataFrame, you must pass the name of weights variable as string.
         e : int, optional
-            Epsilon parameter interpreted by atkinson index as grouped adversion,
-            must be between 0 and 1.
+            Epsilon parameter interpreted by atkinson index as grouped
+            adversion, must be a number between 0 to 1.
         data : pd.DataFrame, optional
             data is a pd.DataFrame that contains the variables.
 
@@ -520,13 +516,13 @@ class Survey(pd.DataFrame):
         """
         if weights is None:
             weights = self.weights
-        return inequality.atkinson(self, income, weights, e)
+        return inequality.atkinson(income, weights, self, e)
 
     def kakwani(self, tax=None, income_pre_tax=None, weights=None):
         """The Kakwani (1977) index of tax progressivity is defined as twice the
         area between the concentration curves for taxes and pre-tax income,
-        or equivalently, the concentration index for t(x) minus the Gini index for
-        x, i.e.
+        or equivalently, the concentration index for t(x) minus the Gini index
+        for x, i.e.
 
         K = C(t) - G(x)
           = (2/t) cov [t(x), F(x)] - (2/x) cov [x, F(x)].
@@ -552,13 +548,13 @@ class Survey(pd.DataFrame):
 
         References
         ----------
-        Jenkins, S. (1988). Calculating income distribution indices from micro-data.
-        National Tax Journal. http://doi.org/10.2307/41788716
+        Jenkins, S. (1988). Calculating income distribution indices from
+        micro-data. National Tax Journal. http://doi.org/10.2307/41788716
         """
         # main calc
         if weights is None:
             weights = self.weights
-        return inequality.kakwani(self, tax, income_pre_tax, weights)
+        return inequality.kakwani(tax, income_pre_tax, weights, self)
 
     def reynolds_smolensky(self, income_pre_tax=None, income_post_tax=None,
                            weights=None):
@@ -590,13 +586,13 @@ class Survey(pd.DataFrame):
 
         References
         ----------
-        Jenkins, S. (1988). Calculating income distribution indices from micro-data.
-        National Tax Journal. http://doi.org/10.2307/41788716
+        Jenkins, S. (1988). Calculating income distribution indices from
+        micro-data. National Tax Journal. http://doi.org/10.2307/41788716
         """
         if weights is None:
             weights = self.weights
-        return inequality.reynolds_smolensky(self, income_pre_tax,
-                                             income_post_tax, weights)
+        return inequality.reynolds_smolensky(income_pre_tax,
+                                             income_post_tax, weights, self)
 
     def theil(self, income=None, weights=None):
         """The Theil index is a statistic primarily used to measure economic
@@ -630,7 +626,7 @@ class Survey(pd.DataFrame):
         """
         if weights is None:
             weights = self.weights
-        return inequality.theil(self, income, weights)
+        return inequality.theil(income, weights, self)
 
     def avg_tax_rate(self, total_tax=None, total_base=None, weights=None):
         """This function compute the average tax rate given a base income and a
@@ -655,4 +651,4 @@ class Survey(pd.DataFrame):
         """
         if weights is None:
             weights = self.weights
-        return inequality.avg_tax_rate(self, total_tax, total_base, weights)
+        return inequality.avg_tax_rate(total_tax, total_base, weights, self)

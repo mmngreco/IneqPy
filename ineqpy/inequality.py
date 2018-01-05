@@ -18,7 +18,7 @@ from .statistics import mean
 from . import utils
 
 
-def concentration(data=None, income=None, weights=None, sort=True):
+def concentration(income, weights=None, data=None, sort=True):
     """This function calculate the concentration index, according to the
     notation used in [Jenkins1988]_ you can calculate the:
     C_x = 2 / x · cov(x, F_x)
@@ -60,7 +60,7 @@ def concentration(data=None, income=None, weights=None, sort=True):
     return 2 * cov / mu
 
 
-def lorenz(data=None, income=None, weights=None):
+def lorenz(income, weights=None, data=None):
     """In economics, the Lorenz curve is a graphical representation of the
     distribution of income or of wealth. It was developed by Max O. Lorenz in
     1905 for representing grouped of the wealth distribution. This function
@@ -106,7 +106,7 @@ def lorenz(data=None, income=None, weights=None):
     return res
 
 
-def gini(data=None, income=None, weights=None, sort=True):
+def gini(income, weights=None, data=None, sort=True):
     """The Gini coefficient (sometimes expressed as a Gini ratio or a
     normalized Gini index) is a measure of statistical dispersion intended to
     represent the income or wealth distribution of a nation's residents, and is
@@ -162,7 +162,7 @@ def gini(data=None, income=None, weights=None, sort=True):
     return concentration(data=data, income=income, weights=weights, sort=sort)
 
 
-def atkinson(data=None, income=None, weights=None, e=0.5):
+def atkinson(income, weights=None, data=None, e=0.5):
     """More precisely labelled a family of income grouped measures, the
     theoretical range of Atkinson values is 0 to 1, with 0 being a state of
     equal distribution.
@@ -210,7 +210,7 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
         raise ValueError('Must pass at least one of both `income` or `df`')
 
     income, weights = utils._extract_values(data, income, weights)
-    weights = utils.not_empty_weights(weights)
+    weights = utils.not_empty_weights(weights, income)
 
     # not-null condition
     income, weights = utils.not_null_condition(income, weights)
@@ -235,7 +235,7 @@ def atkinson(data=None, income=None, weights=None, e=0.5):
     return atkinson
 
 
-def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
+def kakwani(tax, income_pre_tax, weights=None, data=None):
     """The Kakwani (1977) index of tax progressivity is defined as twice the
     area between the concentration curves for taxes and pre-tax income,
     or equivalently, the concentration index for t(x) minus the Gini index for
@@ -275,8 +275,8 @@ def kakwani(data=None, tax=None, income_pre_tax=None, weights=None):
     return c_t - g_y
 
 
-def reynolds_smolensky(data=None, income_pre_tax=None, income_post_tax=None,
-                       weights=None):
+def reynolds_smolensky(income_pre_tax, income_post_tax, weights=None,
+                       data=None):
     """The Reynolds-Smolensky (1977) index of the redistributive effect of
     taxes, which can also be interpreted as an index of progressivity
     (Lambert 1985), is defined as:
@@ -312,12 +312,8 @@ def reynolds_smolensky(data=None, income_pre_tax=None, income_post_tax=None,
     g_x = concentration(data=data, income=income_pre_tax, weights=weights)
     return g_x - g_y
 
-# todo to complete
-# def suits():
-#     return
 
-
-def theil(data=None, income=None, weights=None):
+def theil(income, weights=None, data=None):
     """The Theil index is a statistic primarily used to measure economic
     grouped and other economic phenomena. It is a special case of the
     generalized entropy index. It can be viewed as a measure of redundancy,
@@ -362,7 +358,7 @@ def theil(data=None, income=None, weights=None):
     return theil
 
 
-def avg_tax_rate(data=None, total_tax=None, total_base=None, weights=None):
+def avg_tax_rate(total_tax, total_base, weights=None, data=None):
     """This function compute the average tax rate given a base income and a
     total tax.
 
