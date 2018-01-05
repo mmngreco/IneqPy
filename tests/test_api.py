@@ -7,7 +7,7 @@ w = np.random.randint(1,10, int(1e3))
 data = np.c_[data, w]
 columns = list('abcw')
 
-df = svy(data, columns=columns, weights='w')
+df = svy(data=data, columns=columns, weights='w')
 
 df
 df.weights
