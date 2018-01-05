@@ -127,19 +127,22 @@ Inequality estimators
 0.76739136365917116
 ```
 
-Example of use:
-===============
+More examples and comparision with other packages:
+==================================================
 
 We generate random weighted data to show how ineqpy works. The variables
 simulate being:
+
     x : Income
     w : Weights
 
 To test with classical statistics we generate:
+
     x_rep : Income values replicated w times each one.
     w_rep : Ones column.
 
 Additional information:
+
     np : numpy package
     sp : scipy package
     pd : pandas package
