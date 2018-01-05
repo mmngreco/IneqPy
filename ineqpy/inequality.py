@@ -46,7 +46,7 @@ def concentration(income, weights=None, data=None, sort=True):
     # TODO complete docstring
 
     # check if DataFrame is passed, if yes then extract variables else make a copy
-    income, weights = utils._extract_values(data, income, weights)
+    income, weights = utils.extract_values(data, income, weights)
     if weights is None:
         weights = utils.not_empty_weights(weights, as_of=income)
     # if sort is true then sort the variables.
@@ -92,7 +92,7 @@ def lorenz(income, weights=None, data=None):
     """
 
     if data is not None:
-        income, weights = utils._extract_values(data, income, weights)
+        income, weights = utils.extract_values(data, income, weights)
 
     total_income = income * weights
     idx_sort = np.argsort(income)
@@ -209,7 +209,7 @@ def atkinson(income, weights=None, data=None, e=0.5):
     if (income is None) and (data is None):
         raise ValueError('Must pass at least one of both `income` or `df`')
 
-    income, weights = utils._extract_values(data, income, weights)
+    income, weights = utils.extract_values(data, income, weights)
     weights = utils.not_empty_weights(weights, income)
 
     # not-null condition
@@ -344,7 +344,7 @@ def theil(income, weights=None, data=None):
 
     """
     if data is not None:
-        income, weights = utils._extract_values(data, income, weights)
+        income, weights = utils.extract_values(data, income, weights)
     else:
         income = income.copy()
         weights = weights.copy()

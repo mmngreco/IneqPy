@@ -46,8 +46,6 @@ def not_empty_weights(weights, as_of):
 
 
 def not_null_condition(income, weights):
-    income = income.copy()
-    weights = weights.copy()
 
     if np.any(income <= 0):
         mask = income > 0
@@ -77,7 +75,7 @@ def normalize(this):
     return this / np.sum(this)
 
 
-def _extract_values(data, variable, weights):
+def extract_values(data, variable, weights):
     if not (data is None):
         variable = data.loc[:, variable].values
         weights = not_empty_weights(data.loc[:, weights].values, as_of=variable)

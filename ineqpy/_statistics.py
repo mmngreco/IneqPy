@@ -45,8 +45,7 @@ def c_moment(variable=None, weights=None, order=2, param=None, ddof=0):
 
     TODO
     ----
-
-    Implement: https://en.wikipedia.org/wiki/L-moment#cite_note-wang:96-6
+    Implement : https://en.wikipedia.org/wiki/L-moment#cite_note-wang:96-6
 
     """
     # return np.sum((x-c)^n*counts) / np.sum(counts)
@@ -63,7 +62,8 @@ def c_moment(variable=None, weights=None, order=2, param=None, ddof=0):
 
 
 def percentile(variable, weights, percentile=50, interpolation='lower'):
-    """Lower case
+    """Calculate the percentile.
+
     Parameters
     ----------
     variable : str or array
@@ -99,7 +99,9 @@ def percentile(variable, weights, percentile=50, interpolation='lower'):
 
 
 def std_moment(variable=None, weights=None, param=None, order=3, ddof=0):
-    """Calculate the standardized moment of order `c` for the variable` x` with
+    """Calculate the standarized moment.
+
+    Calculate the standarized moment of order `c` for the variable` x` with
     respect to `c`.
 
     Parameters
@@ -162,7 +164,7 @@ def mean(variable=None, weights=None):
 
 
 def var(variable=None, weights=None, ddof=0):
-    """Calculate the population variance of `variable` given `weights`.
+    """Calculate the population variance of ``variable`` given `weights`.
 
     Parameters
     ----------
@@ -190,7 +192,9 @@ def var(variable=None, weights=None, ddof=0):
 
 
 def coef_variation(variable=None, weights=None):
-    """Calculate the coefficient of variation of a `variable` given weights.
+    """Calculate the coefficient of variation.
+
+     Calculate the coefficient of variation of a `variable` given weights.
     The coefficient of variation is the square root of the variance of the
     incomes divided by the mean income. It has the advantages of being
     mathematically tractable and is subgroup decomposable, but is not bounded

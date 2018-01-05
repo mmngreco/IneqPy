@@ -37,11 +37,10 @@ def c_moment(variable=None, weights=None, data=None, order=2, param=None,
 
     TODO
     ----
-
     Implement: https://en.wikipedia.org/wiki/L-moment#cite_note-wang:96-6
 
     """
-    variable, weights = utils._extract_values(data, variable, weights)
+    variable, weights = utils.extract_values(data, variable, weights)
     return stat.c_moment(variable, weights, order, param, ddof)
 
 
@@ -63,7 +62,7 @@ def percentile(variable=None, weights=None, data=None, p=50, interpolate='lower'
     percentile : float or pd.Series
 
     """
-    variable, weights = utils._extract_values(data, variable, weights)
+    variable, weights = utils.extract_values(data, variable, weights)
     return stat.percentile(variable, weights, p, interpolate)
 
 
@@ -103,7 +102,7 @@ def std_moment(variable=None, weights=None, data=None, param=None, order=3,
     implementation.
 
     """
-    variable, weights = utils._extract_values(data, variable, weights)
+    variable, weights = utils.extract_values(data, variable, weights)
     return stat.std_moment(data, variable, weights, param, order, ddof)
 
 
@@ -126,14 +125,15 @@ def mean(variable=None, weights=None, data=None):
     """
     # if pass a DataFrame separate variables.
     if data is not None:
-        variable, weights = utils._extract_values(data, variable, weights)
+        variable, weights = utils.extract_values(data, variable, weights)
     return stat.mean(
-            variable, utils.not_empty_weights(weights, variable)
+            variable,
+            utils.not_empty_weights(weights, variable)
     )
 
 
 def density(variable=None, weights=None, groups=None, data=None):
-    """Density in perfecntage.
+    """Density in percentage.
 
     Calculates density in percentage. This make division of variable inferring
     width in groups as max - min.
@@ -144,9 +144,11 @@ def density(variable=None, weights=None, groups=None, data=None):
         Main variable.
     weights : numpy.array or pandas.DataFrame
         Weights of main variable.
+    groups : numpy.array or pandas.DataFrame
+        Label that show which group each element belongs to.
     data : pd.DataFrame, optional
-        pandas.DataFrame that contains all variables needed.
-    groups :
+        Object that contains all variables needed.
+
 
     Returns
     -------
@@ -158,7 +160,7 @@ def density(variable=None, weights=None, groups=None, data=None):
     14:47, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Histogram&oldid=779516918
     """
-    variable, weights = utils._extract_values(data, variable, weights)
+    variable, weights = utils.extract_values(data, variable, weights)
     if not (groups is None):
         groups = data[groups].values
     return stat.density(variable, weights, groups)
@@ -177,6 +179,10 @@ def var(variable=None, weights=None, data=None, ddof=0):
         Variable on which the quasivariation is estimated
     weights : 1d-array or pd.Series or pd.DataFrame
         Weights of the `variable`.
+    data : pd.DataFrame
+        Object that contains all variables needed.
+    ddof : int
+        Degree of freedom.
 
     Returns
     -------
@@ -194,7 +200,7 @@ def var(variable=None, weights=None, data=None, ddof=0):
     -----
     If stratificated sample must pass with groupby each strata.
     """
-    variable, weights = utils._extract_values(data, variable, weights)
+    variable, weights = utils.extract_values(data, variable, weights)
     return stat.var(variable, weights, ddof)
 
 
@@ -224,7 +230,7 @@ def coef_variation(variable=None, weights=None, data=None):
     title=Coefficient_of_variation&oldid=778842331
     """
     # TODO complete docstring
-    variable, weights = utils._extract_values(data, variable, weights)
+    variable, weights = utils.extract_values(data, variable, weights)
     return stat.coef_variation(variable, weights)
 
 
@@ -254,7 +260,7 @@ def kurt(variable=None, weights=None, data=None):
     -----
     It is an alias of the standardized fourth-order moment.
     """
-    variable, weights = utils._extract_values(data, variable, weights)
+    variable, weights = utils.extract_values(data, variable, weights)
     return stat.kurt(variable, weights)
 
 
@@ -280,11 +286,9 @@ def skew(variable=None, weights=None, data=None):
     Retrieved 14:40, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
 
-
     Notes
     -----
     It is an alias of the standardized third-order moment.
-
     """
-    variable, weights = utils._extract_values(data, variable, weights)
+    variable, weights = utils.extract_values(data, variable, weights)
     return stat.skew(variable, weights)
