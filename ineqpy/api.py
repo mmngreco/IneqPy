@@ -1,5 +1,7 @@
-"""Object that extend pandas.DataFrames with all functions.
+"""This module extend pandas.DataFrames with the main functions from statistics and 
+inequality modules.
 """
+
 from . import _statistics
 from . import inequality
 from . import statistics

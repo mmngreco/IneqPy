@@ -3,12 +3,28 @@ if __name__ == '__main__':
     import os
     import sys
     import shutil
+    import glob
+    
+    files_list = glob.glob(os.getcwd())
+    print(files_list)
 
-    to_remove_list = ['_build', '_autodoc', '_autosummary', '_autodoc',
-                      '_autosummary', '_modules', '_sources', '_static',
-                      'api.html', 'genindex.html', 'index.html', 'objects.inv',
-                      'py-modindex.html', 'search.html', 'searchindex.js',
-                      ]
+    to_remove_list = [
+        '_build', 
+        '_autodoc', 
+        '_autosummary', 
+        '_autodoc',
+        '_autosummary', 
+        '_modules', 
+        '_sources', 
+        '_static',
+        'api.html', 
+        'genindex.html', 
+        'index.html', 
+        'objects.inv',
+        'py-modindex.html', 
+        'search.html', 
+        'searchindex.js',
+    ]
 
     for folder_file in to_remove_list:
         if not os.path.exists(folder_file): continue
@@ -17,5 +33,5 @@ if __name__ == '__main__':
         except:
             os.remove(folder_file)
 
-    os.system(r'sphinx-apidoc -M -T -f -e -o _autodoc ../ineqpy')
-    os.system(r'sphinx-build -b html ./source/ .')
+    os.system(r'sphinx-apidoc -M -T -f -e -o ./_autodoc ../ineqpy')
+    os.system(r'sphinx-build -b html ./source ./')

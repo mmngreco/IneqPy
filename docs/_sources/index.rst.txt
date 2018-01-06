@@ -13,10 +13,13 @@ Contents:
 ---------
 
 .. toctree::
-   :maxdepth: 6
+   :maxdepth: 2
 
+   installation
+   quickstart
    _autodoc/ineqpy
    api
+
 
 Indices and tables
 ==================

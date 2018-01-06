@@ -16,24 +16,15 @@ inequality. Among the estimators provided by this package you can find:
 | Weighted Skewness                 | Weighted Lorenz curve |
 
 
------------
-First-steps
------------
-
-- Installation
-- Examples
-
-
-Install
--------
+Installation
+------------
 
 ```bash
-git clone https://github.com/mmngreco/IneqPy.git
-cd IneqPy
-pip install .
+$ git clone https://github.com/mmngreco/IneqPy.git
+$ cd IneqPy
+$ pip install .
 ```
 
---------
 Examples
 --------
 
@@ -71,7 +62,6 @@ Data of example:
 1887900       0.00   1.0251
 1977800   10662.63  28.0409
 2067700    3281.95   1.1670
-
 ```
 
 ----------------------
@@ -89,14 +79,12 @@ Descriptive statistics
 > Note that the standardized moment for order `n`, retrieve the value in that
   column:
 
-
 | `n` | value     |
 |:---:|:---------:|
 | 1   | 0         |
 | 2   | 1         |
 | 3   | Skew      |
 | 4   | Kurtosis  |
-
 
 A helpful table of interpretation of the moments
 
@@ -221,7 +209,8 @@ Another way to use this is through the API module as shown below:
 API MODULE
 ----------
 
-Build object:
+Using api module:
+
 ```python
 >>> data = svy(data=data, columns=columns, weights='w')
 >>> data.head()

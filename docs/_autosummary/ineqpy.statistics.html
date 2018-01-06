@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ineqpy.statistics &mdash; IneqPy 0.1.1-rc1+17.ge9f16e2.dirty documentation</title>
+  <title>ineqpy.statistics &mdash; IneqPy 0.1.1-rc1+42.ge6bc0f7.dirty documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="IneqPy 0.1.1-rc1+17.ge9f16e2.dirty documentation" href="../index.html"/>
+    <link rel="top" title="IneqPy 0.1.1-rc1+42.ge6bc0f7.dirty documentation" href="../index.html"/>
         <link rel="up" title="API reference" href="../api.html"/>
         <link rel="next" title="ineqpy.api" href="ineqpy.api.html"/>
         <link rel="prev" title="ineqpy.inequality" href="ineqpy.inequality.html"/> 
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.1.1-rc1+17.ge9f16e2.dirty
+                0.1.1-rc1+42.ge6bc0f7.dirty
               </div>
             
           
@@ -92,6 +92,9 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_autodoc/ineqpy.html">ineqpy package</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="ineqpy.inequality.html">ineqpy.inequality</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">ineqpy.statistics</a></li>
@@ -166,6 +169,8 @@
             
   <div class="section" id="module-ineqpy.statistics">
 <span id="ineqpy-statistics"></span><h1>ineqpy.statistics<a class="headerlink" href="#module-ineqpy.statistics" title="Permalink to this headline">¶</a></h1>
+<p>Descriptive statistics.</p>
+<p>This module contains main descriptive statistics like: mean, variance, etc.</p>
 <p class="rubric">Functions</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -173,32 +178,32 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">c_moment</span></code>([data,&nbsp;variable,&nbsp;weights,&nbsp;order,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../_autodoc/ineqpy.statistics.html#ineqpy.statistics.c_moment" title="ineqpy.statistics.c_moment"><code class="xref py py-obj docutils literal"><span class="pre">c_moment</span></code></a>([variable,&nbsp;weights,&nbsp;data,&nbsp;order,&nbsp;…])</td>
 <td>Calculate the central moment of <cite>x</cite> with respect to <cite>param</cite> of order <cite>n</cite>, given the weights <cite>w</cite>.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">coef_variation</span></code>([data,&nbsp;variable,&nbsp;weights])</td>
-<td>Calculate the coefficient of variation of a <cite>variable</cite> given weights.</td>
+<tr class="row-even"><td><a class="reference internal" href="../_autodoc/ineqpy.statistics.html#ineqpy.statistics.coef_variation" title="ineqpy.statistics.coef_variation"><code class="xref py py-obj docutils literal"><span class="pre">coef_variation</span></code></a>([variable,&nbsp;weights,&nbsp;data])</td>
+<td>Calculate the coefficient of variation.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">density</span></code>([data,&nbsp;variable,&nbsp;weights,&nbsp;groups])</td>
-<td>Calculates density in percentage.</td>
+<tr class="row-odd"><td><a class="reference internal" href="../_autodoc/ineqpy.statistics.html#ineqpy.statistics.density" title="ineqpy.statistics.density"><code class="xref py py-obj docutils literal"><span class="pre">density</span></code></a>([variable,&nbsp;weights,&nbsp;groups,&nbsp;data])</td>
+<td>Density in percentage.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">kurt</span></code>([data,&nbsp;variable,&nbsp;weights])</td>
-<td>Calculate the asymmetry coefficient</td>
+<tr class="row-even"><td><a class="reference internal" href="../_autodoc/ineqpy.statistics.html#ineqpy.statistics.kurt" title="ineqpy.statistics.kurt"><code class="xref py py-obj docutils literal"><span class="pre">kurt</span></code></a>([variable,&nbsp;weights,&nbsp;data])</td>
+<td>Calculate the Kurtosis coefficient.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">mean</span></code>([data,&nbsp;variable,&nbsp;weights])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../_autodoc/ineqpy.statistics.html#ineqpy.statistics.mean" title="ineqpy.statistics.mean"><code class="xref py py-obj docutils literal"><span class="pre">mean</span></code></a>([variable,&nbsp;weights,&nbsp;data])</td>
 <td>Calculate the mean of <cite>variable</cite> given <cite>weights</cite>.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">percentile</span></code>([data,&nbsp;variable,&nbsp;weights,&nbsp;p,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="../_autodoc/ineqpy.statistics.html#ineqpy.statistics.percentile" title="ineqpy.statistics.percentile"><code class="xref py py-obj docutils literal"><span class="pre">percentile</span></code></a>([variable,&nbsp;weights,&nbsp;data,&nbsp;p,&nbsp;…])</td>
 <td>Calculate the value of a quantile given a variable and his weights.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">skew</span></code>([data,&nbsp;variable,&nbsp;weights])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../_autodoc/ineqpy.statistics.html#ineqpy.statistics.skew" title="ineqpy.statistics.skew"><code class="xref py py-obj docutils literal"><span class="pre">skew</span></code></a>([variable,&nbsp;weights,&nbsp;data])</td>
 <td>Returns the asymmetry coefficient of a sample.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">std_moment</span></code>([data,&nbsp;variable,&nbsp;weights,&nbsp;param,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="../_autodoc/ineqpy.statistics.html#ineqpy.statistics.std_moment" title="ineqpy.statistics.std_moment"><code class="xref py py-obj docutils literal"><span class="pre">std_moment</span></code></a>([variable,&nbsp;weights,&nbsp;data,&nbsp;param,&nbsp;…])</td>
 <td>Calculate the standardized moment of order <cite>c</cite> for the variable` x` with respect to <cite>c</cite>.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">var</span></code>([data,&nbsp;variable,&nbsp;weights,&nbsp;ddof])</td>
-<td>Calculate the population variance of <cite>variable</cite> given <cite>weights</cite>.</td>
+<tr class="row-odd"><td><a class="reference internal" href="../_autodoc/ineqpy.statistics.html#ineqpy.statistics.var" title="ineqpy.statistics.var"><code class="xref py py-obj docutils literal"><span class="pre">var</span></code></a>([variable,&nbsp;weights,&nbsp;data,&nbsp;ddof])</td>
+<td>Calculate the variance.</td>
 </tr>
 </tbody>
 </table>
@@ -248,7 +253,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1.1-rc1+17.ge9f16e2.dirty',
+            VERSION:'0.1.1-rc1+42.ge6bc0f7.dirty',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

@@ -1,6 +1,6 @@
-"""Common statistics.
+"""Descriptive statistics.
 
-This module contains, main statistics like mean, variance, etc.
+This module contains main descriptive statistics like: mean, variance, etc.
 
 """
 

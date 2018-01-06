@@ -1,3 +1,6 @@
+"""Useful functions that make easier develop other functions.
+"""
+
 import numpy as np
 import pandas as pd
 

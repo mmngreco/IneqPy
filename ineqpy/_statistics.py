@@ -1,11 +1,17 @@
-"""
+"""Low level desciptive statistics.
 
 References
 ----------
-http://people.ds.cam.ac.uk/fanf2/hermes/doc/antiforgery/stats.pdf
-https://en.wikipedia.org/wiki/Weighted_arithmetic_mean#Weighted_sample_variance
-https://en.wikipedia.org/wiki/Algorithms%5Ffor%5Fcalculating%5Fvariance#Weighted_incremental_algorithm
-https://www.thinkbrg.com/media/publication/720_McCrary_ImplementingAlgorithms_Whitepaper_20151119_WEB.pdf
+
+1. http://people.ds.cam.ac.uk/fanf2/hermes/doc/antiforgery/stats.pdf
+
+2. https://en.wikipedia.org/wiki/Weighted_arithmetic_mean#Weighted_sample_variance
+
+3. https://en.wikipedia.org/wiki/Algorithms%5Ffor%5Fcalculating%5Fvariance
+   #Weighted_incremental_algorithm
+
+4. https://www.thinkbrg.com/media/publication/720_McCrary_ImplementingAlgorithms_
+   Whitepaper_20151119_WEB.pdf
 """
 
 import numpy as np

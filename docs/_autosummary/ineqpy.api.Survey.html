@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ineqpy.api.Survey &mdash; IneqPy 0.1.1-rc1+17.ge9f16e2.dirty documentation</title>
+  <title>ineqpy.api.Survey &mdash; IneqPy 0.1.1-rc1+42.ge6bc0f7.dirty documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="IneqPy 0.1.1-rc1+17.ge9f16e2.dirty documentation" href="../index.html"/>
+    <link rel="top" title="IneqPy 0.1.1-rc1+42.ge6bc0f7.dirty documentation" href="../index.html"/>
         <link rel="up" title="API reference" href="../api.html"/>
         <link rel="prev" title="ineqpy.api" href="ineqpy.api.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1.1-rc1+17.ge9f16e2.dirty
+                0.1.1-rc1+42.ge6bc0f7.dirty
               </div>
             
           
@@ -91,6 +91,9 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_autodoc/ineqpy.html">ineqpy package</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="ineqpy.inequality.html">ineqpy.inequality</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ineqpy.statistics.html">ineqpy.statistics</a></li>
@@ -195,11 +198,11 @@
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">add_suffix</span></code>(suffix)</td>
 <td>Concatenate suffix string with panel items names.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">agg</span></code>(func[,&nbsp;axis])</td>
-<td>Aggregate using callable, string, dict, or list of string/callables</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">Survey.agg</span></code></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">aggregate</span></code>(func[,&nbsp;axis])</td>
-<td>Aggregate using callable, string, dict, or list of string/callables</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Survey.aggregate</span></code></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">align</span></code>(other[,&nbsp;join,&nbsp;axis,&nbsp;level,&nbsp;copy,&nbsp;…])</td>
 <td>Align two object on their axes with the</td>
@@ -225,7 +228,7 @@
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">as_matrix</span></code>([columns])</td>
 <td>Convert the frame to its Numpy-array representation.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">asfreq</span></code>(freq[,&nbsp;method,&nbsp;how,&nbsp;normalize,&nbsp;…])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">asfreq</span></code>(freq[,&nbsp;method,&nbsp;how,&nbsp;normalize])</td>
 <td>Convert TimeSeries to specified frequency.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">asof</span></code>(where[,&nbsp;subset])</td>
@@ -234,7 +237,7 @@
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assign</span></code>(**kwargs)</td>
 <td>Assign new columns to a DataFrame, returning a new object (a copy) with all the original columns in addition to the new ones.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">astype</span></code>(dtype[,&nbsp;copy,&nbsp;errors])</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">astype</span></code>(dtype[,&nbsp;copy,&nbsp;raise_on_error])</td>
 <td>Cast object to input numpy.dtype</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">at_time</span></code>(time[,&nbsp;asof])</td>
@@ -244,7 +247,7 @@
 <td>Select values between particular times of the day (e.g., 9:00-9:30 AM).</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">bfill</span></code>([axis,&nbsp;inplace,&nbsp;limit,&nbsp;downcast])</td>
-<td>Synonym for <code class="xref py py-meth docutils literal"><span class="pre">DataFrame.fillna(method='bfill')</span></code></td>
+<td>Synonym for NDFrame.fillna(method=’bfill’)</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">bool</span></code>()</td>
 <td>Return the bool of a single element PandasObject.</td>
@@ -271,7 +274,7 @@
 <td>Return the compound percentage of the values for the requested axis</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">consolidate</span></code>([inplace])</td>
-<td>DEPRECATED: consolidate will be an internal implementation only.</td>
+<td>Compute NDFrame with “consolidated” internals (data of each dtype grouped together in a single ndarray).</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">convert_objects</span></code>([convert_dates,&nbsp;…])</td>
 <td>Deprecated.</td>
@@ -304,7 +307,7 @@
 <td>Return cumulative sum over requested axis.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">describe</span></code>([percentiles,&nbsp;include,&nbsp;exclude])</td>
-<td>Generates descriptive statistics that summarize the central tendency, dispersion and shape of a dataset’s distribution, excluding <code class="docutils literal"><span class="pre">NaN</span></code> values.</td>
+<td>Generate various summary statistics, excluding NaN values.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">diff</span></code>([periods,&nbsp;axis])</td>
 <td>1st discrete difference of object</td>
@@ -346,7 +349,7 @@
 <td>Provides expanding transformations.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">ffill</span></code>([axis,&nbsp;inplace,&nbsp;limit,&nbsp;downcast])</td>
-<td>Synonym for <code class="xref py py-meth docutils literal"><span class="pre">DataFrame.fillna(method='ffill')</span></code></td>
+<td>Synonym for NDFrame.fillna(method=’ffill’)</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fillna</span></code>([value,&nbsp;method,&nbsp;axis,&nbsp;inplace,&nbsp;…])</td>
 <td>Fill NA/NaN values using the specified method</td>
@@ -444,8 +447,8 @@
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">keys</span></code>()</td>
 <td>Get the ‘info axis’ (see Indexing for more)</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">kurt</span></code>([axis,&nbsp;skipna,&nbsp;level,&nbsp;numeric_only])</td>
-<td>Return unbiased kurtosis over requested axis using Fisher’s definition of kurtosis (kurtosis of normal == 0.0).</td>
+<tr class="row-odd"><td><a class="reference internal" href="../_autodoc/ineqpy.api.html#ineqpy.api.Survey.kurt" title="ineqpy.api.Survey.kurt"><code class="xref py py-obj docutils literal"><span class="pre">kurt</span></code></a>([variable,&nbsp;weights])</td>
+<td>Calculate the asymmetry coefficient</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">kurtosis</span></code>([axis,&nbsp;skipna,&nbsp;level,&nbsp;numeric_only])</td>
 <td>Return unbiased kurtosis over requested axis using Fisher’s definition of kurtosis (kurtosis of normal == 0.0).</td>
@@ -474,14 +477,14 @@
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">max</span></code>([axis,&nbsp;skipna,&nbsp;level,&nbsp;numeric_only])</td>
 <td>This method returns the maximum of the values in the object.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">mean</span></code>([axis,&nbsp;skipna,&nbsp;level,&nbsp;numeric_only])</td>
-<td>Return the mean of the values for the requested axis</td>
+<tr class="row-odd"><td><a class="reference internal" href="../_autodoc/ineqpy.api.html#ineqpy.api.Survey.mean" title="ineqpy.api.Survey.mean"><code class="xref py py-obj docutils literal"><span class="pre">mean</span></code></a>([variable,&nbsp;weights])</td>
+<td>Calculate the mean of <cite>variable</cite> given <cite>weights</cite>.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">median</span></code>([axis,&nbsp;skipna,&nbsp;level,&nbsp;numeric_only])</td>
 <td>Return the median of the values for the requested axis</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">melt</span></code>([id_vars,&nbsp;value_vars,&nbsp;var_name,&nbsp;…])</td>
-<td>“Unpivots” a DataFrame from wide format to long format, optionally</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Survey.melt</span></code></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">memory_usage</span></code>([index,&nbsp;deep])</td>
 <td>Memory usage of DataFrame columns.</td>
@@ -516,8 +519,8 @@
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">nsmallest</span></code>(n,&nbsp;columns[,&nbsp;keep])</td>
 <td>Get the rows of a DataFrame sorted by the <cite>n</cite> smallest values of <cite>columns</cite>.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">nunique</span></code>([axis,&nbsp;dropna])</td>
-<td>Return Series with number of distinct observations over requested axis.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Survey.nunique</span></code></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">pct_change</span></code>([periods,&nbsp;fill_method,&nbsp;limit,&nbsp;freq])</td>
 <td>Percent change over given number of periods.</td>
@@ -633,8 +636,8 @@
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">shift</span></code>([periods,&nbsp;freq,&nbsp;axis])</td>
 <td>Shift index by desired number of periods with an optional time freq</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">skew</span></code>([axis,&nbsp;skipna,&nbsp;level,&nbsp;numeric_only])</td>
-<td>Return unbiased skew over requested axis</td>
+<tr class="row-even"><td><a class="reference internal" href="../_autodoc/ineqpy.api.html#ineqpy.api.Survey.skew" title="ineqpy.api.Survey.skew"><code class="xref py py-obj docutils literal"><span class="pre">skew</span></code></a>([variable,&nbsp;weights])</td>
+<td>Returns the asymmetry coefficient of a sample.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">slice_shift</span></code>([periods,&nbsp;axis])</td>
 <td>Equivalent to <cite>shift</cite> without copying data.</td>
@@ -646,9 +649,9 @@
 <td>Sort by the values along either axis</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">sortlevel</span></code>([level,&nbsp;axis,&nbsp;ascending,&nbsp;inplace,&nbsp;…])</td>
-<td>DEPRECATED: use <code class="xref py py-meth docutils literal"><span class="pre">DataFrame.sort_index()</span></code></td>
+<td>Sort multilevel index by chosen axis and primary level.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">squeeze</span></code>([axis])</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">squeeze</span></code>(**kwargs)</td>
 <td>Squeeze length 1 dimensions.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">stack</span></code>([level,&nbsp;dropna])</td>
@@ -691,10 +694,10 @@
 <td>Convert DataFrame to dictionary.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">to_excel</span></code>(excel_writer[,&nbsp;sheet_name,&nbsp;na_rep,&nbsp;…])</td>
-<td>Write DataFrame to an excel sheet</td>
+<td>Write DataFrame to a excel sheet</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">to_feather</span></code>(fname)</td>
-<td>write out the binary feather-format for DataFrames</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">Survey.to_feather</span></code></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">to_gbq</span></code>(destination_table,&nbsp;project_id[,&nbsp;…])</td>
 <td>Write a DataFrame to a Google BigQuery table.</td>
@@ -709,7 +712,7 @@
 <td>Convert the object to a JSON string.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">to_latex</span></code>([buf,&nbsp;columns,&nbsp;col_space,&nbsp;header,&nbsp;…])</td>
-<td>Render an object to a tabular environment table.</td>
+<td>Render a DataFrame to a tabular environment table.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">to_msgpack</span></code>([path_or_buf,&nbsp;encoding])</td>
 <td>msgpack (serialize) object to input file path</td>
@@ -720,7 +723,7 @@
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">to_period</span></code>([freq,&nbsp;axis,&nbsp;copy])</td>
 <td>Convert DataFrame from DatetimeIndex to PeriodIndex with desired</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">to_pickle</span></code>(path[,&nbsp;compression])</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">to_pickle</span></code>(path)</td>
 <td>Pickle (serialize) object to input file path.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">to_records</span></code>([index,&nbsp;convert_datetime64])</td>
@@ -744,8 +747,8 @@
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">to_xarray</span></code>()</td>
 <td>Return an xarray object from the pandas object.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">transform</span></code>(func,&nbsp;*args,&nbsp;**kwargs)</td>
-<td>Call function producing a like-indexed NDFrame</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">Survey.transform</span></code></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">transpose</span></code>(*args,&nbsp;**kwargs)</td>
 <td>Transpose index and columns</td>
@@ -771,8 +774,8 @@
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">update</span></code>(other[,&nbsp;join,&nbsp;overwrite,&nbsp;…])</td>
 <td>Modify DataFrame in place using non-NA values from passed DataFrame.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">var</span></code>([axis,&nbsp;skipna,&nbsp;level,&nbsp;ddof,&nbsp;numeric_only])</td>
-<td>Return unbiased variance over requested axis.</td>
+<tr class="row-even"><td><a class="reference internal" href="../_autodoc/ineqpy.api.html#ineqpy.api.Survey.var" title="ineqpy.api.Survey.var"><code class="xref py py-obj docutils literal"><span class="pre">var</span></code></a>([variable,&nbsp;weights,&nbsp;ddof])</td>
+<td>Calculate the population variance of <cite>variable</cite> given <cite>weights</cite>.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">where</span></code>(cond[,&nbsp;other,&nbsp;inplace,&nbsp;axis,&nbsp;level,&nbsp;…])</td>
 <td>Return an object of same shape as self and whose corresponding entries are from self where cond is True and otherwise are from other.</td>
@@ -828,7 +831,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1.1-rc1+17.ge9f16e2.dirty',
+            VERSION:'0.1.1-rc1+42.ge6bc0f7.dirty',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

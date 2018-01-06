@@ -1,4 +1,4 @@
-.. boa documentation master file, created by
+.. IneqPy documentation master file, created by
    sphinx-quickstart on Mon Dec 12 12:26:13 2016.
    You can adapt this file complete to your liking, but it should at least
    contain the root `toctree` directive.
@@ -13,10 +13,13 @@ Contents:
 ---------
 
 .. toctree::
-   :maxdepth: 6
+   :maxdepth: 2
 
+   installation
+   quickstart
    _autodoc/ineqpy
    api
+
 
 Indices and tables
 ==================

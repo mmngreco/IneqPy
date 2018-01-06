@@ -13,8 +13,13 @@ svy = ineq.api.Survey
 
 print(
 """
+==========
+Quickstart
+==========
+
 We generate random weighted data to show how ineqpy works. The variables 
 simulate being:
+
     x : Income
     w : Weights
 
@@ -23,6 +28,7 @@ simulate being:
 ```
 
 To test with classical statistics we generate:
+    
     x_rep : Income values replicated w times each one.
     w_rep : Ones column.
 
@@ -31,6 +37,7 @@ To test with classical statistics we generate:
 ```
 
 Additional information:
+
     np : numpy package
     sp : scipy package
     pd : pandas package
@@ -42,12 +49,14 @@ Additional information:
 
 print(
 """
+Examples and comparision with other packages
+============================================
 
 STATISTICS
 ==========
 
-MEAN CALCULATIONS
------------------
+MEAN
+----
 
 """
 )
@@ -65,8 +74,8 @@ print('```')
 print(
 """
 
-VARIANCE CALCULATIONS
----------------------
+VARIANCE
+--------
 
 """
 )
@@ -90,8 +99,8 @@ print('```')
 print(
 """
 
-COVARIANCE CALCULATIONS
------------------------
+COVARIANCE
+----------
 
 """
 )
@@ -110,8 +119,8 @@ print('```')
 print(
 """
 
-SKEWNESS CALCULATIONS
----------------------
+SKEWNESS
+--------
 
 """
 )
@@ -133,8 +142,8 @@ print('```')
 print(
 """
 
-KURTOSIS CALCULATIONS
----------------------
+KURTOSIS
+--------
 
 """
 )
@@ -153,8 +162,8 @@ print('```')
 
 print(
 """
-PERCENTILES CALCULATIONS
-------------------------
+PERCENTILES
+-----------
 
 """
 )
@@ -211,7 +220,7 @@ print(df.head())
 print('')
 print('>>> data.weights =', df.weights)
 print('```')
-
+print('')
 main_var = 'x'
 # df.mean(main_var)
 # df.var(main_var)
