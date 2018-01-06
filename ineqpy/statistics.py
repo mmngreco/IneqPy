@@ -1,3 +1,9 @@
+"""Common statistics.
+
+This module contains, main statistics like mean, variance, etc.
+
+"""
+
 import pandas as pd
 from . import _statistics as stat
 from . import utils

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""A PYTHON PACKAGE TO QUANTITATIVE ANALYSIS OF INEQUALITY.
+"""Analysis of inequality.
 
 This package provide an easy way to realize a quantitative analysis of
 grouped, also make easy work with stratified data, in this module you can

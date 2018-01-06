@@ -1,3 +1,5 @@
+"""Object that extend pandas.DataFrames with all functions.
+"""
 from . import _statistics
 from . import inequality
 from . import statistics

@@ -150,8 +150,8 @@ Additional information:
     ineq : IneqPy
 
 
-MEAN CALCULATIONS
------------------
+MEAN
+----
 
 ```python
 >>> np.mean(x_rep)       = 488.535714286
@@ -182,8 +182,8 @@ COVARIANCE
 >>> ineq_stat.wcov(x, x, w, kind=3) =  9.88131291682e-324
 ```
 
-SKEWNESS CALCULATIONS
----------------------
+SKEWNESS
+--------
 
 ```python
 >>> gsl_stat.wskew(w, x) =  -0.05742668111416989
@@ -191,8 +191,8 @@ SKEWNESS CALCULATIONS
 >>> ineq.skew(x, w)      =  -0.0586696059679
 ```
 
-KURTOSIS CALCULATIONS
----------------------
+KURTOSIS
+--------
 
 ```python
 >>> sp_stat.kurtosis(x_rep)  =  -0.7919389201857214
@@ -200,8 +200,8 @@ KURTOSIS CALCULATIONS
 >>> ineq.kurt(x, w) - 3      =  -0.791938920186
 ```
 
-PERCENTILES CALCULATIONS
-------------------------
+PERCENTILES
+-----------
 
 ```pyhton
 >>> ineq_stat.percentile(x, w, 50) =  526
