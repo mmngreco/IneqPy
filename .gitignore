@@ -1,19 +1,11 @@
 
 \.idea/
 
-pyineq\.egg-info/
+*\.egg-info/
 
-pyineq/__pycache__/
+*/__pycache__/
 
-IneqPy\.egg-info/
-
-ineqpy/__pycache__/
-
-examples/\.ipynb_checkpoints/
-
-utils/__pycache__/
-
-test/\.ipynb_checkpoints/
+*/\.ipynb_checkpoints/
 
 *.pyc
 
