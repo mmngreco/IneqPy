@@ -5,14 +5,12 @@ from ineqpy import _statistics as ineq_stats
 def main():
     x, w = ineq.utils.generate_data_to_test((1e6 - 1, 1e6))
 
-    np_mean = np.average(x, weights=w)
-    mean = ineq.mean(None, x, w)
-    print('Numpy Mean =', np_mean)
+    mean = ineq.mean(x, w)
     print('IneqPy Mean =', mean)
 
     print('-' * 20)
 
-    var = ineq.var(None, x, w)
+    var = ineq.var(x, w)
     var2 = ineq_stats.wvar(x, w, 1)
     var3 = ineq_stats.wvar(x, w, 2)
     var4 = ineq_stats.wvar(x, w, 3)
@@ -23,12 +21,12 @@ def main():
 
     print('-' * 20)
 
-    gini = ineq.gini(None, x, w)
+    gini = ineq.gini(x, w)
     print('IneqPy Gini =', gini)
 
     print('-' * 20)
 
-    atk = ineq.atkinson(None, x, w)
+    atk = ineq.atkinson(x, w)
     print('IneqPy Atkinson = ', atk)
 
 
