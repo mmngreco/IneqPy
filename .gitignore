@@ -12,3 +12,5 @@
 \.ropeproject/
 
 *.sublime*
+
+.cache/
