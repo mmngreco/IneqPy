@@ -79,7 +79,7 @@ def normalize(this):
 
 
 def extract_values(data, variable, weights):
-    if not (data is None):
+    if data is not None:
         variable = data.loc[:, variable].values
         weights = not_empty_weights(data.loc[:, weights].values, as_of=variable)
     return variable, weights
