@@ -20,9 +20,7 @@ Installation
 ------------
 
 ```bash
-$ git clone https://github.com/mmngreco/IneqPy.git
-$ cd IneqPy
-$ pip install .
+$ pip install git+https://github.com/mmngreco/IneqPy.git
 ```
 
 Examples
@@ -89,15 +87,15 @@ Descriptive statistics
 A helpful table of interpretation of the moments
 
 ```python
->>> ineqpy.std_moment(variable=x, weights=w, 1)  # = 0
+>>> ineqpy.std_moment(variable=x, weights=w, order=1)  # = 0
 2.4624948200717338e-17
->>> ineqpy.std_moment(variable=x, weights=w, 2)  # = 1
+>>> ineqpy.std_moment(variable=x, weights=w, order=2)  # = 1
 1.0
->>> ineqpy.std_moment(variable=x, weights=w, 3)  # = skew
+>>> ineqpy.std_moment(variable=x, weights=w, order=3)  # = skew
 5.9965055750379426
 >>> ineqpy.skew(variable=x, weights=w)
 5.9965055750379426
->>> ineqpy.std_moment(variable=x, weights=w, 4)  # = kurtosis
+>>> ineqpy.std_moment(variable=x, weights=w, order=4)  # = kurtosis
 42.319928851703004
 >>> ineqpy.kurt(variable=x, weights=w)
 42.319928851703004
