@@ -71,7 +71,7 @@ Descriptive statistics
 ```python
 >>> ineqpy.mean(variable=d.renta, weights=d.factor)
 20444.700666031338
->>> ineqpy.variance(variable=d.renta, weights=d.factor)
+>>> ineqpy.var(variable=d.renta, weights=d.factor)
 2982220948.7413292
 >>> x, w = d.renta.values, d.factor.values
 ```
