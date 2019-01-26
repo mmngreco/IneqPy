@@ -9,8 +9,9 @@ from . import _statistics as stat
 from . import utils
 
 
-def c_moment(variable=None, weights=None, data=None, order=2, param=None,
-             ddof=0):
+def c_moment(
+    variable=None, weights=None, data=None, order=2, param=None, ddof=0
+):
     """Calculate the central moment of `x` with respect to `param` of order `n`,
     given the weights `w`.
 
@@ -50,7 +51,9 @@ def c_moment(variable=None, weights=None, data=None, order=2, param=None,
     return stat.c_moment(variable, weights, order, param, ddof)
 
 
-def percentile(variable=None, weights=None, data=None, p=50, interpolate='lower'):
+def percentile(
+    variable=None, weights=None, data=None, p=50, interpolate="lower"
+):
     """Calculate the value of a quantile given a variable and his weights.
 
     Parameters
@@ -72,8 +75,9 @@ def percentile(variable=None, weights=None, data=None, p=50, interpolate='lower'
     return stat.percentile(variable, weights, p, interpolate)
 
 
-def std_moment(variable=None, weights=None, data=None, param=None, order=3,
-               ddof=0):
+def std_moment(
+    variable=None, weights=None, data=None, param=None, order=3, ddof=0
+):
     """Calculate the standardized moment of order `c` for the variable` x` with
     respect to `c`.
 
@@ -132,10 +136,7 @@ def mean(variable=None, weights=None, data=None):
     # if pass a DataFrame separate variables.
     if data is not None:
         variable, weights = utils.extract_values(data, variable, weights)
-    return stat.mean(
-            variable,
-            utils.not_empty_weights(weights, variable)
-    )
+    return stat.mean(variable, utils.not_empty_weights(weights, variable))
 
 
 def density(variable=None, weights=None, groups=None, data=None):
@@ -238,7 +239,6 @@ def coef_variation(variable=None, weights=None, data=None):
     # TODO complete docstring
     variable, weights = utils.extract_values(data, variable, weights)
     return stat.coef_variation(variable, weights)
-
 
 
 def kurt(variable=None, weights=None, data=None):

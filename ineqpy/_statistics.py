@@ -63,11 +63,12 @@ def c_moment(variable=None, weights=None, order=2, param=None, ddof=0):
     elif not isinstance(param, (np.ndarray, int, float)):
         raise NotImplementedError
 
-    return np.sum((variable - param) ** order * weights) / \
-           (np.sum(weights) - ddof)
+    return np.sum((variable - param) ** order * weights) / (
+        np.sum(weights) - ddof
+    )
 
 
-def percentile(variable, weights, percentile=50, interpolation='lower'):
+def percentile(variable, weights, percentile=50, interpolation="lower"):
     """Calculate the percentile.
 
     Parameters
@@ -84,20 +85,19 @@ def percentile(variable, weights, percentile=50, interpolation='lower'):
     sorted_idx = np.argsort(variable)
     cum_weights = np.cumsum(weights[sorted_idx])
     lower_percentile_idx = np.searchsorted(
-            cum_weights,
-            (percentile / 100.) * cum_weights[-1]
+        cum_weights, (percentile / 100.0) * cum_weights[-1]
     )
 
-    if interpolation is 'midpoint':
+    if interpolation is "midpoint":
         res = np.interp(
-                lower_percentile_idx + 0.5,
-                np.arange(len(variable)),
-                variable[sorted_idx]
+            lower_percentile_idx + 0.5,
+            np.arange(len(variable)),
+            variable[sorted_idx],
         )
-    elif interpolation is 'lower':
+    elif interpolation is "lower":
         res = variable[sorted_idx[lower_percentile_idx]]
-    elif interpolation is 'higher':
-        res = variable[sorted_idx[lower_percentile_idx+1]]
+    elif interpolation is "higher":
+        res = variable[sorted_idx[lower_percentile_idx + 1]]
     else:
         raise NotImplementedError
 
@@ -142,8 +142,9 @@ def std_moment(variable=None, weights=None, param=None, order=3, ddof=0):
     if param is None:
         param = mean(variable=variable, weights=weights)
 
-    res = c_moment(variable=variable, weights=weights, order=order, param=param,
-                   ddof=ddof)
+    res = c_moment(
+        variable=variable, weights=weights, order=order, param=param, ddof=ddof
+    )
     res /= var(variable=variable, weights=weights, ddof=ddof) ** (order / 2)
     return res
 
@@ -222,8 +223,9 @@ def coef_variation(variable=None, weights=None):
     https://en.wikipedia.org/w/index.php?title=Coefficient_of_variation&oldid=778842331
     """
     # todo complete docstring
-    return var(variable=variable, weights=weights) ** 0.5 / \
-           abs(mean(variable=variable, weights=weights))
+    return var(variable=variable, weights=weights) ** 0.5 / abs(
+        mean(variable=variable, weights=weights)
+    )
 
 
 def kurt(variable=None, weights=None):
@@ -279,8 +281,12 @@ def skew(variable=None, weights=None):
     return std_moment(variable=variable, weights=weights, order=3)
 
 
-@guvectorize("float64[:], float64[:], int64, float64[:]", '(n),(n),()->()',
-             nopython=True, cache=True)
+@guvectorize(
+    "float64[:], float64[:], int64, float64[:]",
+    "(n),(n),()->()",
+    nopython=True,
+    cache=True,
+)
 def wvar(x, w, kind, out):
     """Calculate weighted variance of X.
 
@@ -312,12 +318,12 @@ def wvar(x, w, kind, out):
 
     for i in range(len(x)):  # Alternatively "for x, w in zip(data, weights):"
         wSum = wSum + w[i]
-        wSum2 = wSum2 + w[i]*w[i]
+        wSum2 = wSum2 + w[i] * w[i]
         meanOld = mean
         mean = meanOld + (w[i] / wSum) * (x[i] - meanOld)
         S = S + w[i] * (x[i] - meanOld) * (x[i] - mean)
 
-    if kind==1:
+    if kind == 1:
         # population_variance
         out[0] = S / wSum
     elif kind == 2:
@@ -328,11 +334,15 @@ def wvar(x, w, kind, out):
     elif kind == 3:
         # Reliability weights
         # sample_reliability_variance
-        out[0] = S / (wSum - wSum2/wSum)
+        out[0] = S / (wSum - wSum2 / wSum)
 
 
-@guvectorize("float64[:], float64[:], float64[:], int64, float64[:]",
-             "(n),(n),(n),()->()", nopython=True, cache=True)
+@guvectorize(
+    "float64[:], float64[:], float64[:], int64, float64[:]",
+    "(n),(n),(n),()->()",
+    nopython=True,
+    cache=True,
+)
 def wcov(x, y, w, kind, out):
     """Compute weighted covariance between x and y.
 
@@ -367,28 +377,32 @@ def wcov(x, y, w, kind, out):
     C = 0
     for i in range(len(x)):
         wsum += w[i]
-        wsum2 += w[i]*w[i]
+        wsum2 += w[i] * w[i]
         dx = x[i] - meanx
         meanx += (w[i] / wsum) * dx
         meany += (w[i] / wsum) * (y[i] - meany)
         C += w[i] * dx * (y[i] - meany)
 
-    if kind==1:
+    if kind == 1:
         # population_covar
         out[0] = C / wsum
-    elif kind==1:
+    elif kind == 1:
         # Bessel's correction for sample variance
         # Frequency weights
         # sample_frequency_covar
         out[0] = C / (wsum - 1)
-    elif kind==1:
+    elif kind == 1:
         # Reliability weights
         # sample_reliability_covar
         out[0] = C / (wsum - wsum2 / wsum)
 
 
-@guvectorize("float64[:], float64[:], float64[:]",
-             "(n),(n)->()", nopython=True, cache=True)
+@guvectorize(
+    "float64[:], float64[:], float64[:]",
+    "(n),(n)->()",
+    nopython=True,
+    cache=True,
+)
 def online_kurtosis(x, w, out):
     n = mean = M2 = M3 = M4 = 0
 
@@ -400,21 +414,29 @@ def online_kurtosis(x, w, out):
         delta_n2 = delta_n * delta_n
         term1 = delta * delta_n * n1
         mean = mean + w[i] * delta_n / n
-        M4 = M4 + term1 * delta_n2 * (n*n - 3*n + 3) + 6 * delta_n2 * M2 - 4 * delta_n * M3
+        M4 = (
+            M4
+            + term1 * delta_n2 * (n * n - 3 * n + 3)
+            + 6 * delta_n2 * M2
+            - 4 * delta_n * M3
+        )
         M3 = M3 + term1 * delta_n * (n - 2) - 3 * delta_n * M2
         M2 = M2 + term1
 
-    kurtosis = (n*M4) / (M2*M2) - 3
+    kurtosis = (n * M4) / (M2 * M2) - 3
 
 
-@guvectorize("float64[:], float64[:], int64, float64[:]",
-             "(n),(n),()->()", nopython=True, cache=True)
+@guvectorize(
+    "float64[:], float64[:], int64, float64[:]",
+    "(n),(n),()->()",
+    nopython=True,
+    cache=True,
+)
 def Mk(x, w, k, out):
     w_sum = wx_sum = 0
 
     for i in range(len(x)):
-        wx_sum += w[i]*(x[i]**k)
+        wx_sum += w[i] * (x[i] ** k)
         w_sum += w[i]
 
     out[0] = wx_sum / w_sum
-

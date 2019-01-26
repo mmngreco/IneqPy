@@ -56,7 +56,7 @@ def concentration(income, weights=None, data=None, sort=True):
     f_x = utils.normalize(weights)
     F_x = f_x.cumsum()
     mu = np.sum(income * f_x)
-    cov = np.cov(income, F_x, rowvar=False, aweights=f_x)[0,1]
+    cov = np.cov(income, F_x, rowvar=False, aweights=f_x)[0, 1]
     return 2 * cov / mu
 
 
@@ -100,9 +100,12 @@ def lorenz(income, weights=None, data=None):
     weights = weights.reshape(len(weights), 1)
     total_income = total_income[idx_sort].cumsum() / total_income.sum()
     total_income = total_income.reshape(len(total_income), 1)
-    res = pd.DataFrame(np.c_[weights, total_income], columns=['Equality', 'Income'],
-    index=weights)
-    res.index.name = 'x'
+    res = pd.DataFrame(
+        np.c_[weights, total_income],
+        columns=["Equality", "Income"],
+        index=weights,
+    )
+    res.index.name = "x"
     return res
 
 
@@ -207,7 +210,7 @@ def atkinson(income, weights=None, data=None, e=0.5):
     - The results has difference with stata, maybe have a bug.
     """
     if (income is None) and (data is None):
-        raise ValueError('Must pass at least one of both `income` or `df`')
+        raise ValueError("Must pass at least one of both `income` or `df`")
 
     income, weights = utils.extract_values(data, income, weights)
     weights = utils.not_empty_weights(weights, income)
@@ -225,10 +228,13 @@ def atkinson(income, weights=None, data=None, e=0.5):
 
     # main calc
     if e == 1:
-        atkinson = 1 - np.power(np.e, np.sum(f_i * np.log(income) - np.log(mu)))
+        atkinson = 1 - np.power(
+            np.e, np.sum(f_i * np.log(income) - np.log(mu))
+        )
     elif (0 <= e) or (e < 1):
-        atkinson = 1 - np.power(np.sum(f_i * np.power(income / mu, 1 - e)),
-                                1 / (1 - e))
+        atkinson = 1 - np.power(
+            np.sum(f_i * np.power(income / mu, 1 - e)), 1 / (1 - e)
+        )
     else:
         assert (e < 0) or (e > 1), "Not valid e value,  0 ≤ e ≤ 1"
         atkinson = None
@@ -270,13 +276,15 @@ def kakwani(tax, income_pre_tax, weights=None, data=None):
     """
     # main calc
     c_t = concentration(data=data, income=tax, weights=weights, sort=True)
-    g_y = concentration(data=data, income=income_pre_tax, weights=weights,
-                        sort=True)
+    g_y = concentration(
+        data=data, income=income_pre_tax, weights=weights, sort=True
+    )
     return c_t - g_y
 
 
-def reynolds_smolensky(income_pre_tax, income_post_tax, weights=None,
-                       data=None):
+def reynolds_smolensky(
+    income_pre_tax, income_post_tax, weights=None, data=None
+):
     """The Reynolds-Smolensky (1977) index of the redistributive effect of
     taxes, which can also be interpreted as an index of progressivity
     (Lambert 1985), is defined as:
@@ -397,9 +405,9 @@ def avg_tax_rate(total_tax, total_base, weights=None, data=None):
         base_name = total_base
         tax_name = total_tax
     else:
-        base_name = ['base' % i for i in range(n_cols)]
-        tax_name = ['tax_%s' % i for i in range(n_cols)]
+        base_name = ["base" % i for i in range(n_cols)]
+        tax_name = ["tax_%s" % i for i in range(n_cols)]
 
-    names = ['_'.join([t, b]) for t, b in zip(tax_name, base_name)]
+    names = ["_".join([t, b]) for t, b in zip(tax_name, base_name)]
     res = pd.Series(res, index=names)
     return res

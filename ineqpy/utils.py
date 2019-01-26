@@ -12,11 +12,11 @@ def _to_df(*args, **kwargs):
 
     if kwargs is not None:
         if res is not None:
-            res = pd.concat([res,
-                             pd.DataFrame.from_dict(kwargs, orient='columns')],
-                            axis=1)
+            res = pd.concat(
+                [res, pd.DataFrame.from_dict(kwargs, orient="columns")], axis=1
+            )
         else:
-            res = pd.DataFrame.from_dict(kwargs, orient='columns')
+            res = pd.DataFrame.from_dict(kwargs, orient="columns")
     return res
 
 
@@ -81,7 +81,9 @@ def normalize(this):
 def extract_values(data, variable, weights):
     if data is not None:
         variable = data.loc[:, variable].values
-        weights = not_empty_weights(data.loc[:, weights].values, as_of=variable)
+        weights = not_empty_weights(
+            data.loc[:, weights].values, as_of=variable
+        )
     return variable, weights
 
 
@@ -99,7 +101,7 @@ def repeat_data_from_weighted(x, w):
     return repeated_x, repeated_w
 
 
-def generate_data_to_test(n_sample_range=(20,100)):
+def generate_data_to_test(n_sample_range=(20, 100)):
     N_sample = np.random.randint(*n_sample_range)
     weighted_x = np.random.randint(0, 1000, N_sample)
     weights = np.random.randint(1, 9, N_sample)

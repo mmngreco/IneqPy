@@ -17,11 +17,18 @@ import pandas as pd
 
 
 class Convey(pd.DataFrame):
-
-    def __init__(self, data=None, index=None, columns=None, weights=None,
-                 group=None, **kw):
-        super(Convey, self).__init__(data=data, index=index, columns=columns,
-                                     **kw)
+    def __init__(
+        self,
+        data=None,
+        index=None,
+        columns=None,
+        weights=None,
+        group=None,
+        **kw
+    ):
+        super(Convey, self).__init__(
+            data=data, index=index, columns=columns, **kw
+        )
         self.weights = weights
         self.group = group
         self._attach_method(statistics, self)
@@ -40,8 +47,9 @@ class Convey(pd.DataFrame):
         for method_name, func in method_name_list:
             # if method_name.startswith('_'): continue  # avoid private methods
             func = getattr(module, method_name)  # get function
-            if 'weights' in inspect.signature(
-                    func).parameters:  # replace weights variable
+            if (
+                "weights" in inspect.signature(func).parameters
+            ):  # replace weights variable
                 func = partial(func, weights=instance.weights)
             # func = partial(func, data=instance.data)
             func = MethodType(func, instance)
@@ -53,11 +61,18 @@ class Convey(pd.DataFrame):
 
 
 class Survey(pd.DataFrame):
-
-    def __init__(self, data=None, index=None, columns=None, weights=None,
-                 group=None, **kw):
-        super(Survey, self).__init__(data=data, index=index, columns=columns,
-                                     **kw)
+    def __init__(
+        self,
+        data=None,
+        index=None,
+        columns=None,
+        weights=None,
+        group=None,
+        **kw
+    ):
+        super(Survey, self).__init__(
+            data=data, index=index, columns=columns, **kw
+        )
         self.weights = weights
         self.group = group
 
@@ -67,9 +82,9 @@ class Survey(pd.DataFrame):
 
     _constructor_sliced = pd.Series
 
-
-    def c_moment(self, variable=None, weights=None, order=2, param=None,
-                 ddof=0):
+    def c_moment(
+        self, variable=None, weights=None, order=2, param=None, ddof=0
+    ):
         """Calculate the central moment of `x` with respect to `param` of order
         `n`, given the weights `w`.
 
@@ -109,8 +124,9 @@ class Survey(pd.DataFrame):
             weights = self.weights
         return statistics.c_moment(variable, weights, self, order, param, ddof)
 
-    def percentile(self, variable=None, weights=None, p=50,
-                   interpolate='lower'):
+    def percentile(
+        self, variable=None, weights=None, p=50, interpolate="lower"
+    ):
         """Calculate the value of a quantile given a variable and his weights.
 
         Parameters
@@ -132,8 +148,9 @@ class Survey(pd.DataFrame):
             weights = self.weights
         return statistics.percentile(variable, weights, self, p, interpolate)
 
-    def std_moment(self, variable=None, weights=None, param=None, order=3,
-                   ddof=0):
+    def std_moment(
+        self, variable=None, weights=None, param=None, order=3, ddof=0
+    ):
         """Calculate the standardized moment of order `c` for the variable` x`
         with respect to `c`.
 
@@ -171,8 +188,9 @@ class Survey(pd.DataFrame):
         """
         if weights is None:
             weights = self.weights
-        return statistics.std_moment(variable, weights, self, param, order,
-                                      ddof)
+        return statistics.std_moment(
+            variable, weights, self, param, order, ddof
+        )
 
     def mean(self, variable=None, weights=None):
         """Calculate the mean of `variable` given `weights`.
@@ -348,7 +366,7 @@ class Survey(pd.DataFrame):
         return statistics.skew(variable, weights, self)
 
     # INEQUALITY
-    # ----------
+    #  ----------
 
     def concentration(self, income=None, weights=None, sort=True):
         """This function calculate the concentration index, according to the
@@ -560,8 +578,9 @@ class Survey(pd.DataFrame):
             weights = self.weights
         return inequality.kakwani(tax, income_pre_tax, weights, self)
 
-    def reynolds_smolensky(self, income_pre_tax=None, income_post_tax=None,
-                           weights=None):
+    def reynolds_smolensky(
+        self, income_pre_tax=None, income_post_tax=None, weights=None
+    ):
         """The Reynolds-Smolensky (1977) index of the redistributive effect of
         taxes, which can also be interpreted as an index of progressivity
         (Lambert 1985), is defined as:
@@ -595,8 +614,9 @@ class Survey(pd.DataFrame):
         """
         if weights is None:
             weights = self.weights
-        return inequality.reynolds_smolensky(income_pre_tax,
-                                             income_post_tax, weights, self)
+        return inequality.reynolds_smolensky(
+            income_pre_tax, income_post_tax, weights, self
+        )
 
     def theil(self, income=None, weights=None):
         """The Theil index is a statistic primarily used to measure economic

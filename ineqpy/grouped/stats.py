@@ -4,7 +4,7 @@ from .._statistics import c_moment, mean, std_moment
 from .. import utils
 
 
-def variance_hat_group(data=None, variable='x', weights='w', group='h'):
+def variance_hat_group(data=None, variable="x", weights="w", group="h"):
     """Data a DataFrame calculates the sample variance for each stratum. The
     objective of this function is to make it easy to calculate the moments of
     the distribution that follows an estimator, eg. Can be used to calculate
@@ -59,9 +59,9 @@ def variance_hat_group(data=None, variable='x', weights='w', group='h'):
     """
     if data is None:
         data = _to_df(x=variable, weights=weights, group=group)
-        variable = 'x'
-        weights = 'weights'
-        group = 'group'
+        variable = "x"
+        weights = "weights"
+        group = "group"
 
     def v(df):
         """Calculate the variance of each stratum `h`.
@@ -92,7 +92,7 @@ def variance_hat_group(data=None, variable='x', weights='w', group='h'):
     return data.groupby(group).apply(v)
 
 
-def moment_group(data=None, variable='x', weights='w', group='h', order=2):
+def moment_group(data=None, variable="x", weights="w", group="h", order=2):
     """Calculates the asymmetry of each `h` stratum.
 
     Parameters
@@ -118,9 +118,9 @@ def moment_group(data=None, variable='x', weights='w', group='h', order=2):
     """
     if data is None:
         data = _to_df(x=variable, weights=weights, group=group)
-        variable = 'x'
-        weights = 'weights'
-        group = 'group'
+        variable = "x"
+        weights = "weights"
+        group = "group"
 
     def mh(df):
         x = df[variable].copy().values
@@ -130,6 +130,7 @@ def moment_group(data=None, variable='x', weights='w', group='h', order=2):
         ddof = 1 if len(df) > 1 else 0
         stdm = std_moment(variable=x, weights=weights, order=order, ddof=ddof)
         return (Nh ** order) * fpc * stdm / len(df)
+
     return data.groupby(group).apply(mh)
 
 
@@ -176,10 +177,12 @@ def quasivariance_hat_group(variable=None, weights=None, group=None):
 
     if data is None:
         varia = utils._to_df(x=variable, weights=weights)
-        variable = 'x'
-        weights = 'weights'
+        variable = "x"
+        weights = "weights"
 
     def sd(df):
-        return c_moment(data=df, variable=variable, weights=weights, param=mean(x))
+        return c_moment(
+            data=df, variable=variable, weights=weights, param=mean(x)
+        )
 
     return data.groupby(group).apply(sd)

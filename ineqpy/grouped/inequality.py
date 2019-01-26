@@ -49,9 +49,9 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
 
     if data is None:
         data = utils._to_df(income=income, weights=weights, group=group)
-        income = 'income'
-        weights = 'weights'
-        group = 'group'
+        income = "income"
+        weights = "weights"
+        group = "group"
 
     N = len(data)
 
@@ -63,9 +63,7 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
             raise ValueError
 
         res = inequality.atkinson(
-            income=df[income].values,
-            weights=df[weights].values,
-            e=e
+            income=df[income].values, weights=df[weights].values, e=e
         ) * (len(df) / N)
 
         return res
@@ -74,10 +72,9 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
     if data is not None:
         data = data.copy()
         atk_by_group = data.groupby(group).apply(a_h)
-        mu_by_group = data.groupby(group)\
-                          .apply(lambda dw: _statistics.mean(dw[income],
-                                                             dw[weights])
-                          )
+        mu_by_group = data.groupby(group).apply(
+            lambda dw: _statistics.mean(dw[income], dw[weights])
+        )
 
         return atk_by_group.sum() + atkinson(income=mu_by_group.values)
     else:
