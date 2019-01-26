@@ -12,7 +12,6 @@ docutils==0.14
 flake8==3.6.0
 idna==2.8
 imagesize==1.1.0
--e git+https://github.com/mmngreco/IneqPy.git@7cc03e4bc1980f4865d463793ad51d4023ea4062#egg=IneqPy
 Jinja2==2.10
 kiwisolver==1.0.1
 llvmlite==0.27.0
