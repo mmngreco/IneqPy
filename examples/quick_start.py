@@ -1,76 +1,42 @@
-
-# coding: utf-8
-
-# In[1]:
-
-
 # load packages
 import pandas as pd
 import numpy as np
 import ineqpy as ineq
-
-# # First-steps
-
-# In[2]:
-
-
-# load data
 from pathlib import Path
-data = pd.read_csv(Path("ineq.__file__").parent / "examples" / 'eusilc.csv', index_col=0).dropna()
+import matplotlib.pyplot as plt
+
+# inputs
+data_path = Path("ineq.__file__").parent / 'examples/eusilc.csv'
+data = pd.read_csv(data_path, index_col=0).dropna()
 svy = ineq.api.Survey(data, weights='rb050')
 
-
 # In[3]:
-
-
-svy.gini('eqincome')
-
+colname = 'eqincome'
+svy.gini(colname)
 
 # In[4]:
-
-
-svy.atkinson('eqincome')
-
+svy.atkinson(colname)
 
 # In[5]:
-
-
-svy.theil('eqincome')
-
+svy.theil(colname)
 
 # In[6]:
-
-
-svy.mean('eqincome')
-
+svy.mean(colname)
 
 # In[7]:
-
-
-svy.percentile('eqincome')
-
+svy.percentile(colname)
 
 # In[8]:
-
-
-svy.kurt('eqincome')
-
+svy.kurt(colname)
 
 # In[9]:
-
-
-svy.skew('eqincome')
-
+svy.skew(colname)
 
 # In[10]:
-
-
-svy.lorenz('eqincome').plot(figsize=(5,5))
-
+svy.lorenz(colname).plot(figsize=(5,5))
 
 # In[10]:
-
+# also works passing variables.
 x = data.eqincome
 w = data.rb050
-
 ineq.var(variable=x, weights=w)
