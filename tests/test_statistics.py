@@ -3,63 +3,67 @@ from ineqpy import utils
 import scipy.stats as sc
 import numpy as np
 import numpy.testing as nptest
-import unittest
+import pytest
 
 
-class TestStatistics(unittest.TestCase):
+def gen_inputs(n_tuples=100):
+    for i in range(n_tuples):
+        (x, w) = utils.generate_data_to_test((3, 7))
+        repeated_x, repeated_w = utils.repeat_data_from_weighted(x, w)
+        # repeated_w is a vector of ones.
+        yield x, w, repeated_x
 
-    @staticmethod
-    def print_values_when_error(real, obtained, i, repeated_x, x, w):
-        if abs(real - obtained) > 1e-6:
-            mssg = '\ni = {}' \
-                   '\nrepeated_x = {}' \
-                   '\nx = {}' \
-                   '\nw = {}'.format(i, str(repeated_x), str(x), str(w))
-            return mssg
+INPUTS = gen_inputs()
 
-    def test_statistics(self):
 
-        for i in range(100):
-            (x, w) = utils.generate_data_to_test((3,7))
-            repeated_x, repeated_w = utils.repeat_data_from_weighted(x,w)
+@pytest.mark.parametrize("x,w,r_x", INPUTS)
+def test_mean(x, w, r_x):
+            real = np.mean(r_x)
+            obtained = _statistics.mean(x, w)
+            nptest.assert_almost_equal(obtained, real)
 
-            with self.subTest(name='mean', i=i):
-                real = np.mean(repeated_x)
-                obtained = _statistics.mean(x, w)
-                nptest.assert_almost_equal(obtained, real)#, err_msg=mssg)
 
-            with self.subTest(name='variance', i=i):
-                real = np.var(repeated_x)
-                obtained = _statistics.var(x, w)
-                # assert
-                nptest.assert_almost_equal(obtained, real)#, err_msg=mssg)
+@pytest.mark.parametrize("x,w,r_x", INPUTS)
+def test_variance(x, w, r_x):
+            real = np.var(r_x)
+            obtained = _statistics.var(x, w)
+            nptest.assert_almost_equal(obtained, real)
 
-            with self.subTest(name='kurtosis', i=i):
-                real = sc.kurtosis(repeated_x) + 3
-                obtained = _statistics.kurt(x, w)
-                # assert
-                nptest.assert_almost_equal(obtained, real)#, err_msg=mssg)
 
-            with self.subTest(name='skewness', i=i):
-                real = sc.skew(repeated_x)
-                obtained = _statistics.skew(x, w)
-                nptest.assert_almost_equal(obtained, real)#, err_msg=mssg)
+@pytest.mark.parametrize("x,w,r_x", INPUTS)
+def test_kurt(x, w, r_x):
+            real = sc.kurtosis(r_x) + 3
+            obtained = _statistics.kurt(x, w)
+            nptest.assert_almost_equal(obtained, real)
 
-            with self.subTest(name='coef_variation', i=i):
-                real = np.var(repeated_x) ** 0.5 / abs(np.mean(repeated_x))
-                obtained = _statistics.coef_variation(x,w)
-                nptest.assert_almost_equal(obtained, real)#, err_msg=mssg)
 
-            with self.subTest(name='percentile', i=i):
-                p = 50
-                real = np.percentile(repeated_x, p, interpolation='lower')
-                obtained = _statistics.percentile(x,w, percentile=p)
-                mssg = self.print_values_when_error(real, obtained, i, repeated_x, x, w)
-                nptest.assert_almost_equal(
-                        obtained,
-                        real,
-                        err_msg='\nnumpy_version, N = {}\n{}'.format(len(repeated_x), mssg)
-                )
+@pytest.mark.parametrize("x,w,r_x", INPUTS)
+def test_skew(x, w, r_x):
+            real = sc.skew(r_x)
+            obtained = _statistics.skew(x, w)
+            nptest.assert_almost_equal(obtained, real)
 
-if __name__ == '__main__':
-    unittest.main()
+
+@pytest.mark.parametrize("x,w,r_x", INPUTS)
+def test_coef_variation(x, w, r_x):
+            real = np.var(r_x) ** 0.5 / abs(np.mean(r_x))
+            obtained = _statistics.coef_variation(x,w)
+            nptest.assert_almost_equal(obtained, real)
+
+
+
+@pytest.mark.parametrize("x,w,r_x", INPUTS)
+def test_percentile(x, w, r_x):
+            p = 50
+            real = np.percentile(r_x, p, interpolation='lower')
+            obtained = _statistics.percentile(x,w, percentile=p)
+            mssg = msg_assert(real, obtained, r_x, x, w)
+            nptest.assert_almost_equal(obtained, real, mssg)
+
+def msg_assert(real, obtained, r_x, x, w):
+    if abs(real - obtained) > 1e-6:
+        mssg = '\nr_x = {}' \
+               '\nx = {}' \
+               '\nw = {}'.format(str(r_x), str(x), str(w))
+        return mssg
+
