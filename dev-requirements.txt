@@ -41,4 +41,3 @@ Sphinx==1.8.3
 sphinxcontrib-websupport==1.1.0
 toml==0.10.0
 urllib3==1.24.1
-white==0.1.2
