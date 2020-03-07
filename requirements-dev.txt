@@ -30,14 +30,14 @@ pycodestyle==2.4.0
 pyflakes==2.0.0
 Pygments==2.3.1
 pyparsing==2.3.1
-pytest==4.1.1
+pytest
 python-dateutil==2.7.5
 pytz==2018.9
 requests==2.21.0
 scipy==1.2.0
 six==1.12.0
 snowballstemmer==1.2.1
-Sphinx==1.8.3
+Sphinx
 sphinxcontrib-websupport==1.1.0
 toml==0.10.0
 urllib3==1.24.2
