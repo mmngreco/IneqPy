@@ -432,6 +432,8 @@ class Survey(pd.DataFrame):
         """
         if weights is None:
             weights = self.weights
+        if income is None:
+            income = self.income
         return inequality.lorenz(income, weights, self)
 
     def gini(self, income=None, weights=None, sort=True):
