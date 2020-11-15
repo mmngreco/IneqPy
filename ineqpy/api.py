@@ -1,22 +1,18 @@
-"""This module extend pandas.DataFrames with the main functions from statistics and 
-inequality modules.
+"""This module extend pandas.DataFrames with the main functions from statistics
+and inequality modules.
 """
 
-from . import _statistics
 from . import inequality
 from . import statistics
-from . import utils
-from .statistics import mean
 
 from functools import partial
 from types import MethodType
 
 import inspect
-import numpy as np
 import pandas as pd
 
 
-class Convey(pd.DataFrame):
+class Convey:
     def __init__(
         self,
         data=None,
@@ -26,9 +22,7 @@ class Convey(pd.DataFrame):
         group=None,
         **kw
     ):
-        super(Convey, self).__init__(
-            data=data, index=index, columns=columns, **kw
-        )
+        self.df = pd.DataFrame(data=data, index=index, columns=columns, **kw)
         self.weights = weights
         self.group = group
         self._attach_method(statistics, self)
@@ -38,12 +32,13 @@ class Convey(pd.DataFrame):
     def _constructor(self):
         return Survey
 
-    @staticmethod
+    @classmethod
     def _attach_method(module, instance):
         # get methods names contained in module
         res_names = list()
         res_methods = list()
         method_name_list = inspect.getmembers(module, inspect.isfunction)
+
         for method_name, func in method_name_list:
             # if method_name.startswith('_'): continue  # avoid private methods
             func = getattr(module, method_name)  # get function
@@ -57,10 +52,8 @@ class Convey(pd.DataFrame):
             res_names.append(method_name)
             setattr(instance, method_name, func)
 
-    _constructor_sliced = pd.Series
 
-
-class Survey(pd.DataFrame):
+class Survey:
     def __init__(
         self,
         data=None,
@@ -70,17 +63,9 @@ class Survey(pd.DataFrame):
         group=None,
         **kw
     ):
-        super(Survey, self).__init__(
-            data=data, index=index, columns=columns, **kw
-        )
+        self.df = pd.DataFrame(data=data, index=index, columns=columns, **kw)
         self.weights = weights
         self.group = group
-
-    @property
-    def _constructor(self):
-        return Survey
-
-    _constructor_sliced = pd.Series
 
     def c_moment(
         self, variable=None, weights=None, order=2, param=None, ddof=0
@@ -120,9 +105,12 @@ class Survey(pd.DataFrame):
         Implement: https://en.wikipedia.org/wiki/L-moment#cite_note-wang:96-6
 
         """
+        data = self.df
+
         if weights is None:
             weights = self.weights
-        return statistics.c_moment(variable, weights, self, order, param, ddof)
+
+        return statistics.c_moment(variable, weights, data, order, param, ddof)
 
     def percentile(
         self, variable=None, weights=None, p=50, interpolate="lower"
@@ -144,9 +132,10 @@ class Survey(pd.DataFrame):
         percentile : float or pd.Series
 
         """
+        data = self.df
         if weights is None:
             weights = self.weights
-        return statistics.percentile(variable, weights, self, p, interpolate)
+        return statistics.percentile(variable, weights, data, p, interpolate)
 
     def std_moment(
         self, variable=None, weights=None, param=None, order=3, ddof=0
@@ -186,10 +175,11 @@ class Survey(pd.DataFrame):
         implementation.
 
         """
+        data = self.df
         if weights is None:
             weights = self.weights
         return statistics.std_moment(
-            variable, weights, self, param, order, ddof
+            variable, weights, data, param, order, ddof
         )
 
     def mean(self, variable=None, weights=None):
@@ -211,9 +201,10 @@ class Survey(pd.DataFrame):
         mean : array-like or float
         """
         # if pass a DataFrame separate variables.
+        data = self.df
         if weights is None:
             weights = self.weights
-        return statistics.mean(variable, weights, self)
+        return statistics.mean(variable, weights, data)
 
     def density(self, variable=None, weights=None, groups=None):
         """Calculates density in percentage. This make division of variable
@@ -237,9 +228,10 @@ class Survey(pd.DataFrame):
         Retrieved:
         https://en.wikipedia.org/w/index.php?title=Histogram&oldid=779516918
         """
+        data = self.df
         if weights is None:
             weights = self.weights
-        return statistics.density(variable, weights, groups, self)
+        return statistics.density(variable, weights, groups, data)
 
     def var(self, variable=None, weights=None, ddof=0):
         """Calculate the population variance of `variable` given `weights`.
@@ -271,9 +263,10 @@ class Survey(pd.DataFrame):
         -----
         If stratificated sample must pass with groupby each strata.
         """
+        data = self.df
         if weights is None:
             weights = self.weights
-        return statistics.var(variable, weights, self, ddof)
+        return statistics.var(variable, weights, data, ddof)
 
     def coef_variation(self, variable=None, weights=None):
         """Calculate the coefficient of variation of a `variable` given weights.
@@ -301,9 +294,10 @@ class Survey(pd.DataFrame):
         oldid=778842331
         """
         # TODO complete docstring
+        data = self.df
         if weights is None:
             weights = self.weights
-        return statistics.coef_variation(variable, weights, self)
+        return statistics.coef_variation(variable, weights, data)
 
     def kurt(self, variable=None, weights=None):
         """Calculate the asymmetry coefficient
@@ -330,9 +324,10 @@ class Survey(pd.DataFrame):
         -----
         It is an alias of the standardized fourth-order moment.
         """
+        data = self.df
         if weights is None:
             weights = self.weights
-        return statistics.kurt(variable, weights, self)
+        return statistics.kurt(variable, weights, data)
 
     def skew(self, variable=None, weights=None):
         """Returns the asymmetry coefficient of a sample.
@@ -361,9 +356,10 @@ class Survey(pd.DataFrame):
         It is an alias of the standardized third-order moment.
 
         """
+        data = self.df
         if weights is None:
             weights = self.weights
-        return statistics.skew(variable, weights, self)
+        return statistics.skew(variable, weights, data)
 
     # INEQUALITY
     #  ----------
@@ -394,9 +390,10 @@ class Survey(pd.DataFrame):
         from micro-data. National Tax Journal. http://doi.org/10.2307/41788716
         """
         # TODO complete docstring
+        data = self.df
         if weights is None:
             weights = self.weights
-        return inequality.concentration(income, weights, self, sort)
+        return inequality.concentration(income, weights, data, sort)
 
     def lorenz(self, income=None, weights=None):
         """In economics, the Lorenz curve is a graphical representation of the
@@ -430,11 +427,12 @@ class Survey(pd.DataFrame):
         Retrieved 14:34, May 15, 2017, from
         https://en.wikipedia.org/w/index.php?title=Lorenz_curve&oldid=764853675
         """
+        data = self.df
         if weights is None:
             weights = self.weights
         if income is None:
             income = self.income
-        return inequality.lorenz(income, weights, self)
+        return inequality.lorenz(income, weights, data)
 
     def gini(self, income=None, weights=None, sort=True):
         """The Gini coefficient (sometimes expressed as a Gini ratio or a
@@ -490,9 +488,10 @@ class Survey(pd.DataFrame):
         - Implement statistical deviation calculation, VAR (GINI)
 
         """
+        data = self.df
         if weights is None:
             weights = self.weights
-        return inequality.gini(income, weights, self, sort)
+        return inequality.gini(income, weights, data, sort)
 
     def atkinson(self, income=None, weights=None, e=0.5):
         """More precisely labelled a family of income grouped measures, the
@@ -538,9 +537,10 @@ class Survey(pd.DataFrame):
           http://www.jstor.org/stable/41788716
         - The results has difference with stata, maybe have a bug.
         """
+        data = self.df
         if weights is None:
             weights = self.weights
-        return inequality.atkinson(income, weights, self, e)
+        return inequality.atkinson(income, weights, data, e)
 
     def kakwani(self, tax=None, income_pre_tax=None, weights=None):
         """The Kakwani (1977) index of tax progressivity is defined as twice the
@@ -576,9 +576,10 @@ class Survey(pd.DataFrame):
         micro-data. National Tax Journal. http://doi.org/10.2307/41788716
         """
         # main calc
+        data = self.df
         if weights is None:
             weights = self.weights
-        return inequality.kakwani(tax, income_pre_tax, weights, self)
+        return inequality.kakwani(tax, income_pre_tax, weights, data)
 
     def reynolds_smolensky(
         self, income_pre_tax=None, income_post_tax=None, weights=None
@@ -614,10 +615,11 @@ class Survey(pd.DataFrame):
         Jenkins, S. (1988). Calculating income distribution indices from
         micro-data. National Tax Journal. http://doi.org/10.2307/41788716
         """
+        data = self.df
         if weights is None:
             weights = self.weights
         return inequality.reynolds_smolensky(
-            income_pre_tax, income_post_tax, weights, self
+            income_pre_tax, income_post_tax, weights, data
         )
 
     def theil(self, income=None, weights=None):
@@ -650,9 +652,11 @@ class Survey(pd.DataFrame):
         https://en.wikipedia.org/w/index.php?title=Theil_index&oldid=755407818
 
         """
+        data = self.df
         if weights is None:
             weights = self.weights
-        return inequality.theil(income, weights, self)
+
+        return inequality.theil(income, weights, data)
 
     def avg_tax_rate(self, total_tax=None, total_base=None, weights=None):
         """This function compute the average tax rate given a base income and a
@@ -675,6 +679,8 @@ class Survey(pd.DataFrame):
         (2011). Panel de declarantes de IRPF 1999-2007:
         Metodología, estructura y variables. Documentos.
         """
+        data = self.df
         if weights is None:
             weights = self.weights
-        return inequality.avg_tax_rate(total_tax, total_base, weights, self)
+
+        return inequality.avg_tax_rate(total_tax, total_base, weights, data)

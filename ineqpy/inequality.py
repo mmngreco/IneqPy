@@ -96,16 +96,20 @@ def lorenz(income, weights=None, data=None):
 
     total_income = income * weights
     idx_sort = np.argsort(income)
+
     weights = weights[idx_sort].cumsum() / weights.sum()
     weights = weights.reshape(len(weights), 1)
+
     total_income = total_income[idx_sort].cumsum() / total_income.sum()
     total_income = total_income.reshape(len(total_income), 1)
-    res = pd.DataFrame(
-        np.c_[weights, total_income],
-        columns=["Equality", "Income"],
-        index=weights,
-    )
+
+    # to pandas
+    data = np.hstack([weights, total_income])
+    columns = ["Equality", "Income"]
+    index = pd.Index(weights.round(3).squeeze())
+    res = pd.DataFrame(data=data, columns=columns, index=index)
     res.index.name = "x"
+
     return res
 
 
