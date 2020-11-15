@@ -415,3 +415,54 @@ def avg_tax_rate(total_tax, total_base, weights=None, data=None):
     names = ["_".join([t, b]) for t, b in zip(tax_name, base_name)]
     res = pd.Series(res, index=names)
     return res
+
+
+def hoover(income, weights=None, data=None):
+    """
+    The Hoover index, also known as the Robin Hood index or the Schutz index,
+    is a measure of income metrics. It is equal to the portion of the total
+    community income that would have to be redistributed (taken from the richer
+    half of the population and given to the poorer half) for there to be income
+    uniformity.
+
+    Formula:
+
+    H = 1/2 sum( | xi - mu | ) / sum(xi)
+
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        This variable is a DataFrame that contains all data required in it's
+        columns.
+    income : array-like or str
+        This variable represent tax payment of person, if pass array-like
+        then data must be None, else you pass str-name column in `data`.
+    weights : array-like or str
+        This variable represent weights of each person, if pass array-like
+        then data must be None, else you pass str-name column in `data`.
+
+    Returns
+    -------
+    hoover : float
+
+    References
+    ----------
+    Hoover index : https://en.wikipedia.org/wiki/Hoover_index
+    """
+    if data is not None:
+        income, weights = utils.extract_values(data, income, weights)
+    else:
+        income = income.copy()
+        weights = weights.copy()
+
+    income, weights = utils.not_null_condition(income, weights)
+
+    # variables needed
+    mu = mean(variable=income, weights=weights)
+    f_i = utils.normalize(weights)
+    xi = f_i * income
+
+    # main calc
+    h = np.sum(abs(xi - mu )) * 0.5 / sum(xi)
+
+    return h
