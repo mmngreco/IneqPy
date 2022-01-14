@@ -18,6 +18,7 @@ pytest = "*"
 black = "*"
 flake8 = "*"
 pdbpp = "*"
+ineqpy = {editable = true, path = "."}
 
 [requires]
 python_version = "3"

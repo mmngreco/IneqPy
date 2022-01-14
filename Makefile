@@ -17,5 +17,4 @@ fix:
 .PHONY: venv
 venv:
 	pip install -U pip setuptools wheel pipenv
-	pipenv --python 3
-	pipenv install --dev
+	pipenv install -e . --dev
