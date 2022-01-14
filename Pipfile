@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+numba = "*"
+numpy = "*"
+pandas = "*"
+black = "*"
+flake8 = "*"
+pdbpp = "*"
+IneqPy = {editable = true, path = "."}
+
+[dev-packages]
+scipy = "*"
+pytest = "*"
+black = "*"
+flake8 = "*"
+pdbpp = "*"
+
+[requires]
+python_version = "3"

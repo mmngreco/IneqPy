@@ -1,0 +1,32 @@
+{
+    "include": [
+        "src"
+    ],
+
+    "exclude": [
+        "deps",
+        ".venv",
+        "**/node_modules",
+        "**/__pycache__",
+        "src/experimental",
+        "src/typestubs"
+    ],
+
+    "ignore": [
+        "src/oldstuff"
+    ],
+
+    "stubPath": "src/stubs",
+    "venv": ".venv",
+
+    "reportMissingImports": true,
+    "reportMissingTypeStubs": false,
+
+    "pythonPlatform": "Linux",
+
+    "executionEnvironments": [
+        {
+            "root": "src"
+        }
+    ]
+}
