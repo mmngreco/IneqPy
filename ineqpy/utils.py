@@ -6,9 +6,7 @@ import pandas as pd
 
 
 def _to_df(*args, **kwargs):
-    res = None
-    if args != ():
-        res = pd.DataFrame([*args]).T
+    res = pd.DataFrame([*args]).T if args != () else None
 
     if kwargs is not None:
         if res is not None:
@@ -41,11 +39,11 @@ def _apply_to_df(func, df, x, weights, *args, **kwargs):
 
 
 def not_empty_weights(weights, as_of):
-    if not (weights is None):
-        w = normalize(weights.copy())
-    else:
-        w = np.ones(len(as_of))
-    return w
+    return (
+        normalize(weights.copy())
+        if weights is not None
+        else np.ones(len(as_of))
+    )
 
 
 def not_null_condition(income, weights):

@@ -26,10 +26,7 @@ def plot_line(x, y):
     fig.show()
 
 # makes calculation for each series size
-store_res = []
-for n in [100, 1000, 5000, 10000, 20000, 50000]:
-    store_res.append(get_gini(size=n))
-
+store_res = [get_gini(size=n) for n in [100, 1000, 5000, 10000, 20000, 50000]]
 # present results
 df = pd.DataFrame(store_res, columns=["n","ineqpy", "pysal", "diff"])
 print(df)

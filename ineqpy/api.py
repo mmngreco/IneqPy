@@ -36,7 +36,7 @@ class Convey:
     def _attach_method(module, instance):
         # get methods names contained in module
         res_names = list()
-        res_methods = list()
+        res_methods = []
         method_name_list = inspect.getmembers(module, inspect.isfunction)
 
         for method_name, func in method_name_list:
