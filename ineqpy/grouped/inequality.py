@@ -62,11 +62,9 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
         if df is None:
             raise ValueError
 
-        res = inequality.atkinson(
+        return inequality.atkinson(
             income=df[income].values, weights=df[weights].values, e=e
         ) * (len(df) / N)
-
-        return res
 
     # main calc:
     if data is not None:

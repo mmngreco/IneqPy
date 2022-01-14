@@ -232,17 +232,16 @@ def atkinson(income, weights=None, data=None, e=0.5):
 
     # main calc
     if e == 1:
-        atkinson = 1 - np.power(
+        return 1 - np.power(
             np.e, np.sum(f_i * np.log(income) - np.log(mu))
         )
-    elif (0 <= e) or (e < 1):
-        atkinson = 1 - np.power(
+    elif e >= 0 or e < 1:
+        return 1 - np.power(
             np.sum(f_i * np.power(income / mu, 1 - e)), 1 / (1 - e)
         )
     else:
         assert (e < 0) or (e > 1), "Not valid e value,  0 ≤ e ≤ 1"
-        atkinson = None
-    return atkinson
+        return None
 
 
 def kakwani(tax, income_pre_tax, weights=None, data=None):
@@ -365,9 +364,7 @@ def theil(income, weights=None, data=None):
     # variables needed
     mu = mean(variable=income, weights=weights)
     f_i = utils.normalize(weights)
-    # main calc
-    theil = np.sum((f_i * income / mu) * np.log(income / mu))
-    return theil
+    return np.sum((f_i * income / mu) * np.log(income / mu))
 
 
 def avg_tax_rate(total_tax, total_base, weights=None, data=None):
@@ -391,15 +388,16 @@ def avg_tax_rate(total_tax, total_base, weights=None, data=None):
     (2011). Panel de declarantes de IRPF 1999-2007:
     Metodología, estructura y variables. Documentos.
     """
-    if isinstance(total_base, (np.ndarray)):
+    if (
+        isinstance(total_base, (np.ndarray))
+        or not isinstance(total_base, (list))
+        and not isinstance(total_base, (str))
+    ):
         n_cols = total_base.shape[1]
-    elif isinstance(total_base, (list)):
+    elif isinstance(total_base, list):
         n_cols = len(total_base)
-    elif isinstance(total_base, (str)):
-        n_cols = 1
     else:
-        n_cols = total_base.shape[1]
-
+        n_cols = 1
     numerator = mean(data=data, variable=total_tax, weights=weights)
     denominator = mean(data=data, variable=total_base, weights=weights)
     # main calc

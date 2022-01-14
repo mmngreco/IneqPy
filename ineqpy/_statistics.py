@@ -386,15 +386,6 @@ def wcov(x, y, w, kind, out):
     if kind == 1:
         # population_covar
         out[0] = C / wsum
-    elif kind == 1:
-        # Bessel's correction for sample variance
-        # Frequency weights
-        # sample_frequency_covar
-        out[0] = C / (wsum - 1)
-    elif kind == 1:
-        # Reliability weights
-        # sample_reliability_covar
-        out[0] = C / (wsum - wsum2 / wsum)
 
 
 @guvectorize(

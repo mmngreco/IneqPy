@@ -7,7 +7,7 @@ import pytest
 
 
 def gen_inputs(n_tuples=100):
-    for i in range(n_tuples):
+    for _ in range(n_tuples):
         (x, w) = utils.generate_data_to_test((3, 7))
         repeated_x, repeated_w = utils.repeat_data_from_weighted(x, w)
         # repeated_w is a vector of ones.
@@ -63,5 +63,4 @@ def test_percentile(x, w, r_x):
 
 def msg_assert(real, obtained, r_x, x, w):
     if abs(real - obtained) > 1e-6:
-        mssg = "\nr_x = {}\nx = {}\nw = {}".format(str(r_x), str(x), str(w))
-        return mssg
+        return "\nr_x = {}\nx = {}\nw = {}".format(str(r_x), str(x), str(w))

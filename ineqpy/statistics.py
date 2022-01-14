@@ -168,7 +168,7 @@ def density(variable=None, weights=None, groups=None, data=None):
     https://en.wikipedia.org/w/index.php?title=Histogram&oldid=779516918
     """
     variable, weights = utils.extract_values(data, variable, weights)
-    if not (groups is None):
+    if groups is not None:
         groups = data[groups].values
     return stat.density(variable, weights, groups)
 
