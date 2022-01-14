@@ -45,7 +45,8 @@ def concentration(income, weights=None, data=None, sort=True):
     """
     # TODO complete docstring
 
-    # check if DataFrame is passed, if yes then extract variables else make a copy
+    # check if DataFrame is passed, if yes then extract variables else make a
+    # copy
     income, weights = utils.extract_values(data, income, weights)
     if weights is None:
         weights = utils.not_empty_weights(weights, as_of=income)
@@ -71,8 +72,9 @@ def lorenz(income, weights=None, data=None):
     data : pandas.DataFrame
         A pandas.DataFrame that contains data.
     income : str or 1d-array, optional
-        Population or wights, if a DataFrame is passed then `income` should be a
-        name of the column of DataFrame, else can pass a pandas.Series or array.
+        Population or wights, if a DataFrame is passed then `income` should be
+        a name of the column of DataFrame, else can pass a pandas.Series or
+        array.
     weights : str or 1d-array
         Income, monetary variable, if a DataFrame is passed then `y`is a name
         of the series on this DataFrame, however, you can pass a pd.Series or
@@ -178,10 +180,10 @@ def atkinson(income, weights=None, data=None, e=0.5):
     to achieve an equal level of social welfare as at present if incomes were
     perfectly distributed.
 
-    For example, an Atkinson index value of 0.20 suggests
-    that we could achieve the same level of social welfare with only
-    1 – 0.20 = 80% of income. The theoretical range of Atkinson values is 0 to 1,
-    with 0 being a state of equal distribution.
+    For example, an Atkinson index value of 0.20 suggests that we could achieve
+    the same level of social welfare with only 1 – 0.20 = 80% of income. The
+    theoretical range of Atkinson values is 0 to 1, with 0 being a state of
+    equal distribution.
 
     Parameters
     ---------
@@ -232,9 +234,7 @@ def atkinson(income, weights=None, data=None, e=0.5):
 
     # main calc
     if e == 1:
-        return 1 - np.power(
-            np.e, np.sum(f_i * np.log(income) - np.log(mu))
-        )
+        return 1 - np.power(np.e, np.sum(f_i * np.log(income) - np.log(mu)))
     elif e >= 0 or e < 1:
         return 1 - np.power(
             np.sum(f_i * np.power(income / mu, 1 - e)), 1 / (1 - e)
@@ -274,8 +274,8 @@ def kakwani(tax, income_pre_tax, weights=None, data=None):
 
     References
     ----------
-    Jenkins, S. (1988). Calculating income distribution indices from micro-data.
-    National Tax Journal. http://doi.org/10.2307/41788716
+    Jenkins, S. (1988). Calculating income distribution indices from
+    micro-data. National Tax Journal. http://doi.org/10.2307/41788716
     """
     # main calc
     c_t = concentration(data=data, income=tax, weights=weights, sort=True)
@@ -316,8 +316,8 @@ def reynolds_smolensky(
 
     References
     ----------
-    Jenkins, S. (1988). Calculating income distribution indices from micro-data.
-    National Tax Journal. http://doi.org/10.2307/41788716
+    Jenkins, S. (1988). Calculating income distribution indices from
+    micro-data. National Tax Journal. http://doi.org/10.2307/41788716
     """
     g_y = concentration(data=data, income=income_post_tax, weights=weights)
     g_x = concentration(data=data, income=income_pre_tax, weights=weights)
@@ -384,9 +384,10 @@ def avg_tax_rate(total_tax, total_base, weights=None, data=None):
 
     Reference
     ---------
-    Panel de declarantes de IRPF 1999-2007: Metodología, estructura y variables.
-    (2011). Panel de declarantes de IRPF 1999-2007:
-    Metodología, estructura y variables. Documentos.
+    Panel de declarantes de IRPF 1999-2007: Metodología, estructura y
+    variables. (2011).
+    Panel de declarantes de IRPF 1999-2007: Metodología, estructura y
+    variables. Documentos.
     """
     if (
         isinstance(total_base, (np.ndarray))

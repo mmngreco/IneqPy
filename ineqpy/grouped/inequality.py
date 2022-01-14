@@ -1,4 +1,3 @@
-import numpy as np
 from .. import inequality
 from .. import _statistics
 from .. import utils
@@ -6,13 +5,12 @@ from .. import utils
 
 def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
     r"""The Atkinson index (also known as the Atkinson measure or Atkinson
-    grouped measure) is a measure of income grouped developed by
-    British economist Anthony Barnes Atkinson. The measure is useful in
-    determining which end of the distribution contributed most to the observed
-    grouped.The index is subgroup decomposable. This means that overall
-    grouped in the population can be computed as the sum of the corresponding
-    Atkinson indices within each group, and the Atkinson index of the group mean
-    incomes.
+    grouped measure) is a measure of income grouped developed by British
+    economist Anthony Barnes Atkinson. The measure is useful in determining
+    which end of the distribution contributed most to the observed grouped.The
+    index is subgroup decomposable. This means that overall grouped in the
+    population can be computed as the sum of the corresponding Atkinson indices
+    within each group, and the Atkinson index of the group mean incomes.
 
     Parameters
     ---------
@@ -45,6 +43,7 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
 
     if weights is None:
         if data is None:
+            # FIXME: as_of !
             weights = utils.not_empty_weights(weights, as_of)
 
     if data is None:
