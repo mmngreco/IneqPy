@@ -19,3 +19,7 @@ lint:
 fix:
 	pipenv run black -l79 ./ineqpy/
 
+
+.PHONY: vim
+vim:
+	pipenv run vim .
