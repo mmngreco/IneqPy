@@ -13,7 +13,7 @@ test:
 
 .PHONY: lint
 lint:
-	pipenv run flake8 ./ineqpy
+	pipenv run flake8
 
 .PHONY: fix
 fix:
