@@ -594,8 +594,8 @@ class Survey:
         Parameters
         ----------
         data : pandas.DataFrame
-            This variable is a DataFrame that contains all data required in it's
-            columns.
+            This variable is a DataFrame that contains all data required in
+            it's columns.
         income_pre_tax : array-like or str
             This variable represent tax payment of person, if pass array-like
             then data must be None, else you pass str-name column in `data`.
@@ -632,8 +632,8 @@ class Survey:
         Parameters
         ----------
         data : pandas.DataFrame
-            This variable is a DataFrame that contains all data required in it's
-            columns.
+            This variable is a DataFrame that contains all data required in
+            it's columns.
         income : array-like or str
             This variable represent tax payment of person, if pass array-like
             then data must be None, else you pass str-name column in `data`.
@@ -675,9 +675,10 @@ class Survey:
 
         Reference
         ---------
-        Panel de declarantes de IRPF 1999-2007: Metodología, estructura y variables.
-        (2011). Panel de declarantes de IRPF 1999-2007:
-        Metodología, estructura y variables. Documentos.
+        Panel de declarantes de IRPF 1999-2007: Metodología, estructura y
+        variables. (2011).
+        Panel de declarantes de IRPF 1999-2007: Metodología, estructura y
+        variables. Documentos.
         """
         data = self.df
         if weights is None:

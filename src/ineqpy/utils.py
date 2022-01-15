@@ -1,20 +1,22 @@
-"""Useful functions that make easier develop other functions.
-"""
+"""Useful functions that make easier develop other functions."""
 
 import numpy as np
 import pandas as pd
 
 
-def _to_df(*args, **kwargs):
-    res = pd.DataFrame([*args]).T if args != () else None
+def _to_df(*args, **kwargs) -> pd.DataFrame:
+    res = pd.DataFrame()
+
+    if args != ():
+        res = pd.DataFrame([*args]).T
 
     if kwargs is not None:
-        if res is not None:
-            res = pd.concat(
-                [res, pd.DataFrame.from_dict(kwargs, orient="columns")], axis=1
-            )
+        df = pd.DataFrame.from_dict(kwargs, orient="columns")
+        if res.empty:
+            res = df
         else:
-            res = pd.DataFrame.from_dict(kwargs, orient="columns")
+            res = pd.concat([res, df], axis=1)
+
     return res
 
 

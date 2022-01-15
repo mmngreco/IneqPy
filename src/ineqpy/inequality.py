@@ -171,10 +171,13 @@ def gini(income, weights=None, data=None, sort=True):
     return concentration(data=data, income=income, weights=weights, sort=sort)
 
 
-def atkinson(income, weights=None, data=None, e=0.5):
-    """More precisely labelled a family of income grouped measures, the
+def atkinson(income, weights=None, data=None, e=0.5) -> float:
+    """Calculate atkinson index.
+
+    More precisely labelled a family of income grouped measures, the
     theoretical range of Atkinson values is 0 to 1, with 0 being a state of
     equal distribution.
+
     An intuitive interpretation of this index is possible: Atkinson values can
     be used to calculate the proportion of total income that would be required
     to achieve an equal level of social welfare as at present if incomes were
@@ -207,7 +210,7 @@ def atkinson(income, weights=None, data=None, e=0.5):
     ---------
     Atkinson index. (2017, March 12). In Wikipedia, The Free Encyclopedia.
     Retrieved 14:35, May 15, 2017, from
-    https://en.wikipedia.org/w/index.php?title=Atkinson_index&oldid=769991852
+    https://en.wikipedia.org/w/index.php?title=Atkinson_index
 
     TODO
     ----
@@ -241,7 +244,7 @@ def atkinson(income, weights=None, data=None, e=0.5):
         )
     else:
         assert (e < 0) or (e > 1), "Not valid e value,  0 ≤ e ≤ 1"
-        return None
+        return np.nan
 
 
 def kakwani(tax, income_pre_tax, weights=None, data=None):

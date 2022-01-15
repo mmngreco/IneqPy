@@ -1,10 +1,22 @@
-from .. import inequality
-from .. import _statistics
+import pandas as pd
+from typing import Union
+import numpy as np
+
+from .. import inequality as ineq
+from .. import _statistics as stats
 from .. import utils
 
 
-def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
-    r"""The Atkinson index (also known as the Atkinson measure or Atkinson
+def atkinson_group(
+    data: pd.DataFrame = None,
+    income: Union[str, pd.DataFrame, np.ndarray] = None,
+    weights: Union[str, pd.DataFrame, np.ndarray] = None,
+    group: Union[str, pd.DataFrame, np.ndarray] = None,
+    e: float = 0.5,
+):
+    r"""Calculate atkinson index.
+
+    The Atkinson index (also known as the Atkinson measure or Atkinson
     grouped measure) is a measure of income grouped developed by British
     economist Anthony Barnes Atkinson. The measure is useful in determining
     which end of the distribution contributed most to the observed grouped.The
@@ -41,10 +53,8 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
     - Review function, has different results with stata.
     """
 
-    if weights is None:
-        if data is None:
-            # FIXME: as_of !
-            weights = utils.not_empty_weights(weights, as_of)
+    if (weights is None) and (data is None):
+        weights = utils.not_empty_weights(weights, income)
 
     if data is None:
         data = utils._to_df(income=income, weights=weights, group=group)
@@ -52,27 +62,25 @@ def atkinson_group(data=None, income=None, weights=None, group=None, e=0.5):
         weights = "weights"
         group = "group"
 
-    N = len(data)
+    N = data.shape[0]
 
     def a_h(df):
-        """
-        Funtion alias to calculate atkinson from a DataFrame
-        """
+        """Funtion alias to calculate atkinson from a DataFrame"""
         if df is None:
             raise ValueError
 
-        return inequality.atkinson(
-            income=df[income].values, weights=df[weights].values, e=e
-        ) * (len(df) / N)
+        inc = df[income].values
+        w = df[weights].values
+        atk = ineq.atkinson(income=inc, weights=w, e=e)
+        out = atk * (len(df) / N)
+
+        return out
 
     # main calc:
-    if data is not None:
-        data = data.copy()
-        atk_by_group = data.groupby(group).apply(a_h)
-        mu_by_group = data.groupby(group).apply(
-            lambda dw: _statistics.mean(dw[income], dw[weights])
-        )
+    data = data.copy()
+    groupped = data.groupby(group)
+    atk_by_group = groupped.apply(a_h)
+    mu_by_group = groupped.apply(lambda d: stats.mean(d[income], d[weights]))
+    out = atk_by_group.sum() + ineq.atkinson(income=mu_by_group.values)
 
-        return atk_by_group.sum() + atkinson(income=mu_by_group.values)
-    else:
-        raise NotImplementedError
+    return out

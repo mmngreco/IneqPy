@@ -1,7 +1,5 @@
-import numpy as np
 from .. import utils
 from .._statistics import c_moment, mean, std_moment
-from .. import utils
 
 
 def variance_hat_group(data=None, variable="x", weights="w", group="h"):
@@ -58,13 +56,13 @@ def variance_hat_group(data=None, variable="x", weights="w", group="h"):
         24662655225.947945
     """
     if data is None:
-        data = _to_df(x=variable, weights=weights, group=group)
+        data = utils._to_df(x=variable, weights=weights, group=group)
         variable = "x"
         weights = "weights"
         group = "group"
 
     def v(df):
-        """Calculate the variance of each stratum `h`.
+        r"""Calculate the variance of each stratum `h`.
 
         Parameters
         ---------
@@ -117,12 +115,12 @@ def moment_group(data=None, variable="x", weights="w", group="h", order=2):
 
     """
     if data is None:
-        data = _to_df(x=variable, weights=weights, group=group)
+        data = utils._to_df(x=variable, weights=weights, group=group)
         variable = "x"
         weights = "weights"
         group = "group"
 
-    def mh(df):
+    def mh(df, weights=weights):
         x = df[variable].copy().values
         weights = utils.not_empty_weights(weights, x)
         Nh = df.loc[:, weights].sum()
@@ -134,7 +132,9 @@ def moment_group(data=None, variable="x", weights="w", group="h", order=2):
     return data.groupby(group).apply(mh)
 
 
-def quasivariance_hat_group(variable=None, weights=None, group=None):
+def quasivariance_hat_group(
+    data=None, variable=None, weights=None, group=None
+):
     """Sample variance of `variable`, calculated as the second-order central
     moment.
 
@@ -176,13 +176,12 @@ def quasivariance_hat_group(variable=None, weights=None, group=None):
     """
 
     if data is None:
-        varia = utils._to_df(x=variable, weights=weights)
+        data = utils._to_df(x=variable, weights=weights)
         variable = "x"
         weights = "weights"
 
     def sd(df):
-        return c_moment(
-            data=df, variable=variable, weights=weights, param=mean(x)
-        )
+        x = variable
+        return c_moment(variable=x, weights=weights, param=mean(x))
 
     return data.groupby(group).apply(sd)

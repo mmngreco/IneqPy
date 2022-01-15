@@ -4,7 +4,6 @@ This module contains main descriptive statistics like: mean, variance, etc.
 
 """
 
-import pandas as pd
 from . import _statistics as stat
 from . import utils
 
@@ -103,7 +102,7 @@ def std_moment(
 
     References
     ----------
-    - https://en.wikipedia.org/wiki/Moment_(mathematics)#Significance_of_the_moments
+    - https://en.wikipedia.org/wiki/Moment_(mathematics)
     - https://en.wikipedia.org/wiki/Standardized_moment
 
     TODO
@@ -113,7 +112,7 @@ def std_moment(
 
     """
     variable, weights = utils.extract_values(data, variable, weights)
-    return stat.std_moment(data, variable, weights, param, order, ddof)
+    return stat.std_moment(variable, weights, param, order, ddof)
 
 
 def mean(variable=None, weights=None, data=None):
@@ -232,9 +231,9 @@ def coef_variation(variable=None, weights=None, data=None):
 
     References
     ----------
-    Coefficient of variation. (2017, May 5). In Wikipedia, The Free Encyclopedia.
-    Retrieved 15:03, May 15, 2017, from https://en.wikipedia.org/w/index.php?
-    title=Coefficient_of_variation&oldid=778842331
+    Coefficient of variation. (2017, May 5). In Wikipedia, The Free
+    Encyclopedia. Retrieved 15:03, May 15, 2017, from
+    https://en.wikipedia.org/w/index.php?title=Coefficient_of_variation
     """
     # TODO complete docstring
     variable, weights = utils.extract_values(data, variable, weights)
@@ -259,8 +258,8 @@ def kurt(variable=None, weights=None, data=None):
     References
     ---------
     Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
-    Retrieved 14:40, May 15, 2017, from https://en.wikipedia.org/w/index.php?
-    title=Moment_(mathematics)&oldid=778996402
+    Retrieved 14:40, May 15, 2017, from
+    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
 
     Notes
     -----

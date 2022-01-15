@@ -6,12 +6,12 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 
 # inputs
-data_path = Path("ineq.__file__").parent / 'examples/eusilc.csv'
+data_path = Path("ineq.__file__").parent / "examples/eusilc.csv"
 data = pd.read_csv(data_path, index_col=0).dropna()
-svy = ineq.api.Survey(data, weights='rb050')
+svy = ineq.api.Survey(data, weights="rb050")
 
 # In[3]:
-colname = 'eqincome'
+colname = "eqincome"
 svy.gini(colname)
 
 # In[4]:
@@ -33,7 +33,7 @@ svy.kurt(colname)
 svy.skew(colname)
 
 # In[10]:
-svy.lorenz(colname).plot(figsize=(5,5))
+svy.lorenz(colname).plot(figsize=(5, 5))
 
 # In[10]:
 # also works passing variables.

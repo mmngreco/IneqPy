@@ -4,14 +4,10 @@ References
 ----------
 
 1. http://people.ds.cam.ac.uk/fanf2/hermes/doc/antiforgery/stats.pdf
-
-2. https://en.wikipedia.org/wiki/Weighted_arithmetic_mean#Weighted_sample_variance
-
+2. https://en.wikipedia.org/wiki/Weighted_arithmetic_mean
+   #Weighted_sample_variance
 3. https://en.wikipedia.org/wiki/Algorithms%5Ffor%5Fcalculating%5Fvariance
    #Weighted_incremental_algorithm
-
-4. https://www.thinkbrg.com/media/publication/720_McCrary_ImplementingAlgorithms_
-   Whitepaper_20151119_WEB.pdf
 """
 
 import numpy as np
@@ -88,15 +84,15 @@ def percentile(variable, weights, percentile=50, interpolation="lower"):
         cum_weights, (percentile / 100.0) * cum_weights[-1]
     )
 
-    if interpolation is "midpoint":
+    if interpolation == "midpoint":
         res = np.interp(
             lower_percentile_idx + 0.5,
             np.arange(len(variable)),
             variable[sorted_idx],
         )
-    elif interpolation is "lower":
+    elif interpolation == "lower":
         res = variable[sorted_idx[lower_percentile_idx]]
-    elif interpolation is "higher":
+    elif interpolation == "higher":
         res = variable[sorted_idx[lower_percentile_idx + 1]]
     else:
         raise NotImplementedError
@@ -130,7 +126,8 @@ def std_moment(variable=None, weights=None, param=None, order=3, ddof=0):
 
     References
     ----------
-    - https://en.wikipedia.org/wiki/Moment_(mathematics)#Significance_of_the_moments
+    - https://en.wikipedia.org/wiki/Moment_(mathematics)
+      #Significance_of_the_moments
     - https://en.wikipedia.org/wiki/Standardized_moment
 
     TODO
@@ -201,11 +198,10 @@ def var(variable=None, weights=None, ddof=0):
 def coef_variation(variable=None, weights=None):
     """Calculate the coefficient of variation.
 
-     Calculate the coefficient of variation of a `variable` given weights.
-    The coefficient of variation is the square root of the variance of the
-    incomes divided by the mean income. It has the advantages of being
-    mathematically tractable and is subgroup decomposable, but is not bounded
-    from above.
+    Calculate the coefficient of variation of a `variable` given weights. The
+    coefficient of variation is the square root of the variance of the incomes
+    divided by the mean income. It has the advantages of being mathematically
+    tractable and is subgroup decomposable, but is not bounded from above.
 
     Parameters
     ----------
@@ -218,9 +214,9 @@ def coef_variation(variable=None, weights=None):
 
     References
     ----------
-    Coefficient of variation. (2017, May 5). In Wikipedia, The Free Encyclopedia.
-    Retrieved 15:03, May 15, 2017, from
-    https://en.wikipedia.org/w/index.php?title=Coefficient_of_variation&oldid=778842331
+    Coefficient of variation. (2017, May 5). In Wikipedia, The Free
+    Encyclopedia. Retrieved 15:03, May 15, 2017, from
+    https://en.wikipedia.org/w/index.php?title=Coefficient_of_variation
     """
     # todo complete docstring
     return var(variable=variable, weights=weights) ** 0.5 / abs(
@@ -229,7 +225,7 @@ def coef_variation(variable=None, weights=None):
 
 
 def kurt(variable=None, weights=None):
-    """Calculate the asymmetry coefficient
+    """Calculate the asymmetry coefficient.
 
     Parameters
     ---------
@@ -245,7 +241,7 @@ def kurt(variable=None, weights=None):
     ---------
     Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
     Retrieved 14:40, May 15, 2017, from
-    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
+    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
 
     Notes
     -----
@@ -299,11 +295,11 @@ def wvar(x, w, kind, out):
     w : np.ndarray
         Weigths.
     kind : int
-        Has three modes to calculate de variance, you can control that with this
-        argument, the values and the output are the next:
-        1 : population variance
-        2 : sample frequency variance
-        3 : sample reliability variance.
+        Has three modes to calculate de variance, you can control that with
+        this argument, the values and the output are the next:
+        * 1. population variance
+        * 2. sample frequency variance
+        * 3. sample reliability variance.
     out : np.ndarray
 
     Returns
@@ -312,7 +308,8 @@ def wvar(x, w, kind, out):
 
     References
     ----------
-    https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Weighted_incremental_algorithm
+    https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
+    #Weighted_incremental_algorithm
     """
     wSum = wSum2 = mean = S = 0
 
@@ -395,7 +392,11 @@ def wcov(x, y, w, kind, out):
     cache=True,
 )
 def online_kurtosis(x, w, out):
-    n = mean = M2 = M3 = M4 = 0
+    n = 0
+    mean = 0
+    M2 = 0
+    M3 = 0
+    M4 = 0
 
     for i in range(len(x)):
         n1 = w[i]
@@ -414,7 +415,7 @@ def online_kurtosis(x, w, out):
         M3 = M3 + term1 * delta_n * (n - 2) - 3 * delta_n * M2
         M2 = M2 + term1
 
-    kurtosis = (n * M4) / (M2 * M2) - 3
+    out[0] = (n * M4) / (M2 * M2) - 3
 
 
 @guvectorize(
