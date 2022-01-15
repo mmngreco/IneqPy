@@ -64,7 +64,7 @@ def c_moment(variable=None, weights=None, order=2, param=None, ddof=0):
     )
 
 
-def percentile(variable, weights, percentile=50, interpolation="lower"):
+def percentile(variable, weights, percentile=50, interpolation="lower") -> float:
     """Calculate the percentile.
 
     Parameters
@@ -73,6 +73,9 @@ def percentile(variable, weights, percentile=50, interpolation="lower"):
     weights :  str or array
     percentile : int or list
         Percentile level, if pass 50 we get the median.
+    interpolation : {'lower', 'higher', 'midpoint'}, optional
+        Select interpolation method.
+
     Returns
     -------
     percentile : float
@@ -97,7 +100,7 @@ def percentile(variable, weights, percentile=50, interpolation="lower"):
     else:
         raise NotImplementedError
 
-    return res
+    return float(res)
 
 
 def std_moment(variable=None, weights=None, param=None, order=3, ddof=0):
