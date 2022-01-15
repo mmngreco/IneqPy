@@ -1,5 +1,5 @@
 import numpy as np
-from pygsl import statistics as gsl_stat
+# from pygsl import statistics as gsl_stat
 from scipy import stats as sp_stat
 
 import ineqpy as ineq
@@ -11,13 +11,12 @@ x, w = ineq.utils.generate_data_to_test((60, 90))
 x_rep, w_rep = ineq.utils.repeat_data_from_weighted(x, w)
 svy = ineq.api.Survey
 
-print(
-    """
+print("""
 ==========
 Quickstart
 ==========
 
-We generate random weighted data to show how ineqpy works. The variables 
+We generate random weighted data to show how ineqpy works. The variables
 simulate being:
 
     x : Income
@@ -28,7 +27,7 @@ simulate being:
 ```
 
 To test with classical statistics we generate:
-    
+
     x_rep : Income values replicated w times each one.
     w_rep : Ones column.
 
@@ -43,12 +42,10 @@ Additional information:
     pd : pandas package
     gsl_stat : GNU Scientific Library written in C.
     ineq : IneqPy
-"""
-)
+""")
 
 
-print(
-    """
+print("""
 Examples and comparision with other packages
 ============================================
 
@@ -58,13 +55,12 @@ STATISTICS
 MEAN
 ----
 
-"""
-)
+""")
 
 print("```python")
 print(">>> np.mean(x_rep)".ljust(24), "=", np.mean(x_rep))
 print(">>> ineq.mean(x, w)".ljust(24), "=", ineq.mean(x, w))
-print(">>> gsl_stat.wmean(w, x)".ljust(24), "=", gsl_stat.wmean(w, x))
+# print(">>> gsl_stat.wmean(w, x)".ljust(24), "=", gsl_stat.wmean(w, x))
 print("```")
 
 # %timeit ineq.mean(None, x, w)
@@ -84,7 +80,7 @@ np_var = np.var(x_rep)
 inq_var = ineq.var(x, w)
 wvar_1 = ineq_stat.wvar(x, w, 1)  # population variance
 wvar_2 = ineq_stat.wvar(x, w, 2)  # sample frequency variance
-gsl_wvar = gsl_stat.wvariance(w, x)
+# gsl_wvar = gsl_stat.wvariance(w, x)
 wvar_3 = ineq_stat.wvar(x, w, 3)  # sample reliability variance
 
 print("```python")
@@ -92,7 +88,7 @@ print(">>> np.var(x_rep)".ljust(32), "=", np_var)
 print(">>> ineq.var(x, w)".ljust(32), "=", inq_var)
 print(">>> ineq_stat.wvar(x, w, kind=1)".ljust(32), "=", wvar_1)
 print(">>> ineq_stat.wvar(x, w, kind=2)".ljust(32), "=", wvar_2)
-print(">>> gsl_stat.wvariance(w, x)".ljust(32), "=", gsl_wvar)
+# print(">>> gsl_stat.wvariance(w, x)".ljust(32), "=", gsl_wvar)
 print(">>> ineq_stat.wvar(x, w, kind=3)".ljust(32), "=", wvar_3)
 print("```")
 
@@ -125,12 +121,12 @@ SKEWNESS
 """
 )
 
-gsl_wskew = gsl_stat.wskew(w, x)
+# gsl_wskew = gsl_stat.wskew(w, x)
 sp_skew = sp_stat.skew(x_rep)
 ineq_skew = ineq.skew(x, w)
 
 print("```python")
-print(">>> gsl_stat.wskew(w, x)".ljust(24), "= ", gsl_wskew)
+# print(">>> gsl_stat.wskew(w, x)".ljust(24), "= ", gsl_wskew)
 print(">>> sp_stat.skew(x_rep)".ljust(24), "= ", sp_skew)
 print(">>> ineq.skew(x, w)".ljust(24), "= ", ineq_skew)
 print("```")
@@ -149,11 +145,11 @@ KURTOSIS
 )
 
 sp_kurt = sp_stat.kurtosis(x_rep)
-gsl_wkurt = gsl_stat.wkurtosis(w, x)
+# gsl_wkurt = gsl_stat.wkurtosis(w, x)
 ineq_kurt = ineq.kurt(x, w) - 3
 print("```python")
 print(">>> sp_stat.kurtosis(x_rep)".ljust(28), "= ", sp_kurt)
-print(">>> gsl_stat.wkurtosis(w, x)".ljust(28), "= ", gsl_wkurt)
+# print(">>> gsl_stat.wkurtosis(w, x)".ljust(28), "= ", gsl_wkurt)
 print(">>> ineq.kurt(x, w) - 3".ljust(28), "= ", ineq_kurt)
 print("```")
 # %timeit sp_stat.kurtosis(x_rep)

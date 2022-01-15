@@ -1,9 +1,7 @@
 # load packages
 import pandas as pd
-import numpy as np
 import ineqpy as ineq
 from pathlib import Path
-import matplotlib.pyplot as plt
 
 # inputs
 data_path = Path("ineq.__file__").parent / "examples/eusilc.csv"

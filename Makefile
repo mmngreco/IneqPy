@@ -13,7 +13,7 @@ test:
 
 .PHONY: lint
 lint:
-	pipenv run flake8
+	pipenv run flake8 src
 
 .PHONY: fix
 fix:
@@ -22,4 +22,4 @@ fix:
 
 .PHONY: vim
 vim:
-	pipenv run vim .
+	pipenv run nvim .

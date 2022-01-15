@@ -13,7 +13,7 @@ setup(
     author_email="mmngreco@gmail.com",
     url="https://github.com/mmngreco/IneqPy",
     # download_url='https://github.com/mmngreco/IneqPy/tarball/',
-    package_dir={'':'src'},
+    package_dir={'': 'src'},
     packages=find_packages("src"),
     classifiers=[
         "Development Status :: 3 - Alpha",

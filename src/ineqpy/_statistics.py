@@ -64,7 +64,9 @@ def c_moment(variable=None, weights=None, order=2, param=None, ddof=0):
     )
 
 
-def percentile(variable, weights, percentile=50, interpolation="lower") -> float:
+def percentile(
+    variable, weights, percentile=50, interpolation="lower"
+) -> float:
     """Calculate the percentile.
 
     Parameters
