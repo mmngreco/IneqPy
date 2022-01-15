@@ -1,3 +1,8 @@
+.PHONY: venv
+venv:
+	pip install -U pip setuptools wheel pipenv
+	pipenv install -e . --dev
+
 .PHONY: install
 install:
 	pipenv install .
@@ -14,7 +19,3 @@ lint:
 fix:
 	pipenv run black -l79 ./ineqpy/
 
-.PHONY: venv
-venv:
-	pip install -U pip setuptools wheel pipenv
-	pipenv install -e . --dev
