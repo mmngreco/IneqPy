@@ -60,7 +60,7 @@ def not_null_condition(income, weights):
 
 
 def _sort_values(values, partner):
-    idx_sort = np.argsort(values)
+    idx_sort = np.argsort(values, axis=0).squeeze()
     values = values[idx_sort]
     partner = partner[idx_sort]
     return values, partner

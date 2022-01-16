@@ -18,6 +18,18 @@ from .statistics import mean
 from . import utils
 
 
+__all__ = [
+    "atkinson",
+    "avg_tax_rate",
+    "concentration",
+    "gini",
+    "kakwani",
+    "lorenz",
+    "reynolds_smolensky",
+    "theil",
+]
+
+
 def concentration(income, weights=None, data=None, sort=True):
     """This function calculate the concentration index, according to the
     notation used in [Jenkins1988]_ you can calculate the:
@@ -33,6 +45,7 @@ def concentration(income, weights=None, data=None, sort=True):
     weights : array-like
     data : pandas.DataFrame
     sort : bool
+        If true, will sort the values.
 
     Returns
     -------
@@ -53,9 +66,16 @@ def concentration(income, weights=None, data=None, sort=True):
     # if sort is true then sort the variables.
     if sort:
         income, weights = utils._sort_values(income, weights)
+
+    if weights.ndim == 2:
+        weights = np.squeeze(weights, axis=1)
+
+    if income.ndim == 2:
+        income = np.squeeze(income, axis=1)
+
     # main calc
     f_x = utils.normalize(weights)
-    F_x = f_x.cumsum()
+    F_x = f_x.cumsum(axis=0)
     mu = np.sum(income * f_x)
     cov = np.cov(income, F_x, rowvar=False, aweights=f_x)[0, 1]
     return 2 * cov / mu
