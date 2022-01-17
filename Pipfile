@@ -19,6 +19,11 @@ black = "*"
 flake8 = "*"
 pdbpp = "*"
 ineqpy = {editable = true, path = "."}
+sphinx = "*"
+sphinx-autoapi = "*"
+sphinx-rtd-theme = "*"
+numpydoc = "*"
+pydocstyle = "*"
 
 [requires]
 python_version = "3.8"
