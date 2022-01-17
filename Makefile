@@ -20,6 +20,10 @@ fix:
 	pipenv run black -l79 ./ineqpy/
 
 
+.PHONY: doc
+doc:
+	cd docs && pipenv run make html && xdg-open build/html/index.html
+
 .PHONY: vim
 vim:
 	pipenv run nvim .

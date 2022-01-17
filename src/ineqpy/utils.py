@@ -28,15 +28,16 @@ def _apply_to_df(func, df, x, weights, *args, **kwargs):
     func : function
         Function to convert his arguments in Series of an Dataframe.
     df : pandas.Dataframe
-        DataFrame whats contains the Series `x_name` and `w_name`
+        DataFrame whats contains the Series `x_name` and `w_name`.
     x_name : str
-        Name of the column in `df`
+        Name of the column in `df`.
     weights_name : str
-        Name of the column in `df
+        Name of the column in `df`.
+
     Returns
     -------
     return : func return
-        It's depends of func output type
+        It's depends of func output type.
     """
     return func(df[x], df[weights], *args, **kwargs)
 
@@ -57,7 +58,7 @@ def not_empty_weights(weights, like):
 
     See Also
     --------
-    normalize()
+    normalize
     """
     if weights is not None:
         return normalize(weights.copy())
