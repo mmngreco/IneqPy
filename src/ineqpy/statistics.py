@@ -11,7 +11,9 @@ from . import utils
 def c_moment(
     variable=None, weights=None, data=None, order=2, param=None, ddof=0
 ):
-    """Calculate the central moment of `x` with respect to `param` of order `n`,
+    """Calculate central momment.
+
+    Calculate the central moment of `x` with respect to `param` of order `n`,
     given the weights `w`.
 
     Parameters
@@ -41,7 +43,7 @@ def c_moment(
 
     Source : https://en.wikipedia.org/wiki/Moment_(mathematics)
 
-    TODO
+    Todo
     ----
     Implement: https://en.wikipedia.org/wiki/L-moment#cite_note-wang:96-6
 
@@ -77,7 +79,9 @@ def percentile(
 def std_moment(
     variable=None, weights=None, data=None, param=None, order=3, ddof=0
 ):
-    """Calculate the standardized moment of order `c` for the variable` x` with
+    """Calculate standarized momment.
+
+    Calculate the standardized moment of order `c` for the variable` x` with
     respect to `c`.
 
     Parameters
@@ -105,7 +109,7 @@ def std_moment(
     - https://en.wikipedia.org/wiki/Moment_(mathematics)
     - https://en.wikipedia.org/wiki/Standardized_moment
 
-    TODO
+    Todo
     ----
     It is the general case of the raw and central moments. Review
     implementation.
@@ -196,11 +200,10 @@ def var(variable=None, weights=None, data=None, ddof=0):
         Estimation of quasivariance of `variable`
 
     References
-    ---------
+    ----------
     Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
     Retrieved 14:40, May 15, 2017, from
-    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=
-    778996402
+    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
 
     Notes
     -----
@@ -244,7 +247,7 @@ def kurt(variable=None, weights=None, data=None):
     """Calculate the Kurtosis coefficient.
 
     Parameters
-    ---------
+    ----------
     variable : 1d-array
     weights : 1d-array
     data : pandas.DataFrame
@@ -256,7 +259,7 @@ def kurt(variable=None, weights=None, data=None):
         Kurtosis coefficient.
 
     References
-    ---------
+    ----------
     Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
     Retrieved 14:40, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
@@ -270,12 +273,11 @@ def kurt(variable=None, weights=None, data=None):
 
 
 def skew(variable=None, weights=None, data=None):
-    """Returns the asymmetry coefficient of a sample.
+    """Return the asymmetry coefficient of a sample.
 
     Parameters
-    ---------
+    ----------
     data : pandas.DataFrame
-
     variable : array-like, str
     weights : array-like, str
     data : pandas.DataFrame
@@ -286,10 +288,10 @@ def skew(variable=None, weights=None, data=None):
     skew : float
 
     References
-    ---------
+    ----------
     Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
     Retrieved 14:40, May 15, 2017, from
-    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
+    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
 
     Notes
     -----

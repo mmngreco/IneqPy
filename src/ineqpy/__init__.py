@@ -1,6 +1,4 @@
-"""
-IneqPy: A python package for inequality analysis.
-"""
+"""IneqPy: A python package for inequality analysis."""
 
 from ineqpy import inequality
 from ineqpy import statistics

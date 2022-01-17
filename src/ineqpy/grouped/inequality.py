@@ -1,3 +1,4 @@
+"""inequality module."""
 import pandas as pd
 from typing import Union
 import numpy as np
@@ -25,7 +26,7 @@ def atkinson_group(
     within each group, and the Atkinson index of the group mean incomes.
 
     Parameters
-    ---------
+    ----------
     income : str or np.array
         Income variable, you can pass name of variable in `df` or array-like
     weights : str or np.array
@@ -52,7 +53,6 @@ def atkinson_group(
     ----
     - Review function, has different results with stata.
     """
-
     if (weights is None) and (data is None):
         weights = utils.not_empty_weights(weights, income)
 
@@ -65,7 +65,7 @@ def atkinson_group(
     N = data.shape[0]
 
     def a_h(df):
-        """Funtion alias to calculate atkinson from a DataFrame"""
+        """Funtion alias to calculate atkinson from a DataFrame."""
         if df is None:
             raise ValueError
 

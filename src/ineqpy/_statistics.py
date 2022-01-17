@@ -2,7 +2,6 @@
 
 References
 ----------
-
 1. http://people.ds.cam.ac.uk/fanf2/hermes/doc/antiforgery/stats.pdf
 2. https://en.wikipedia.org/wiki/Weighted_arithmetic_mean
    #Weighted_sample_variance
@@ -17,7 +16,9 @@ from . import utils
 
 
 def c_moment(variable=None, weights=None, order=2, param=None, ddof=0):
-    """Calculate the central moment of `x` with respect to `param` of order `n`,
+    """Calculate central momment.
+
+    Calculate the central moment of `x` with respect to `param` of order `n`,
     given the weights `w`.
 
     Parameters
@@ -45,14 +46,13 @@ def c_moment(variable=None, weights=None, order=2, param=None, ddof=0):
 
     Source : https://en.wikipedia.org/wiki/Moment_(mathematics)
 
-    TODO
+    Todo
     ----
     Implement : https://en.wikipedia.org/wiki/L-moment#cite_note-wang:96-6
-
     """
     # return np.sum((x-c)^n*counts) / np.sum(counts)
     variable = variable.copy()
-    weights = utils.not_empty_weights(weights, as_of=variable)
+    weights = utils.not_empty_weights(weights, like=variable)
 
     if param is None:
         param = mean(variable=variable, weights=weights)
@@ -82,7 +82,6 @@ def percentile(
     -------
     percentile : float
     """
-
     sorted_idx = np.argsort(variable)
     cum_weights = np.cumsum(weights[sorted_idx])
     lower_percentile_idx = np.searchsorted(
@@ -135,7 +134,7 @@ def std_moment(variable=None, weights=None, param=None, order=3, ddof=0):
       #Significance_of_the_moments
     - https://en.wikipedia.org/wiki/Standardized_moment
 
-    TODO
+    Todo
     ----
     It is the general case of the raw and central moments. Review
     implementation.
@@ -167,7 +166,7 @@ def mean(variable=None, weights=None):
     """
     # if pass a DataFrame separate variables.
     variable = variable.copy()
-    weights = utils.not_empty_weights(weights, as_of=variable)
+    weights = utils.not_empty_weights(weights, like=variable)
     variable, weights = utils._clean_nans_values(variable, weights)
     return np.average(a=variable, weights=weights, axis=0)
 
@@ -188,10 +187,10 @@ def var(variable=None, weights=None, ddof=0):
         Estimation of quasivariance of `variable`
 
     References
-    ---------
+    ----------
     Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
     Retrieved 14:40, May 15, 2017, from
-    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
+    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
 
     Notes
     -----
@@ -233,7 +232,7 @@ def kurt(variable=None, weights=None):
     """Calculate the asymmetry coefficient.
 
     Parameters
-    ---------
+    ----------
     variable : 1d-array
     weights : 1d-array
 
@@ -243,7 +242,7 @@ def kurt(variable=None, weights=None):
         Kurtosis coefficient.
 
     References
-    ---------
+    ----------
     Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
     Retrieved 14:40, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
@@ -251,16 +250,15 @@ def kurt(variable=None, weights=None):
     Notes
     -----
     It is an alias of the standardized fourth-order moment.
-
     """
     return std_moment(variable=variable, weights=weights, order=4)
 
 
 def skew(variable=None, weights=None):
-    """Returns the asymmetry coefficient of a sample.
+    """Return the asymmetry coefficient of a sample.
 
     Parameters
-    ---------
+    ----------
     variable : array-like, str
     weights : array-like, str
 
@@ -269,10 +267,10 @@ def skew(variable=None, weights=None):
     skew : float
 
     References
-    ---------
+    ----------
     Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
     Retrieved 14:40, May 15, 2017, from
-    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
+    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
 
     Notes
     -----
@@ -397,6 +395,7 @@ def wcov(x, y, w, kind, out):
     cache=True,
 )
 def online_kurtosis(x, w, out):
+    """Online kurtosis."""
     n = 0
     mean = 0
     M2 = 0
@@ -430,6 +429,7 @@ def online_kurtosis(x, w, out):
     cache=True,
 )
 def Mk(x, w, k, out):
+    """Calculate Mk."""
     w_sum = wx_sum = 0
 
     for i in range(len(x)):

@@ -1,18 +1,21 @@
-"""This module extend pandas.DataFrames with the main functions from statistics
-and inequality modules.
+"""API's module.
+
+Extend pandas.DataFrames with the main functions from statistics and
+inequality modules.
 """
-
-from . import inequality
-from . import statistics
-
-from functools import partial
-from types import MethodType
-
 import inspect
+
+from types import MethodType
+from functools import partial
+
 import pandas as pd
+
+from . import inequality, statistics
 
 
 class Convey:
+    """Conver."""
+
     def __init__(
         self,
         data=None,
@@ -54,6 +57,52 @@ class Convey:
 
 
 class Survey:
+    """Survey it's a data structure that handles survey data.
+
+    Attributes
+    ----------
+    df : pandas.DataFrame
+    weights : str
+    group : str
+
+    Methods
+    -------
+    atkinson(income=None, weights=None, e=0.5)
+        Calculate Atkinson's index.
+    avg_tax_rate(total_tax=None, total_base=None, weights=None)
+        Calculate average tax rate.
+    c_moment(variable=None, weights=None, order=2, param=None, ddof=0 )
+        Calculate central momment.
+    coef_variation(variable=None, weights=None)
+        Calculate coefficient of variation.
+    concentration(income=None, weights=None, sort=True)
+        Calculate concentration's index.
+    density(variable=None, weights=None, groups=None)
+        Calculate density.
+    gini(income=None, weights=None, sort=True)
+        Calculate Gini's index.
+    kakwani(tax=None, income_pre_tax=None, weights=None)
+        Calculate Kakwani's index.
+    kurt(variable=None, weights=None)
+        Calculate Kurtosis.
+    lorenz(income=None, weights=None)
+        Calculate Lorenz curve.
+    mean(variable=None, weights=None)
+        Calculate mean.
+    percentile(variable=None, weights=None, p=50, interpolate="lower" )
+        Calculate percentile.
+    reynolds_smolensky(income_pre_tax=None, income_post_tax=None, weights=None )
+        Calculate Reynolds-Smolensky's index.
+    skew(variable=None, weights=None)
+        Calculate Skew.
+    std_moment(variable=None, weights=None, param=None, order=3, ddof=0 )
+        Calculate standard deviation.
+    theil(income=None, weights=None)
+        Calculate Theil's index.
+    var(variable=None, weights=None, ddof=0)
+        Calculate variance.
+    """
+
     def __init__(
         self,
         data=None,
@@ -70,12 +119,13 @@ class Survey:
     def c_moment(
         self, variable=None, weights=None, order=2, param=None, ddof=0
     ):
-        """Calculate the central moment of `x` with respect to `param` of order
+        """Calculate central momment.
+
+        Calculate the central moment of `x` with respect to `param` of order
         `n`, given the weights `w`.
 
         Parameters
         ----------
-        data :
         variable : 1d-array
             Variable
         weights : 1d-array
@@ -96,12 +146,10 @@ class Survey:
         -----
         - The cmoment of order 1 is 0
         - The cmoment of order 2 is the variance.
-
         Source : https://en.wikipedia.org/wiki/Moment_(mathematics)
 
-        TODO
+        Todo
         ----
-
         Implement: https://en.wikipedia.org/wiki/L-moment#cite_note-wang:96-6
 
         """
@@ -122,7 +170,7 @@ class Survey:
         data : pd.DataFrame, optional
             pd.DataFrame that contains all variables needed.
         variable : str or array
-        weights :  str or array
+        weights : str or array
         q : float
             Quantile level, if pass 0.5 means median.
         interpolate : bool
@@ -140,7 +188,9 @@ class Survey:
     def std_moment(
         self, variable=None, weights=None, param=None, order=3, ddof=0
     ):
-        """Calculate the standardized moment of order `c` for the variable` x`
+        """Calculate the standardized moment.
+
+        Calculate the standardized moment of order `c` for the variable` x`
         with respect to `c`.
 
         Parameters
@@ -169,7 +219,7 @@ class Survey:
           of_the_moments
         - https://en.wikipedia.org/wiki/Standardized_moment
 
-        TODO
+        Todo
         ----
         It is the general case of the raw and central moments. Review
         implementation.
@@ -207,16 +257,17 @@ class Survey:
         return statistics.mean(variable, weights, data)
 
     def density(self, variable=None, weights=None, groups=None):
-        """Calculates density in percentage. This make division of variable
-        inferring width in groups as max - min.
+        """Calculate density in percentage.
+
+        This make division of variable inferring width in groups as max - min.
 
         Parameters
         ----------
         data : pd.DataFrame, optional
             pandas.DataFrame that contains all variables needed.
-        variable :
-        weights :
-        groups :
+        variable : array-like, optional
+        weights : array-like, optional
+        groups : array-like, optional
 
         Returns
         -------
@@ -225,8 +276,7 @@ class Survey:
         References
         ----------
         Histogram. (2017, May 9). In Wikipedia, The Free Encyclopedia.
-        Retrieved:
-        https://en.wikipedia.org/w/index.php?title=Histogram&oldid=779516918
+        Retrieved: https://en.wikipedia.org/w/index.php?title=Histogram
         """
         data = self.df
         if weights is None:
@@ -245,19 +295,17 @@ class Survey:
         weights : 1d-array or pd.Series or pd.DataFrame
             Weights of the `variable`.
 
-
         Returns
         -------
         variance : 1d-array or pd.Series or float
             Estimation of quasivariance of `variable`
 
         References
-        ---------
+        ----------
         Moment (mathematics). (2017, May 6). In Wikipedia, The Free
         Encyclopedia.
         Retrieved 14:40, May 15, 2017, from
-        https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=
-        778996402
+        https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
 
         Notes
         -----
@@ -269,7 +317,8 @@ class Survey:
         return statistics.var(variable, weights, data, ddof)
 
     def coef_variation(self, variable=None, weights=None):
-        """Calculate the coefficient of variation of a `variable` given weights.
+        """Calculate the coefficient of variation.
+
         The coefficient of variation is the square root of the variance of the
         incomes divided by the mean income. It has the advantages of being
         mathematically tractable and is subgroup decomposable, but is not
@@ -290,8 +339,7 @@ class Survey:
         Coefficient of variation. (2017, May 5). In Wikipedia, The Free
         Encyclopedia.
         Retrieved 15:03, May 15, 2017, from
-        https://en.wikipedia.org/w/index.php?title=Coefficient_of_variation&
-        oldid=778842331
+        https://en.wikipedia.org/w/index.php?title=Coefficient_of_variation
         """
         # TODO complete docstring
         data = self.df
@@ -300,10 +348,10 @@ class Survey:
         return statistics.coef_variation(variable, weights, data)
 
     def kurt(self, variable=None, weights=None):
-        """Calculate the asymmetry coefficient
+        """Calculate the asymmetry coefficient.
 
         Parameters
-        ---------
+        ----------
         variable : 1d-array
         w : 1d-array
 
@@ -313,12 +361,11 @@ class Survey:
             Kurtosis coefficient.
 
         References
-        ---------
+        ----------
         Moment (mathematics). (2017, May 6). In Wikipedia, The Free
         Encyclopedia.
         Retrieved 14:40, May 15, 2017, from
-        https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&
-        oldid=778996402
+        https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
 
         Notes
         -----
@@ -330,12 +377,11 @@ class Survey:
         return statistics.kurt(variable, weights, data)
 
     def skew(self, variable=None, weights=None):
-        """Returns the asymmetry coefficient of a sample.
+        """Return the asymmetry coefficient of a sample.
 
         Parameters
-        ---------
+        ----------
         data : pandas.DataFrame
-
         variable : array-like, str
         weights : array-like, str
 
@@ -344,7 +390,7 @@ class Survey:
         skew : float
 
         References
-        ---------
+        ----------
         Moment (mathematics). (2017, May 6). In Wikipedia, The Free
         Encyclopedia.
         Retrieved 14:40, May 15, 2017, from
@@ -365,7 +411,9 @@ class Survey:
     #  ----------
 
     def concentration(self, income=None, weights=None, sort=True):
-        """This function calculate the concentration index, according to the
+        """Calculate concentration index.
+
+        This function calculate the concentration index, according to the
         notation used in [Jenkins1988]_ you can calculate the:
         C_x = 2 / x · cov(x, F_x)
         if x = g(x) then C_x becomes C_y
@@ -396,7 +444,9 @@ class Survey:
         return inequality.concentration(income, weights, data, sort)
 
     def lorenz(self, income=None, weights=None):
-        """In economics, the Lorenz curve is a graphical representation of the
+        """Calculate lorenz curve.
+
+        In economics, the Lorenz curve is a graphical representation of the
         distribution of income or of wealth. It was developed by Max O. Lorenz
         in 1905 for representing grouped of the wealth distribution. This
         function compute the lorenz curve and returns a DF with two columns of
@@ -435,11 +485,14 @@ class Survey:
         return inequality.lorenz(income, weights, data)
 
     def gini(self, income=None, weights=None, sort=True):
-        """The Gini coefficient (sometimes expressed as a Gini ratio or a
+        """Calculate Gini's index.
+
+        The Gini coefficient (sometimes expressed as a Gini ratio or a
         normalized Gini index) is a measure of statistical dispersion intended
         to represent the income or wealth distribution of a nation's residents,
         and is the most commonly used measure of grouped. It was developed by
         Corrado Gini.
+
         The Gini coefficient measures the grouped among values of a frequency
         distribution (for example, levels of income). A Gini coefficient of
         zero expresses perfect equality, where all values are the same (for
@@ -450,7 +503,7 @@ class Survey:
         very nearly one).
 
         Parameters
-        ---------
+        ----------
         data : pandas.DataFrame
             DataFrame that contains the data.
         income : str or np.array, optional
@@ -483,7 +536,7 @@ class Survey:
         - Jenkins, S. (1988). Calculating income distribution indices
         from micro-data. National Tax Journal. http://doi.org/10.2307/41788716
 
-        TODO
+        Todo
         ----
         - Implement statistical deviation calculation, VAR (GINI)
 
@@ -494,7 +547,9 @@ class Survey:
         return inequality.gini(income, weights, data, sort)
 
     def atkinson(self, income=None, weights=None, e=0.5):
-        """More precisely labelled a family of income grouped measures, the
+        """Calculate Atkinson index.
+
+        More precisely labelled a family of income grouped measures, the
         theoretical range of Atkinson values is 0 to 1, with 0 being a state of
         equal distribution.
         An intuitive interpretation of this index is possible: Atkinson values
@@ -508,7 +563,7 @@ class Survey:
         to 1, with 0 being a state of equal distribution.
 
         Parameters
-        ---------
+        ----------
         income : array or str
             If `data` is none `income` must be an 1D-array, when `data` is a
             pd.DataFrame, you must pass the name of income variable as string.
@@ -531,7 +586,7 @@ class Survey:
         Retrieved 14:35, May 15, 2017, from
         https://en.wikipedia.org/w/index.php?title=Atkinson_index&oldid=769991852
 
-        TODO
+        Todo
         ----
         - Implement: CALCULATING INCOME DISTRIBUTION INDICES FROM MICRO-DATA
           http://www.jstor.org/stable/41788716
@@ -543,7 +598,9 @@ class Survey:
         return inequality.atkinson(income, weights, data, e)
 
     def kakwani(self, tax=None, income_pre_tax=None, weights=None):
-        """The Kakwani (1977) index of tax progressivity is defined as twice the
+        """Calculate kakwani's index.
+
+        The Kakwani (1977) index of tax progressivity is defined as twice the
         area between the concentration curves for taxes and pre-tax income,
         or equivalently, the concentration index for t(x) minus the Gini index
         for x, i.e.
@@ -584,7 +641,9 @@ class Survey:
     def reynolds_smolensky(
         self, income_pre_tax=None, income_post_tax=None, weights=None
     ):
-        """The Reynolds-Smolensky (1977) index of the redistributive effect of
+        """Calculate Reynolds-Smolensky's index.
+
+        The Reynolds-Smolensky (1977) index of the redistributive effect of
         taxes, which can also be interpreted as an index of progressivity
         (Lambert 1985), is defined as:
 
@@ -623,7 +682,9 @@ class Survey:
         )
 
     def theil(self, income=None, weights=None):
-        """The Theil index is a statistic primarily used to measure economic
+        """Calculate theil index.
+
+        The Theil index is a statistic primarily used to measure economic
         grouped and other economic phenomena. It is a special case of the
         generalized entropy index. It can be viewed as a measure of redundancy,
         lack of diversity, isolation, segregation, grouped, non-randomness, and
@@ -659,8 +720,7 @@ class Survey:
         return inequality.theil(income, weights, data)
 
     def avg_tax_rate(self, total_tax=None, total_base=None, weights=None):
-        """This function compute the average tax rate given a base income and a
-        total tax.
+        """Compute the average tax rate given a base income and a total tax.
 
         Parameters
         ----------

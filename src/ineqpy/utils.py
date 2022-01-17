@@ -21,9 +21,10 @@ def _to_df(*args, **kwargs) -> pd.DataFrame:
 
 
 def _apply_to_df(func, df, x, weights, *args, **kwargs):
-    """This function generalize main arguments as Series of a pd.Dataframe.
+    """Generalize main arguments as Series of a pd.Dataframe.
+
     Parameters
-    ---------
+    ----------
     func : function
         Function to convert his arguments in Series of an Dataframe.
     df : pandas.Dataframe
@@ -40,16 +41,44 @@ def _apply_to_df(func, df, x, weights, *args, **kwargs):
     return func(df[x], df[weights], *args, **kwargs)
 
 
-def not_empty_weights(weights, as_of):
-    return (
-        normalize(weights.copy())
-        if weights is not None
-        else np.ones(len(as_of))
-    )
+def not_empty_weights(weights, like):
+    """Create weights.
+
+    Create normalized weight if it's None use like to create it.
+
+    Parameters
+    ----------
+    income, like : array-like
+
+    Returns
+    -------
+    weights : array-like
+        Filtered array-like.
+
+    See Also
+    --------
+    normalize()
+    """
+    if weights is not None:
+        return normalize(weights.copy())
+
+    return np.ones_like(like)
 
 
 def not_null_condition(income, weights):
+    """Filter not null condition.
 
+    If a negative value is found in the incomes it will dropped.
+
+    Parameters
+    ----------
+    income, weights : array-like
+
+    Returns
+    -------
+    income, weights : array-like
+        Filtered array-like.
+    """
     if np.any(income <= 0):
         mask = income > 0
         income = income[mask]
@@ -75,19 +104,51 @@ def _clean_nans_values(this, pair):
 
 
 def normalize(this):
+    """Normalize data by the sum.
+
+    Parameters
+    ----------
+    this : array-like
+
+    Returns
+    -------
+    out : array-like
+    """
     return this / np.sum(this)
 
 
 def extract_values(data, variable, weights):
+    """Extract values.
+
+    Parameters
+    ----------
+    data : pandas.DataFrame
+    variable : str
+    weights : str
+
+    Returns
+    -------
+    variable, weights : array-like
+    """
     if data is not None:
         variable = data.loc[:, variable].values
         weights = not_empty_weights(
-            data.loc[:, weights].values, as_of=variable
+            data.loc[:, weights].values, like=variable
         )
     return variable, weights
 
 
 def repeat_data_from_weighted(x, w):
+    """Generate data data (not sampled) from weights.
+
+    Parameters
+    ----------
+    x, w : array-like
+
+    Returns
+    -------
+    repeated_x, repeated_w : np.array
+    """
     if isinstance(w[0], float):
         raise NotImplementedError
 
@@ -102,6 +163,17 @@ def repeat_data_from_weighted(x, w):
 
 
 def generate_data_to_test(n_sample_range=(20, 100)):
+    """Generate sampled data for testing.
+
+    Parameters
+    ----------
+    n_sample_range : tuple[int, int]
+        It's a shape, lenght and columns.
+
+    Returns
+    -------
+    income, weights : np.array
+    """
     N_sample = np.random.randint(*n_sample_range)
     weighted_x = np.random.randint(0, 1000, N_sample)
     weights = np.random.randint(1, 9, N_sample)

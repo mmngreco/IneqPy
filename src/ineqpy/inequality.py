@@ -31,10 +31,14 @@ __all__ = [
 
 
 def concentration(income, weights=None, data=None, sort=True):
-    """This function calculate the concentration index, according to the
-    notation used in [Jenkins1988]_ you can calculate the:
+    """Calculate concentration's index.
+
+    This function calculate the concentration index, according to the notation
+    used in [Jenkins1988]_ you can calculate the:
+
     C_x = 2 / x · cov(x, F_x)
     if x = g(x) then C_x becomes C_y
+
     when there are taxes:
 
     y = g(x) = x - t(x)
@@ -62,7 +66,7 @@ def concentration(income, weights=None, data=None, sort=True):
     # copy
     income, weights = utils.extract_values(data, income, weights)
     if weights is None:
-        weights = utils.not_empty_weights(weights, as_of=income)
+        weights = utils.not_empty_weights(weights, like=income)
     # if sort is true then sort the variables.
     if sort:
         income, weights = utils._sort_values(income, weights)
@@ -82,7 +86,9 @@ def concentration(income, weights=None, data=None, sort=True):
 
 
 def lorenz(income, weights=None, data=None):
-    """In economics, the Lorenz curve is a graphical representation of the
+    """Calculate Lorent's curve.
+
+    In economics, the Lorenz curve is a graphical representation of the
     distribution of income or of wealth. It was developed by Max O. Lorenz in
     1905 for representing grouped of the wealth distribution. This function
     compute the lorenz curve and returns a DF with two columns of axis x and y.
@@ -112,7 +118,6 @@ def lorenz(income, weights=None, data=None):
     Retrieved 14:34, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Lorenz_curve&oldid=764853675
     """
-
     if data is not None:
         income, weights = utils.extract_values(data, income, weights)
 
@@ -136,7 +141,9 @@ def lorenz(income, weights=None, data=None):
 
 
 def gini(income, weights=None, data=None, sort=True):
-    """The Gini coefficient (sometimes expressed as a Gini ratio or a
+    """Calculate Gini's index.
+
+    The Gini coefficient (sometimes expressed as a Gini ratio or a
     normalized Gini index) is a measure of statistical dispersion intended to
     represent the income or wealth distribution of a nation's residents, and is
     the most commonly used measure of grouped. It was developed by Corrado
@@ -150,7 +157,7 @@ def gini(income, weights=None, data=None, sort=True):
     others have none, the Gini coefficient will be very nearly one).
 
     Parameters
-    ---------
+    ----------
     data : pandas.DataFrame
         DataFrame that contains the data.
     income : str or np.array, optional
@@ -209,7 +216,7 @@ def atkinson(income, weights=None, data=None, e=0.5) -> float:
     equal distribution.
 
     Parameters
-    ---------
+    ----------
     income : array or str
         If `data` is none `income` must be an 1D-array, when `data` is a
         pd.DataFrame, you must pass the name of income variable as string.
@@ -268,7 +275,9 @@ def atkinson(income, weights=None, data=None, e=0.5) -> float:
 
 
 def kakwani(tax, income_pre_tax, weights=None, data=None):
-    """The Kakwani (1977) index of tax progressivity is defined as twice the
+    """Calculate Kakwani's index.
+
+    The Kakwani (1977) index of tax progressivity is defined as twice the
     area between the concentration curves for taxes and pre-tax income,
     or equivalently, the concentration index for t(x) minus the Gini index for
     x, i.e.
@@ -311,7 +320,9 @@ def kakwani(tax, income_pre_tax, weights=None, data=None):
 def reynolds_smolensky(
     income_pre_tax, income_post_tax, weights=None, data=None
 ):
-    """The Reynolds-Smolensky (1977) index of the redistributive effect of
+    """Calculate Reynolds-Smolensky's index.
+
+    The Reynolds-Smolensky (1977) index of the redistributive effect of
     taxes, which can also be interpreted as an index of progressivity
     (Lambert 1985), is defined as:
 
@@ -348,7 +359,9 @@ def reynolds_smolensky(
 
 
 def theil(income, weights=None, data=None):
-    """The Theil index is a statistic primarily used to measure economic
+    """Calculate Theil's index.
+
+    The Theil index is a statistic primarily used to measure economic
     grouped and other economic phenomena. It is a special case of the
     generalized entropy index. It can be viewed as a measure of redundancy,
     lack of diversity, isolation, segregation, grouped, non-randomness, and
@@ -391,8 +404,10 @@ def theil(income, weights=None, data=None):
 
 
 def avg_tax_rate(total_tax, total_base, weights=None, data=None):
-    """This function compute the average tax rate given a base income and a
-    total tax.
+    """Calculate average tax rate.
+
+    This function compute the average tax rate given a base income and a total
+    tax.
 
     Parameters
     ----------

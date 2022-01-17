@@ -1,16 +1,18 @@
+"""Stats' module."""
 from .. import utils
 from .._statistics import c_moment, mean, std_moment
 
 
 def variance_hat_group(data=None, variable="x", weights="w", group="h"):
-    """Data a DataFrame calculates the sample variance for each stratum. The
+    """Calculate variance.
+
+    Data a DataFrame calculates the sample variance for each stratum. The
     objective of this function is to make it easy to calculate the moments of
     the distribution that follows an estimator, eg. Can be used to calculate
     the variance that follows the mean.
 
     Parameters
-    ---------
-
+    ----------
     data : pandas.DataFrame
         Dataframe containing the series needed for the calculation
     x : str
@@ -24,16 +26,12 @@ def variance_hat_group(data=None, variable="x", weights="w", group="h"):
     vhat_h : pandas.Series
         A series with the values of the variance of each `h` stratum.
 
-    Notes
-    -----
-
-    TODO
+    Todo
     ----
     Review improvements.
 
     Examples
     --------
-
     >>> # Computes the variance of the mean
     >>> data = pd.DataFrame(data=[renta, peso, estrato],
                             columns=["renta", "peso", "estrato"])
@@ -65,7 +63,7 @@ def variance_hat_group(data=None, variable="x", weights="w", group="h"):
         r"""Calculate the variance of each stratum `h`.
 
         Parameters
-        ---------
+        ----------
         df : pandas.DataFrame
             Dataframe containing the data.
 
@@ -78,7 +76,6 @@ def variance_hat_group(data=None, variable="x", weights="w", group="h"):
         -----
         Source:
         .. math:: r`N_h ^2 \cdot fpc \cdot \frac{ \hatS ^2 _h }{n_h}`
-
         """
         xi = df[variable].copy().values
         Nh = df[weights].sum()
@@ -91,7 +88,7 @@ def variance_hat_group(data=None, variable="x", weights="w", group="h"):
 
 
 def moment_group(data=None, variable="x", weights="w", group="h", order=2):
-    """Calculates the asymmetry of each `h` stratum.
+    """Calculate the asymmetry of each `h` stratum.
 
     Parameters
     ----------
@@ -111,8 +108,6 @@ def moment_group(data=None, variable="x", weights="w", group="h", order=2):
     Attempt to make a generalization of vhat_group, for any estimator.
 
     .. warning:: Actually Does Not Work!
-
-
     """
     if data is None:
         data = utils._to_df(x=variable, weights=weights, group=group)
@@ -135,11 +130,13 @@ def moment_group(data=None, variable="x", weights="w", group="h", order=2):
 def quasivariance_hat_group(
     data=None, variable=None, weights=None, group=None
 ):
-    """Sample variance of `variable`, calculated as the second-order central
+    """Calculate quasivariance.
+
+    Sample variance of `variable`, calculated as the second-order central
     moment.
 
     Parameters
-    ---------
+    ----------
     data : pd.DataFrame, optional
         pd.DataFrame that contains all variables needed.
     variable : array or str
@@ -154,14 +151,12 @@ def quasivariance_hat_group(
         group. If `data` is None then must pass this argument as array, else as
         string name in `data`
 
-
-
     Returns
     -------
     shat2_group : array or pd.Series
 
     References
-    ---------
+    ----------
     Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
     Retrieved 14:40, May 15, 2017, from
     https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&oldid=778996402
@@ -174,7 +169,6 @@ def quasivariance_hat_group(
     ----
     Review function
     """
-
     if data is None:
         data = utils._to_df(x=variable, weights=weights)
         variable = "x"
