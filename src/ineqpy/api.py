@@ -71,7 +71,7 @@ class Survey:
         Calculate Atkinson's index.
     avg_tax_rate(total_tax=None, total_base=None, weights=None)
         Calculate average tax rate.
-    c_moment(variable=None, weights=None, order=2, param=None, ddof=0 )
+    c_moment(variable=None, weights=None, order=2, param=None, ddof=0)
         Calculate central momment.
     coef_variation(variable=None, weights=None)
         Calculate coefficient of variation.
@@ -89,13 +89,13 @@ class Survey:
         Calculate Lorenz curve.
     mean(variable=None, weights=None)
         Calculate mean.
-    percentile(variable=None, weights=None, p=50, interpolate="lower" )
+    percentile(variable=None, weights=None, p=50, interpolate="lower")
         Calculate percentile.
-    reynolds_smolensky(income_pre_tax=None, income_post_tax=None, weights=None )
+    reynolds_smolensky(income_pre_tax=None, income_post_tax=None, weights=None)
         Calculate Reynolds-Smolensky's index.
     skew(variable=None, weights=None)
         Calculate Skew.
-    std_moment(variable=None, weights=None, param=None, order=3, ddof=0 )
+    std_moment(variable=None, weights=None, param=None, order=3, ddof=0)
         Calculate standard deviation.
     theil(income=None, weights=None)
         Calculate Theil's index.
