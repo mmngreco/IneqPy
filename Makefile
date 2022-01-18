@@ -27,3 +27,7 @@ doc:
 .PHONY: vim
 vim:
 	pipenv run nvim .
+
+.PHONY: build
+build:
+	pipenv run python setup.py sdist bdist_wheel
