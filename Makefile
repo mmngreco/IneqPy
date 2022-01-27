@@ -22,7 +22,7 @@ fix:
 
 .PHONY: doc
 doc:
-	cd docs && pipenv run make html && xdg-open build/html/index.html
+	cd docs && pipenv run make html
 
 .PHONY: vim
 vim:

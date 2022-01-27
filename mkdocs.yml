@@ -1,0 +1,13 @@
+site_name: My Docs
+theme: material
+plugins:
+- mkdocstrings:
+    default_handler: python
+    handlers:
+      python:
+        selection:
+          docstring_style: numpy
+        rendering:
+          show_source: true
+    watch:
+      - src/ineqpy

@@ -24,6 +24,11 @@ sphinx-autoapi = "*"
 sphinx-rtd-theme = "*"
 numpydoc = "*"
 pydocstyle = "*"
+mkdocs = "*"
+mkdocstrings = "*"
+pytkdocs = {extras = ["numpy-style"], version = "*"}
+darglint = "*"
+mkdocs-material = "*"
 
 [requires]
 python_version = "3.8"

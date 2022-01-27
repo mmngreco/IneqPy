@@ -144,11 +144,17 @@ def repeat_data_from_weighted(x, w):
 
     Parameters
     ----------
-    x, w : array-like
+    x : array-like
+        Sample of x.
+    w : array-like
+        Weights of x.
 
     Returns
     -------
-    repeated_x, repeated_w : np.array
+    repeated_x : np.array
+        Repeated x.
+    repeated_w : np.array
+        Array of one's.
     """
     if isinstance(w[0], float):
         raise NotImplementedError
