@@ -62,8 +62,11 @@ class Survey:
     Attributes
     ----------
     df : pandas.DataFrame
+        Data source.
     weights : str
+        Weights of variables present in `df`.
     group : str
+        Groupper class.
 
     Methods
     -------
@@ -126,10 +129,10 @@ class Survey:
 
         Parameters
         ----------
-        variable : 1d-array
-            Variable
+        variable : str
+            Variable over the calculation will be applied to.
         weights : 1d-array
-            Weights
+            Weights of variable.
         order : int, optional
             Moment order, 2 by default (variance)
         param : int or array, optional
@@ -141,6 +144,7 @@ class Survey:
         Returns
         -------
         central_moment : float
+            Value of Central moment.
 
         Notes
         -----
@@ -167,17 +171,19 @@ class Survey:
 
         Parameters
         ----------
-        data : pd.DataFrame, optional
-            pd.DataFrame that contains all variables needed.
-        variable : str or array
-        weights : str or array
-        q : float
-            Quantile level, if pass 0.5 means median.
-        interpolate : bool
+        variable : str
+            Variable over the calculation will be applied to.
+        weights : str, optional
+            Weights of variable.
+        p : float, optional
+            Percentile level, if pass 0.5 means median.
+        interpolate : {"lower", "midpoint", "higher"}
+            Interpolation method.
 
         Returns
         -------
         percentile : float or pd.Series
+            Percentile's value.
 
         """
         data = self.df
@@ -195,16 +201,14 @@ class Survey:
 
         Parameters
         ----------
-        data : pd.DataFrame, optional
-            pd.DataFrame that contains all variables needed.
-        variable : 1d-array
-           Random Variable
+        variable : str
+            Variable over the calculation will be applied to.
         weights : 1d-array, optional
-           Weights or probability
+            Weights or probability
         order : int, optional
-           Order of Moment, three by default
+            Order of Moment, three by default
         param : int or float or array, optional
-           Central trend, default is the mean.
+            Central trend, default is the mean.
         ddof : int, optional
             Degree of freedom.
 
@@ -238,17 +242,14 @@ class Survey:
         Parameters
         ----------
         variable : array-like or str
-            Variable on which the mean is estimated.
+            Variable over the calculation will be applied to.
         weights : array-like or str
-            Weights of the `x` variable.
-        data : pandas.DataFrame
-            Is possible pass a DataFrame with variable and weights, then you
-            must pass as `variable` and `weights` the column name stored in
-            `data`.
+            Weights's variable.
 
         Returns
         -------
         mean : array-like or float
+            Mean's value.
         """
         # if pass a DataFrame separate variables.
         data = self.df
@@ -263,15 +264,15 @@ class Survey:
 
         Parameters
         ----------
-        data : pd.DataFrame, optional
-            pandas.DataFrame that contains all variables needed.
         variable : array-like, optional
+            Variable over the calculation will be applied to.
         weights : array-like, optional
         groups : array-like, optional
 
         Returns
         -------
         density : array-like
+            Density's value.
 
         References
         ----------
@@ -288,11 +289,10 @@ class Survey:
 
         Parameters
         ----------
-        data : pd.DataFrame, optional
-            pd.DataFrame that contains all variables needed.
-        variable : 1d-array or pd.Series or pd.DataFrame
-            Variable on which the quasivariation is estimated
-        weights : 1d-array or pd.Series or pd.DataFrame
+        variable : str
+            Variable over the calculation will be applied to.
+            Variable on which the quasivariation is estimated.
+        weights : str, optional
             Weights of the `variable`.
 
         Returns
@@ -302,9 +302,6 @@ class Survey:
 
         References
         ----------
-        Moment (mathematics). (2017, May 6). In Wikipedia, The Free
-        Encyclopedia.
-        Retrieved 14:40, May 15, 2017, from
         https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
 
         Notes
@@ -326,13 +323,15 @@ class Survey:
 
         Parameters
         ----------
-        data : pandas.DataFrame
-        variable : array-like or str
-        weights : array-like or str
+        variable : str
+            Variable over the calculation will be applied to.
+        weights : str, optional
+            Weights of variable.
 
         Returns
         -------
         coefficient_variation : float
+            Value of Coefficient of variation.
 
         References
         ----------
@@ -352,8 +351,10 @@ class Survey:
 
         Parameters
         ----------
-        variable : 1d-array
-        w : 1d-array
+        variable : str
+            Variable over the calculation will be applied to.
+        weights : str, optional
+            Weights of variable.
 
         Returns
         -------
@@ -381,13 +382,15 @@ class Survey:
 
         Parameters
         ----------
-        data : pandas.DataFrame
-        variable : array-like, str
-        weights : array-like, str
+        variable : str
+            Variable over the calculation will be applied to.
+        weights : str, optional
+            Weights of variable.
 
         Returns
         -------
         skew : float
+            Skew's value.
 
         References
         ----------
@@ -424,13 +427,14 @@ class Survey:
         Parameters
         ----------
         income : array-like
-        weights : array-like
-        data : pandas.DataFrame
+        weights : str, optional
+            Weights of variable.
         sort : bool
 
         Returns
         -------
         concentration : array-like
+            Concentration's index value.
 
         References
         ----------
@@ -443,7 +447,7 @@ class Survey:
             weights = self.weights
         return inequality.concentration(income, weights, data, sort)
 
-    def lorenz(self, income=None, weights=None):
+    def lorenz(self, income, weights=None):
         """Calculate lorenz curve.
 
         In economics, the Lorenz curve is a graphical representation of the
@@ -454,16 +458,10 @@ class Survey:
 
         Parameters
         ----------
-        data : pandas.DataFrame
-            A pandas.DataFrame that contains data.
         income : str or 1d-array, optional
-            Population or wights, if a DataFrame is passed then `income` should
-            be a name of the column of DataFrame, else can pass a pandas.Series
-            or array.
-        weights : str or 1d-array
-            Income, monetary variable, if a DataFrame is passed then `y`is a
-            name of the series on this DataFrame, however, you can pass a
-            pd.Series or np.array.
+            Variable income to be used by this calcution.
+        weights : str, optional
+            Weights of variable.
 
         Returns
         -------
@@ -480,8 +478,6 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
-        if income is None:
-            income = self.income
         return inequality.lorenz(income, weights, data)
 
     def gini(self, income=None, weights=None, sort=True):
@@ -504,15 +500,12 @@ class Survey:
 
         Parameters
         ----------
-        data : pandas.DataFrame
-            DataFrame that contains the data.
-        income : str or np.array, optional
-            Name of the monetary variable `x` in` df`
-        weights : str or np.array, optional
-            Name of the series containing the weights `x` in` df`
-        sorted : bool, optional
-            If the DataFrame is previously ordered by the variable `x`, it's
-            must pass True, but False by default.
+        income : str
+            Name of the monetary variable `x` in` df`.
+        weights : str, optional
+            Weights of variable.
+        sort : bool, optional
+            Pass True if the DataFrame is sorted by the variable `x`.
 
         Returns
         -------
@@ -564,21 +557,20 @@ class Survey:
 
         Parameters
         ----------
-        income : array or str
+        income : str
             If `data` is none `income` must be an 1D-array, when `data` is a
             pd.DataFrame, you must pass the name of income variable as string.
-        weights : array or str, optional
+        weights : str, optional
             If `data` is none `weights` must be an 1D-array, when `data` is a
             pd.DataFrame, you must pass the name of weights variable as string.
         e : int, optional
             Epsilon parameter interpreted by atkinson index as grouped
             adversion, must be a number between 0 to 1.
-        data : pd.DataFrame, optional
-            data is a pd.DataFrame that contains the variables.
 
         Returns
         -------
         atkinson : float
+            Atkinson's index value.
 
         Reference
         ---------
@@ -610,22 +602,20 @@ class Survey:
 
         Parameters
         ----------
-        data : pandas.DataFrame
-            This variable is a DataFrame that contains all data required in
-            columns.
-        tax_variable : array-like or str
+        tax : str
             This variable represent tax payment of person, if pass array-like
             then data must be None, else you pass str-name column in `data`.
-        income_pre_tax : array-like or str
+        income_pre_tax : str, optional
             This variable represent income of person, if pass array-like
             then data must be None, else you pass str-name column in `data`.
-        weights : array-like or str
+        weights : str, optional
             This variable represent weights of each person, if pass array-like
             then data must be None, else you pass str-name column in `data`.
 
         Returns
         -------
         kakwani : float
+            Kakwani's index value.
 
         References
         ----------
@@ -652,9 +642,6 @@ class Survey:
 
         Parameters
         ----------
-        data : pandas.DataFrame
-            This variable is a DataFrame that contains all data required in
-            it's columns.
         income_pre_tax : array-like or str
             This variable represent tax payment of person, if pass array-like
             then data must be None, else you pass str-name column in `data`.
@@ -668,6 +655,7 @@ class Survey:
         Returns
         -------
         reynolds_smolensky : float
+            Reynolds-Smolensky's index.
 
         References
         ----------
@@ -692,9 +680,6 @@ class Survey:
 
         Parameters
         ----------
-        data : pandas.DataFrame
-            This variable is a DataFrame that contains all data required in
-            it's columns.
         income : array-like or str
             This variable represent tax payment of person, if pass array-like
             then data must be None, else you pass str-name column in `data`.
@@ -705,6 +690,7 @@ class Survey:
         Returns
         -------
         theil : float
+            Theil's index value.
 
         References
         ----------
@@ -726,7 +712,6 @@ class Survey:
         ----------
         total_base : str or numpy.array
         total_tax : str or numpy.array
-        data : pd.DataFrame
 
         Returns
         -------

@@ -1,8 +1,7 @@
-# Welcome to MkDocs
+# Welcome to IneqPy's documentation!
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
-::: ineqpy.api
-    rendering:
-      show_source: true
-      heading_level: 2
+# Reference
+
+
+::: ineqpy.module
