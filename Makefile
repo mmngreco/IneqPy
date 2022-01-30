@@ -1,7 +1,13 @@
-.PHONY: venv
-venv:
-	pip install -U pip setuptools wheel pipenv
+.PHONY: pipenv
+pipenv:
+	pip install -U pip setuptools wheel pipenv --user
+
+.PHONY: dev
+dev:
 	pipenv install -e . --dev
+
+.PHONY: venv
+venv: pipenv dev
 
 .PHONY: install
 install:
@@ -19,9 +25,12 @@ lint:
 fix:
 	pipenv run black -l79 ./ineqpy/
 
-
 .PHONY: doc
 doc:
+	pipenv run mkdocs build
+
+.PHONY: doc-serve
+doc-serve:
 	pipenv run mkdocs build
 
 .PHONY: vim

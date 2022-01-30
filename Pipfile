@@ -17,17 +17,17 @@ scipy = "*"
 pytest = "*"
 black = "*"
 flake8 = "*"
-pdbpp = "*"
+# pdbpp = "*"
 ineqpy = {editable = true, path = "."}
-sphinx = "*"
-sphinx-autoapi = "*"
-sphinx-rtd-theme = "*"
+# sphinx = "*"
+# sphinx-autoapi = "*"
+# sphinx-rtd-theme = "*"
 numpydoc = "*"
 pydocstyle = "*"
 mkdocs = "*"
 mkdocstrings = "*"
 pytkdocs = {extras = ["numpy-style"], version = "*"}
-darglint = "*"
+# darglint = "*"
 mkdocs-material = "*"
 
 [requires]
