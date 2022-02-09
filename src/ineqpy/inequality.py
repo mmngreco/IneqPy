@@ -27,6 +27,7 @@ __all__ = [
     "lorenz",
     "reynolds_smolensky",
     "theil",
+    "ratio_top_rest",
 ]
 
 
@@ -452,3 +453,53 @@ def avg_tax_rate(total_tax, total_base, weights=None, data=None):
     names = ["_".join([t, b]) for t, b in zip(tax_name, base_name)]
     res = pd.Series(res, index=names)
     return res
+
+
+def ratio_top_rest(income, percentage=10, weights=None, data=None):
+    """Calculate the 10:90 Ratio
+    Calculates the quotient between the number of contributions from the top
+    10% of contributors divided by the number contributions made by the other
+    90%. The ratio is 1 if the toal contributions by the top contributors are
+    equal to the cotnributions made by the rest; less than zero if the top 10%
+    contributes less than the rest; and greater that 1 if the top 10%
+    contributes more than the other ninety percent.
+
+    Parameters
+    ----------
+    percentage : float
+        The richest x percent to consider. (10 percent by default)
+    data : pandas.DataFrame
+        This variable is a DataFrame that contains all data required in it's
+        columns.
+    income : array-like or str
+        This variable represent tax payment of person, if pass array-like
+        then data must be None, else you pass str-name column in `data`.
+    weights : array-like or str
+        This variable represent weights of each person, if pass array-like
+        then data must be None, else you pass str-name column in `data`.
+
+    Returns
+    -------
+    ratio : float
+
+    References
+    ----------
+    Participation Inequality in Wikis: A Temporal Analysis Using WikiChron.
+    Serrano, Abel & Arroyo, Javier & Hassan, Samer. (2018).
+    DOI: 10.1145/3233391.3233536.
+    """
+    if data is not None:
+        income, weights = utils.extract_values(data, income, weights)
+    else:
+        income = income.copy()
+        weights = weights.copy() if weights is not None else np.ones_like(1)
+
+    # variables needed
+    k = int(income.size - np.ceil(percentage / 100 * income.size))
+    f_i = income * weights
+    f_i.sort()
+
+    r = f_i[:k]
+    t = f_i[k:]
+
+    return np.sum(t) / np.sum(r)
