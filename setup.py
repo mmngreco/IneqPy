@@ -1,5 +1,5 @@
 import versioneer
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 with open('README.md') as f:
@@ -16,8 +16,8 @@ setup(
     author="Maximiliano Greco",
     author_email="mmngreco@gmail.com",
     url="https://github.com/mmngreco/IneqPy",
-    # download_url='https://github.com/mmngreco/IneqPy/tarball/',
     package_dir={'': 'src'},
+    packages=find_packages("src"),
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Science/Research",
