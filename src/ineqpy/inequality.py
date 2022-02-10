@@ -495,7 +495,7 @@ def ratio_top_rest(income, percentage=10, weights=None, data=None):
         weights = weights.copy() if weights is not None else np.ones_like(1)
 
     # variables needed
-    k = int(income.size - np.ceil(percentage / 100 * income.size))
+    k = int(income.size - np.ceil(percentage / 100 * len(income)))
     f_i = income * weights
     f_i.sort()
 
