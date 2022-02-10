@@ -1,6 +1,8 @@
 name: Python package
 
 on:
+  release:
+    types: [created]
   push:
     branches: [ master ]
   pull_request:
@@ -8,7 +10,7 @@ on:
 
 jobs:
 
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,7 +28,8 @@ jobs:
     - name: Test with pytest
       run: make test
 
-  dist:
+  release:
+    needs: test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
