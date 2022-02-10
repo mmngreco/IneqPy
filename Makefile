@@ -30,4 +30,7 @@ vim:
 
 .PHONY: build
 build:
-	pipenv run python setup.py sdist bdist_wheel
+	python setup.py sdist bdist_wheel
+
+docker:
+	docker run -v ${PWD}:/git/$(shell basename ${PWD}) -w /git/$(shell basename ${PWD}) -it python:3.9 /bin/bash

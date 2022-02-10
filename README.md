@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/mmngreco/IneqPy.svg?branch=master)](https://travis-ci.org/mmngreco/IneqPy)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmmngreco%2FIneqPy.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmmngreco%2FIneqPy?ref=badge_shield)
+![Build Status](https://github.com/mmngreco/ineqpy/actions/workflows/python-package.yml/badge.svg)
+
 
 IneqPy Package
 ==============
@@ -235,6 +235,3 @@ Statistics:
 >>> df.theil(main_var)      = 0.156137490566
 ```
 
-
-## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmmngreco%2FIneqPy.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmmngreco%2FIneqPy?ref=badge_large)

@@ -1,18 +1,21 @@
 import versioneer
-from setuptools import find_packages, setup
+from setuptools import setup, find_packages
 
-with open("README.md") as f:
+
+with open('README.md') as f:
     description = f.read()
+
 
 setup(
     name="IneqPy",
     version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     description="A Python Package To Quantitative Analysis Of Inequality",
     long_description=description,
+    long_description_content_type='text/markdown',
     author="Maximiliano Greco",
     author_email="mmngreco@gmail.com",
     url="https://github.com/mmngreco/IneqPy",
-    # download_url='https://github.com/mmngreco/IneqPy/tarball/',
     package_dir={'': 'src'},
     packages=find_packages("src"),
     classifiers=[
@@ -20,11 +23,11 @@ setup(
         "Intended Audience :: Science/Research",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.2",
-        "Programming Language :: Python :: 3.3",
-        "Programming Language :: Python :: 3.4",
-        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
     ],
     install_requires=["numpy", "pandas", "numba"],
-    cmdclass=versioneer.get_cmdclass(),
 )
