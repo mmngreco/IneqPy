@@ -89,18 +89,24 @@ def test_ratio_eqaulity():
     obtained = inequality.ratio_top_rest(income=x, weights=w)
     assert obtained == 1.0
 
+def test_ratio_equality_fracc():
+    x = np.array([1, 9])
+    w = np.array([.9, .1])
+    obtained = inequality.ratio_top_rest(income=x, weights=w)
+    assert obtained == 1.0
+
 def test_ratio_1d():
     x = np.array([57, 63, 81, 79, 88, 57, 42, 3, 77, 89])
     w = np.array([2, 5, 2, 9, 5, 7, 4, 5, 9, 9])
     obtained = inequality.ratio_top_rest(income=x, weights=w)
-    expected = pytest.approx(0.162606577344702)
+    expected = pytest.approx(0.15323043465128208)
     assert obtained == expected
 
 def test_ratio_2d():
     x = np.array([[57], [63], [81], [79], [88], [57], [42], [3], [77], [89]])
     w = np.array([[2], [5], [2], [9], [5], [7], [4], [5], [9], [9]])
     obtained = inequality.ratio_top_rest(income=x, weights=w)
-    expected = pytest.approx(0.162606577344702)
+    expected = pytest.approx(0.15323043465128208)
     assert obtained == expected
 
 
@@ -118,11 +124,10 @@ def test_ratio_weighted_eq_unweighted(n):
     xw = np.array(xw)
 
     assert len(xw) == np.sum(w)
-    print("n:", n)
 
     weighted = inequality.ratio_top_rest(income=x, weights=w)
     unweighted = inequality.ratio_top_rest(income=xw)
-    assert weighted == unweighted
+    assert pytest.approx(weighted) == unweighted
 
 def test_ratio_unweighted():
     x = np.array([
@@ -134,4 +139,4 @@ def test_ratio_unweighted():
        9,  50, 33, 86, 77, 25, 39, 61, 78, 47, 29, 43, 20, 56, 35])
     obtained = inequality.ratio_top_rest(x)
     expected = 0.22203712517848642
-    assert obtained == expected
+    assert pytest.approx(obtained) == expected
