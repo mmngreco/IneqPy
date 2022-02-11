@@ -23,6 +23,7 @@ sphinx = "*"
 sphinx-autoapi = "*"
 sphinx-rtd-theme = "*"
 numpydoc = "*"
+myst-parser = "*"
 pydocstyle = "*"
 
 [requires]
