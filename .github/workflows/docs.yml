@@ -1,0 +1,30 @@
+name: Docs2Pages
+on:
+  push:
+    tags: '*'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Build documentation
+      run: |
+        make venv
+        make dev
+        make pages
+    - name: Deploy documentation
+      if: ${{ github.event_name == 'push' }}
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        branch: gh-pages
+        folder: gh-pages

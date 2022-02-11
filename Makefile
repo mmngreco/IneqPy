@@ -1,6 +1,9 @@
 .PHONY: venv
 venv:
 	pip install -U pip setuptools wheel pipenv
+
+.PHONY: dev
+dev:
 	pipenv install -e . --dev
 
 .PHONY: install
@@ -19,10 +22,15 @@ lint:
 fix:
 	pipenv run black -l79 ./ineqpy/
 
+.PHONY: pages
+pages: doc
+	mkdir gh-pages
+	touch gh-pages/.nojekyll
+	cp -r docs/build/html/* gh-pages/
 
 .PHONY: doc
 doc:
-	cd docs && pipenv run make html && xdg-open build/html/index.html
+	cd docs && pipenv run make html
 
 .PHONY: vim
 vim:
