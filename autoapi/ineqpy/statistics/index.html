@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ineqpy.statistics &mdash; IneqPy  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> IneqPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IneqPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.statistics</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/ineqpy/statistics/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-ineqpy.statistics">
+<span id="ineqpy-statistics"></span><h1><a class="reference internal" href="#module-ineqpy.statistics" title="ineqpy.statistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.statistics</span></code></a><a class="headerlink" href="#module-ineqpy.statistics" title="Permalink to this headline"></a></h1>
+<p>Descriptive statistics.</p>
+<p>This module contains main descriptive statistics like: mean, variance, etc.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.statistics.c_moment" title="ineqpy.statistics.c_moment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">c_moment</span></code></a>(variable=None, weights=None, data=None, order=2, param=None, ddof=0)</p></td>
+<td><p>Calculate central momment.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.statistics.percentile" title="ineqpy.statistics.percentile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">percentile</span></code></a>(variable=None, weights=None, data=None, p=50, interpolate='lower')</p></td>
+<td><p>Calculate the value of a quantile given a variable and his weights.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.statistics.std_moment" title="ineqpy.statistics.std_moment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">std_moment</span></code></a>(variable=None, weights=None, data=None, param=None, order=3, ddof=0)</p></td>
+<td><p>Calculate standarized momment.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.statistics.mean" title="ineqpy.statistics.mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean</span></code></a>(variable=None, weights=None, data=None)</p></td>
+<td><p>Calculate the mean of <cite>variable</cite> given <cite>weights</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.statistics.density" title="ineqpy.statistics.density"><code class="xref py py-obj docutils literal notranslate"><span class="pre">density</span></code></a>(variable=None, weights=None, groups=None, data=None)</p></td>
+<td><p>Density in percentage.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.statistics.var" title="ineqpy.statistics.var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var</span></code></a>(variable=None, weights=None, data=None, ddof=0)</p></td>
+<td><p>Calculate the variance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.statistics.coef_variation" title="ineqpy.statistics.coef_variation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">coef_variation</span></code></a>(variable=None, weights=None, data=None)</p></td>
+<td><p>Calculate the coefficient of variation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.statistics.kurt" title="ineqpy.statistics.kurt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kurt</span></code></a>(variable=None, weights=None, data=None)</p></td>
+<td><p>Calculate the Kurtosis coefficient.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.statistics.skew" title="ineqpy.statistics.skew"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skew</span></code></a>(variable=None, weights=None, data=None)</p></td>
+<td><p>Return the asymmetry coefficient of a sample.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.statistics.c_moment">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.statistics.</span></span><span class="sig-name descname"><span class="pre">c_moment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/statistics.html#c_moment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.statistics.c_moment" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate central momment.</p>
+<p>Calculate the central moment of <cite>x</cite> with respect to <cite>param</cite> of order <cite>n</cite>,
+given the weights <cite>w</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>variable</strong><span class="classifier">1d-array</span></dt><dd><p>Variable</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">1d-array</span></dt><dd><p>Weights</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>Contains all variables needed.</p>
+</dd>
+<dt><strong>order</strong><span class="classifier">int, optional</span></dt><dd><p>Moment order, 2 by default (variance)</p>
+</dd>
+<dt><strong>param</strong><span class="classifier">int or array, optional</span></dt><dd><p>Parameter for which the moment is calculated, the default is None,
+implies use the mean.</p>
+</dd>
+<dt><strong>ddof</strong><span class="classifier">int, optional</span></dt><dd><p>Degree of freedom, zero by default.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>central_moment</strong><span class="classifier">float</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The cmoment of order 1 is 0</p></li>
+<li><p>The cmoment of order 2 is the variance.</p></li>
+</ul>
+<p>Source : <a class="reference external" href="https://en.wikipedia.org/wiki/Moment_(mathematics">https://en.wikipedia.org/wiki/Moment_(mathematics</a>)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.statistics.percentile">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.statistics.</span></span><span class="sig-name descname"><span class="pre">percentile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lower'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/statistics.html#percentile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.statistics.percentile" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the value of a quantile given a variable and his weights.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>variable</strong><span class="classifier">str or array</span></dt><dd></dd>
+<dt><strong>weights</strong><span class="classifier">str or array</span></dt><dd></dd>
+<dt><strong>data</strong><span class="classifier">pd.DataFrame, optional</span></dt><dd><p>pd.DataFrame that contains all variables needed.</p>
+</dd>
+<dt><strong>q</strong><span class="classifier">float</span></dt><dd><p>Quantile level, if pass 0.5 means median.</p>
+</dd>
+<dt><strong>interpolate</strong><span class="classifier">bool</span></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>percentile</strong><span class="classifier">float or pd.Series</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.statistics.std_moment">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.statistics.</span></span><span class="sig-name descname"><span class="pre">std_moment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/statistics.html#std_moment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.statistics.std_moment" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate standarized momment.</p>
+<p>Calculate the standardized moment of order <cite>c</cite> for the variable` x` with
+respect to <cite>c</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>variable</strong><span class="classifier">1d-array</span></dt><dd><p>Random Variable</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">1d-array, optional</span></dt><dd><p>Weights or probability</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">pd.DataFrame, optional</span></dt><dd><p>pd.DataFrame that contains all variables needed.</p>
+</dd>
+<dt><strong>order</strong><span class="classifier">int, optional</span></dt><dd><p>Order of Moment, three by default</p>
+</dd>
+<dt><strong>param</strong><span class="classifier">int or float or array, optional</span></dt><dd><p>Central trend, default is the mean.</p>
+</dd>
+<dt><strong>ddof</strong><span class="classifier">int, optional</span></dt><dd><p>Degree of freedom.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>std_moment</strong><span class="classifier">float</span></dt><dd><p>Returns the standardized <cite>n</cite> order moment.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Moment_(mathematics">https://en.wikipedia.org/wiki/Moment_(mathematics</a>)</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Standardized_moment">https://en.wikipedia.org/wiki/Standardized_moment</a></p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.statistics.mean">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.statistics.</span></span><span class="sig-name descname"><span class="pre">mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/statistics.html#mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.statistics.mean" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the mean of <cite>variable</cite> given <cite>weights</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>variable</strong><span class="classifier">array-like or str</span></dt><dd><p>Variable on which the mean is estimated.</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">array-like or str</span></dt><dd><p>Weights of the <cite>x</cite> variable.</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>Is possible pass a DataFrame with variable and weights, then you must
+pass as <cite>variable</cite> and <cite>weights</cite> the column name stored in <cite>data</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mean</strong><span class="classifier">array-like or float</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.statistics.density">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.statistics.</span></span><span class="sig-name descname"><span class="pre">density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/statistics.html#density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.statistics.density" title="Permalink to this definition"></a></dt>
+<dd><p>Density in percentage.</p>
+<p>Calculates density in percentage. This make division of variable inferring
+width in groups as max - min.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>variable</strong><span class="classifier">numpy.array or pandas.DataFrame</span></dt><dd><p>Main variable.</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">numpy.array or pandas.DataFrame</span></dt><dd><p>Weights of main variable.</p>
+</dd>
+<dt><strong>groups</strong><span class="classifier">numpy.array or pandas.DataFrame</span></dt><dd><p>Label that show which group each element belongs to.</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">pd.DataFrame, optional</span></dt><dd><p>Object that contains all variables needed.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>density</strong><span class="classifier">array-like</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Histogram. (2017, May 9). In Wikipedia, The Free Encyclopedia. Retrieved
+14:47, May 15, 2017, from
+<a class="reference external" href="https://en.wikipedia.org/w/index.php?title=Histogram&amp;oldid=779516918">https://en.wikipedia.org/w/index.php?title=Histogram&amp;oldid=779516918</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.statistics.var">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.statistics.</span></span><span class="sig-name descname"><span class="pre">var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/statistics.html#var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.statistics.var" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the variance.</p>
+<p>Calculate the population variance of <cite>variable</cite> given <cite>weights</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">pd.DataFrame, optional</span></dt><dd><p>pd.DataFrame that contains all variables needed.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier">1d-array or pd.Series or pd.DataFrame</span></dt><dd><p>Variable on which the quasivariation is estimated</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">1d-array or pd.Series or pd.DataFrame</span></dt><dd><p>Weights of the <cite>variable</cite>.</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">pd.DataFrame</span></dt><dd><p>Object that contains all variables needed.</p>
+</dd>
+<dt><strong>ddof</strong><span class="classifier">int</span></dt><dd><p>Degree of freedom.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>variance</strong><span class="classifier">1d-array or pd.Series or float</span></dt><dd><p>Estimation of quasivariance of <cite>variable</cite></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If stratificated sample must pass with groupby each strata.</p>
+<p class="rubric">References</p>
+<p>Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
+Retrieved 14:40, May 15, 2017, from
+<a class="reference external" href="https://en.wikipedia.org/w/index.php?title=Moment_(mathematics">https://en.wikipedia.org/w/index.php?title=Moment_(mathematics</a>)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.statistics.coef_variation">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.statistics.</span></span><span class="sig-name descname"><span class="pre">coef_variation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/statistics.html#coef_variation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.statistics.coef_variation" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the coefficient of variation.</p>
+<p>Calculate the coefficient of variation of a <cite>variable</cite> given weights.
+The coefficient of variation is the square root of the variance of the
+incomes divided by the mean income. It has the advantages of being
+mathematically tractable and is subgroup decomposable, but is not bounded
+from above.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>variable</strong><span class="classifier">array-like or str</span></dt><dd></dd>
+<dt><strong>weights</strong><span class="classifier">array-like or str</span></dt><dd></dd>
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>coefficient_variation</strong><span class="classifier">float</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Coefficient of variation. (2017, May 5). In Wikipedia, The Free
+Encyclopedia. Retrieved 15:03, May 15, 2017, from
+<a class="reference external" href="https://en.wikipedia.org/w/index.php?title=Coefficient_of_variation">https://en.wikipedia.org/w/index.php?title=Coefficient_of_variation</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.statistics.kurt">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.statistics.</span></span><span class="sig-name descname"><span class="pre">kurt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/statistics.html#kurt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.statistics.kurt" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the Kurtosis coefficient.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>variable</strong><span class="classifier">1d-array</span></dt><dd></dd>
+<dt><strong>weights</strong><span class="classifier">1d-array</span></dt><dd></dd>
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>Object which stores <code class="docutils literal notranslate"><span class="pre">variable</span></code> and <code class="docutils literal notranslate"><span class="pre">weights</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>kurt</strong><span class="classifier">float</span></dt><dd><p>Kurtosis coefficient.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>It is an alias of the standardized fourth-order moment.</p>
+<p class="rubric">References</p>
+<p>Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
+Retrieved 14:40, May 15, 2017, from
+<a class="reference external" href="https://en.wikipedia.org/w/index.php?title=Moment_(mathematics">https://en.wikipedia.org/w/index.php?title=Moment_(mathematics</a>)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.statistics.skew">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.statistics.</span></span><span class="sig-name descname"><span class="pre">skew</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/statistics.html#skew"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.statistics.skew" title="Permalink to this definition"></a></dt>
+<dd><p>Return the asymmetry coefficient of a sample.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd></dd>
+<dt><strong>variable</strong><span class="classifier">array-like, str</span></dt><dd></dd>
+<dt><strong>weights</strong><span class="classifier">array-like, str</span></dt><dd></dd>
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>Object which stores <code class="docutils literal notranslate"><span class="pre">variable</span></code> and <code class="docutils literal notranslate"><span class="pre">weights</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>skew</strong><span class="classifier">float</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>It is an alias of the standardized third-order moment.</p>
+<p class="rubric">References</p>
+<p>Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
+Retrieved 14:40, May 15, 2017, from
+<a class="reference external" href="https://en.wikipedia.org/w/index.php?title=Moment_(mathematics">https://en.wikipedia.org/w/index.php?title=Moment_(mathematics</a>)</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Maximiliano Greco.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

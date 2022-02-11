@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ineqpy.inequality &mdash; IneqPy  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> IneqPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">IneqPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>ineqpy.inequality</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for ineqpy.inequality</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;Analysis of inequality.</span>
+
+<span class="sd">This package provide an easy way to realize a quantitative analysis of</span>
+<span class="sd">grouped, also make easy work with stratified data, in this module you can</span>
+<span class="sd">find statistics and grouped indicators to this task.</span>
+
+<span class="sd">Todo</span>
+<span class="sd">----</span>
+<span class="sd">- Rethinking this module as Class.</span>
+<span class="sd">- https://en.wikipedia.org/wiki/Income_inequality_metrics</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">.statistics</span> <span class="kn">import</span> <span class="n">mean</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">utils</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;atkinson&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;avg_tax_rate&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;concentration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gini&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;kakwani&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lorenz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;reynolds_smolensky&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;theil&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="concentration"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.concentration">[docs]</a><span class="k">def</span> <span class="nf">concentration</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate concentration&#39;s index.</span>
+
+<span class="sd">    This function calculate the concentration index, according to the notation</span>
+<span class="sd">    used in [Jenkins1988]_ you can calculate the:</span>
+
+<span class="sd">    C_x = 2 / x · cov(x, F_x)</span>
+<span class="sd">    if x = g(x) then C_x becomes C_y</span>
+
+<span class="sd">    when there are taxes:</span>
+
+<span class="sd">    y = g(x) = x - t(x)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    income : array-like</span>
+<span class="sd">    weights : array-like</span>
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">    sort : bool</span>
+<span class="sd">        If true, will sort the values.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    concentration : array-like</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Jenkins, S. (1988). Calculating income distribution indices</span>
+<span class="sd">    from micro-data. National Tax Journal. http://doi.org/10.2307/41788716</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO complete docstring</span>
+
+    <span class="c1"># check if DataFrame is passed, if yes then extract variables else make a</span>
+    <span class="c1"># copy</span>
+    <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">extract_values</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">not_empty_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">like</span><span class="o">=</span><span class="n">income</span><span class="p">)</span>
+    <span class="c1"># if sort is true then sort the variables.</span>
+    <span class="k">if</span> <span class="n">sort</span><span class="p">:</span>
+        <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">_sort_values</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">weights</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">income</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">income</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># main calc</span>
+    <span class="n">f_x</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">F_x</span> <span class="o">=</span> <span class="n">f_x</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">income</span> <span class="o">*</span> <span class="n">f_x</span><span class="p">)</span>
+    <span class="n">cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">F_x</span><span class="p">,</span> <span class="n">rowvar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aweights</span><span class="o">=</span><span class="n">f_x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">cov</span> <span class="o">/</span> <span class="n">mu</span></div>
+
+
+<div class="viewcode-block" id="lorenz"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.lorenz">[docs]</a><span class="k">def</span> <span class="nf">lorenz</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate Lorent&#39;s curve.</span>
+
+<span class="sd">    In economics, the Lorenz curve is a graphical representation of the</span>
+<span class="sd">    distribution of income or of wealth. It was developed by Max O. Lorenz in</span>
+<span class="sd">    1905 for representing grouped of the wealth distribution. This function</span>
+<span class="sd">    compute the lorenz curve and returns a DF with two columns of axis x and y.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">        A pandas.DataFrame that contains data.</span>
+<span class="sd">    income : str or 1d-array, optional</span>
+<span class="sd">        Population or wights, if a DataFrame is passed then `income` should be</span>
+<span class="sd">        a name of the column of DataFrame, else can pass a pandas.Series or</span>
+<span class="sd">        array.</span>
+<span class="sd">    weights : str or 1d-array</span>
+<span class="sd">        Income, monetary variable, if a DataFrame is passed then `y`is a name</span>
+<span class="sd">        of the series on this DataFrame, however, you can pass a pd.Series or</span>
+<span class="sd">        np.array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    lorenz : pandas.Dataframe</span>
+<span class="sd">        Lorenz distribution in a Dataframe with two columns, labeled x and y,</span>
+<span class="sd">        that corresponds to plots axis.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Lorenz curve. (2017, February 11). In Wikipedia, The Free Encyclopedia.</span>
+<span class="sd">    Retrieved 14:34, May 15, 2017, from</span>
+<span class="sd">    https://en.wikipedia.org/w/index.php?title=Lorenz_curve&amp;oldid=764853675</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">extract_values</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+
+    <span class="n">total_income</span> <span class="o">=</span> <span class="n">income</span> <span class="o">*</span> <span class="n">weights</span>
+    <span class="n">idx_sort</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">income</span><span class="p">)</span>
+
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="n">idx_sort</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">weights</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">total_income</span> <span class="o">=</span> <span class="n">total_income</span><span class="p">[</span><span class="n">idx_sort</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">total_income</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">total_income</span> <span class="o">=</span> <span class="n">total_income</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">total_income</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># to pandas</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">weights</span><span class="p">,</span> <span class="n">total_income</span><span class="p">])</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Equality&quot;</span><span class="p">,</span> <span class="s2">&quot;Income&quot;</span><span class="p">]</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
+
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="gini"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.gini">[docs]</a><span class="k">def</span> <span class="nf">gini</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate Gini&#39;s index.</span>
+
+<span class="sd">    The Gini coefficient (sometimes expressed as a Gini ratio or a</span>
+<span class="sd">    normalized Gini index) is a measure of statistical dispersion intended to</span>
+<span class="sd">    represent the income or wealth distribution of a nation&#39;s residents, and is</span>
+<span class="sd">    the most commonly used measure of grouped. It was developed by Corrado</span>
+<span class="sd">    Gini.</span>
+<span class="sd">    The Gini coefficient measures the grouped among values of a frequency</span>
+<span class="sd">    distribution (for example, levels of income). A Gini coefficient of zero</span>
+<span class="sd">    expresses perfect equality, where all values are the same (for example,</span>
+<span class="sd">    where everyone has the same income). A Gini coefficient of 1 (or 100%)</span>
+<span class="sd">    expresses maximal grouped among values (e.g., for a large number of</span>
+<span class="sd">    people, where only one person has all the income or consumption, and all</span>
+<span class="sd">    others have none, the Gini coefficient will be very nearly one).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">        DataFrame that contains the data.</span>
+<span class="sd">    income : str or np.array, optional</span>
+<span class="sd">        Name of the monetary variable `x` in` df`</span>
+<span class="sd">    weights : str or np.array, optional</span>
+<span class="sd">        Name of the series containing the weights `x` in` df`</span>
+<span class="sd">    sorted : bool, optional</span>
+<span class="sd">        If the DataFrame is previously ordered by the variable `x`, it&#39;s must</span>
+<span class="sd">        pass True, but False by default.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    gini : float</span>
+<span class="sd">        Gini Index Value.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The calculation is done following (discrete probability distribution):</span>
+<span class="sd">    G = 1 - [∑_i^n f(y_i)·(S_{i-1} + S_i)]</span>
+<span class="sd">    where:</span>
+<span class="sd">    - y_i = Income</span>
+<span class="sd">    - S_i = ∑_{j=1}^i y_i · f(y_i)</span>
+
+<span class="sd">    Reference</span>
+<span class="sd">    ---------</span>
+<span class="sd">    - Gini coefficient. (2017, May 8). In Wikipedia, The Free Encyclopedia.</span>
+<span class="sd">      Retrieved 14:30, May 15, 2017, from</span>
+<span class="sd">      https://en.wikipedia.org/w/index.php?title=Gini_coefficient&amp;oldid=779424616</span>
+
+<span class="sd">    - Jenkins, S. (1988). Calculating income distribution indices</span>
+<span class="sd">    from micro-data. National Tax Journal. http://doi.org/10.2307/41788716</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    ----</span>
+<span class="sd">    - Implement statistical deviation calculation, VAR (GINI)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">concentration</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="o">=</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">sort</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="atkinson"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.atkinson">[docs]</a><span class="k">def</span> <span class="nf">atkinson</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Calculate atkinson index.</span>
+
+<span class="sd">    More precisely labelled a family of income grouped measures, the</span>
+<span class="sd">    theoretical range of Atkinson values is 0 to 1, with 0 being a state of</span>
+<span class="sd">    equal distribution.</span>
+
+<span class="sd">    An intuitive interpretation of this index is possible: Atkinson values can</span>
+<span class="sd">    be used to calculate the proportion of total income that would be required</span>
+<span class="sd">    to achieve an equal level of social welfare as at present if incomes were</span>
+<span class="sd">    perfectly distributed.</span>
+
+<span class="sd">    For example, an Atkinson index value of 0.20 suggests that we could achieve</span>
+<span class="sd">    the same level of social welfare with only 1 – 0.20 = 80% of income. The</span>
+<span class="sd">    theoretical range of Atkinson values is 0 to 1, with 0 being a state of</span>
+<span class="sd">    equal distribution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    income : array or str</span>
+<span class="sd">        If `data` is none `income` must be an 1D-array, when `data` is a</span>
+<span class="sd">        pd.DataFrame, you must pass the name of income variable as string.</span>
+<span class="sd">    weights : array or str, optional</span>
+<span class="sd">        If `data` is none `weights` must be an 1D-array, when `data` is a</span>
+<span class="sd">        pd.DataFrame, you must pass the name of weights variable as string.</span>
+<span class="sd">    e : int, optional</span>
+<span class="sd">        Epsilon parameter interpreted by atkinson index as grouped adversion,</span>
+<span class="sd">        must be between 0 and 1.</span>
+<span class="sd">    data : pd.DataFrame, optional</span>
+<span class="sd">        data is a pd.DataFrame that contains the variables.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    atkinson : float</span>
+
+<span class="sd">    Reference</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Atkinson index. (2017, March 12). In Wikipedia, The Free Encyclopedia.</span>
+<span class="sd">    Retrieved 14:35, May 15, 2017, from</span>
+<span class="sd">    https://en.wikipedia.org/w/index.php?title=Atkinson_index</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    ----</span>
+<span class="sd">    - Implement: CALCULATING INCOME DISTRIBUTION INDICES FROM MICRO-DATA</span>
+<span class="sd">      http://www.jstor.org/stable/41788716</span>
+<span class="sd">    - The results has difference with stata, maybe have a bug.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">income</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must pass at least one of both `income` or `df`&quot;</span><span class="p">)</span>
+
+    <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">extract_values</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">not_empty_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">income</span><span class="p">)</span>
+
+    <span class="c1"># not-null condition</span>
+    <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">not_null_condition</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+
+    <span class="c1"># not-empty condition</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">income</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="c1"># auxiliar variables: mean and distribution</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">f_i</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>  <span class="c1"># density function</span>
+
+    <span class="c1"># main calc</span>
+    <span class="k">if</span> <span class="n">e</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">f_i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">income</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">mu</span><span class="p">)))</span>
+    <span class="k">elif</span> <span class="n">e</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">e</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">f_i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">income</span> <span class="o">/</span> <span class="n">mu</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">e</span><span class="p">)),</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">e</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">e</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">e</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;Not valid e value,  0 ≤ e ≤ 1&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span></div>
+
+
+<div class="viewcode-block" id="kakwani"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.kakwani">[docs]</a><span class="k">def</span> <span class="nf">kakwani</span><span class="p">(</span><span class="n">tax</span><span class="p">,</span> <span class="n">income_pre_tax</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate Kakwani&#39;s index.</span>
+
+<span class="sd">    The Kakwani (1977) index of tax progressivity is defined as twice the</span>
+<span class="sd">    area between the concentration curves for taxes and pre-tax income,</span>
+<span class="sd">    or equivalently, the concentration index for t(x) minus the Gini index for</span>
+<span class="sd">    x, i.e.</span>
+
+<span class="sd">    K = C(t) - G(x)</span>
+<span class="sd">      = (2/t) cov [t(x), F(x)] - (2/x) cov [x, F(x)].</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">        This variable is a DataFrame that contains all data required in</span>
+<span class="sd">        columns.</span>
+<span class="sd">    tax_variable : array-like or str</span>
+<span class="sd">        This variable represent tax payment of person, if pass array-like</span>
+<span class="sd">        then data must be None, else you pass str-name column in `data`.</span>
+<span class="sd">    income_pre_tax : array-like or str</span>
+<span class="sd">        This variable represent income of person, if pass array-like</span>
+<span class="sd">        then data must be None, else you pass str-name column in `data`.</span>
+<span class="sd">    weights : array-like or str</span>
+<span class="sd">        This variable represent weights of each person, if pass array-like</span>
+<span class="sd">        then data must be None, else you pass str-name column in `data`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kakwani : float</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Jenkins, S. (1988). Calculating income distribution indices from</span>
+<span class="sd">    micro-data. National Tax Journal. http://doi.org/10.2307/41788716</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># main calc</span>
+    <span class="n">c_t</span> <span class="o">=</span> <span class="n">concentration</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="o">=</span><span class="n">tax</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">g_y</span> <span class="o">=</span> <span class="n">concentration</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="o">=</span><span class="n">income_pre_tax</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">c_t</span> <span class="o">-</span> <span class="n">g_y</span></div>
+
+
+<div class="viewcode-block" id="reynolds_smolensky"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.reynolds_smolensky">[docs]</a><span class="k">def</span> <span class="nf">reynolds_smolensky</span><span class="p">(</span>
+    <span class="n">income_pre_tax</span><span class="p">,</span> <span class="n">income_post_tax</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate Reynolds-Smolensky&#39;s index.</span>
+
+<span class="sd">    The Reynolds-Smolensky (1977) index of the redistributive effect of</span>
+<span class="sd">    taxes, which can also be interpreted as an index of progressivity</span>
+<span class="sd">    (Lambert 1985), is defined as:</span>
+
+<span class="sd">    L = Gx - Gy</span>
+<span class="sd">      = [2/x]cov[x,F(x)] - [2/ybar] cov [y, F(y)].</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">        This variable is a DataFrame that contains all data required in it&#39;s</span>
+<span class="sd">        columns.</span>
+<span class="sd">    income_pre_tax : array-like or str</span>
+<span class="sd">        This variable represent tax payment of person, if pass array-like</span>
+<span class="sd">        then data must be None, else you pass str-name column in `data`.</span>
+<span class="sd">    income_post_tax : array-like or str</span>
+<span class="sd">        This variable represent income of person, if pass array-like</span>
+<span class="sd">        then data must be None, else you pass str-name column in `data`.</span>
+<span class="sd">    weights : array-like or str</span>
+<span class="sd">        This variable represent weights of each person, if pass array-like</span>
+<span class="sd">        then data must be None, else you pass str-name column in `data`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    reynolds_smolensky : float</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Jenkins, S. (1988). Calculating income distribution indices from</span>
+<span class="sd">    micro-data. National Tax Journal. http://doi.org/10.2307/41788716</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">g_y</span> <span class="o">=</span> <span class="n">concentration</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="o">=</span><span class="n">income_post_tax</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">g_x</span> <span class="o">=</span> <span class="n">concentration</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="o">=</span><span class="n">income_pre_tax</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g_x</span> <span class="o">-</span> <span class="n">g_y</span></div>
+
+
+<div class="viewcode-block" id="theil"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.theil">[docs]</a><span class="k">def</span> <span class="nf">theil</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate Theil&#39;s index.</span>
+
+<span class="sd">    The Theil index is a statistic primarily used to measure economic</span>
+<span class="sd">    grouped and other economic phenomena. It is a special case of the</span>
+<span class="sd">    generalized entropy index. It can be viewed as a measure of redundancy,</span>
+<span class="sd">    lack of diversity, isolation, segregation, grouped, non-randomness, and</span>
+<span class="sd">    compressibility. It was proposed by econometrician Henri Theil.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">        This variable is a DataFrame that contains all data required in it&#39;s</span>
+<span class="sd">        columns.</span>
+<span class="sd">    income : array-like or str</span>
+<span class="sd">        This variable represent tax payment of person, if pass array-like</span>
+<span class="sd">        then data must be None, else you pass str-name column in `data`.</span>
+<span class="sd">    weights : array-like or str</span>
+<span class="sd">        This variable represent weights of each person, if pass array-like</span>
+<span class="sd">        then data must be None, else you pass str-name column in `data`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    theil : float</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Theil index. (2016, December 17). In Wikipedia, The Free Encyclopedia.</span>
+<span class="sd">    Retrieved 14:17, May 15, 2017, from</span>
+<span class="sd">    https://en.wikipedia.org/w/index.php?title=Theil_index&amp;oldid=755407818</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">extract_values</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">income</span> <span class="o">=</span> <span class="n">income</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">not_null_condition</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+
+    <span class="c1"># variables needed</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">f_i</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">f_i</span> <span class="o">*</span> <span class="n">income</span> <span class="o">/</span> <span class="n">mu</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">income</span> <span class="o">/</span> <span class="n">mu</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="avg_tax_rate"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.avg_tax_rate">[docs]</a><span class="k">def</span> <span class="nf">avg_tax_rate</span><span class="p">(</span><span class="n">total_tax</span><span class="p">,</span> <span class="n">total_base</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate average tax rate.</span>
+
+<span class="sd">    This function compute the average tax rate given a base income and a total</span>
+<span class="sd">    tax.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    total_base : str or numpy.array</span>
+<span class="sd">    total_tax : str or numpy.array</span>
+<span class="sd">    data : pd.DataFrame</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    avg_tax_rate : float or pd.Series</span>
+<span class="sd">        Is the ratio between mean the tax income and base of income.</span>
+
+<span class="sd">    Reference</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Panel de declarantes de IRPF 1999-2007: Metodología, estructura y</span>
+<span class="sd">    variables. (2011).</span>
+<span class="sd">    Panel de declarantes de IRPF 1999-2007: Metodología, estructura y</span>
+<span class="sd">    variables. Documentos.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">total_base</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">total_base</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">))</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">total_base</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">))</span>
+    <span class="p">):</span>
+        <span class="n">n_cols</span> <span class="o">=</span> <span class="n">total_base</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">total_base</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">n_cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">total_base</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n_cols</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">numerator</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">total_tax</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">denominator</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">total_base</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="c1"># main calc</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">base_name</span> <span class="o">=</span> <span class="n">total_base</span>
+        <span class="n">tax_name</span> <span class="o">=</span> <span class="n">total_tax</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">base_name</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;base&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cols</span><span class="p">)]</span>
+        <span class="n">tax_name</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tax_</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cols</span><span class="p">)]</span>
+
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tax_name</span><span class="p">,</span> <span class="n">base_name</span><span class="p">)]</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Maximiliano Greco.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

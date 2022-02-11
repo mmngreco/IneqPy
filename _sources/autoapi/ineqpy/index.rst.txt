@@ -1,0 +1,52 @@
+:py:mod:`ineqpy`
+================
+
+.. py:module:: ineqpy
+
+.. autoapi-nested-parse::
+
+   
+   IneqPy: A python package for inequality analysis.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   grouped/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   _statistics/index.rst
+   _version/index.rst
+   api/index.rst
+   inequality/index.rst
+   statistics/index.rst
+   utils/index.rst
+
+

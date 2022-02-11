@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ineqpy.inequality &mdash; IneqPy  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> IneqPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IneqPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.inequality</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/autoapi/ineqpy/inequality/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-ineqpy.inequality">
+<span id="ineqpy-inequality"></span><h1><a class="reference internal" href="#module-ineqpy.inequality" title="ineqpy.inequality"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.inequality</span></code></a><a class="headerlink" href="#module-ineqpy.inequality" title="Permalink to this headline"></a></h1>
+<p>Analysis of inequality.</p>
+<p>This package provide an easy way to realize a quantitative analysis of
+grouped, also make easy work with stratified data, in this module you can
+find statistics and grouped indicators to this task.</p>
+<section id="todo">
+<h2>Todo<a class="headerlink" href="#todo" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Rethinking this module as Class.</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Income_inequality_metrics">https://en.wikipedia.org/wiki/Income_inequality_metrics</a></p></li>
+</ul>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.concentration" title="ineqpy.inequality.concentration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concentration</span></code></a>(income, weights=None, data=None, sort=True)</p></td>
+<td><p>Calculate concentration's index.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.lorenz" title="ineqpy.inequality.lorenz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lorenz</span></code></a>(income, weights=None, data=None)</p></td>
+<td><p>Calculate Lorent's curve.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.gini" title="ineqpy.inequality.gini"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gini</span></code></a>(income, weights=None, data=None, sort=True)</p></td>
+<td><p>Calculate Gini's index.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.atkinson" title="ineqpy.inequality.atkinson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">atkinson</span></code></a>(income, weights=None, data=None, e=0.5) → float</p></td>
+<td><p>Calculate atkinson index.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.kakwani" title="ineqpy.inequality.kakwani"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kakwani</span></code></a>(tax, income_pre_tax, weights=None, data=None)</p></td>
+<td><p>Calculate Kakwani's index.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.reynolds_smolensky" title="ineqpy.inequality.reynolds_smolensky"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reynolds_smolensky</span></code></a>(income_pre_tax, income_post_tax, weights=None, data=None)</p></td>
+<td><p>Calculate Reynolds-Smolensky's index.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.theil" title="ineqpy.inequality.theil"><code class="xref py py-obj docutils literal notranslate"><span class="pre">theil</span></code></a>(income, weights=None, data=None)</p></td>
+<td><p>Calculate Theil's index.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.avg_tax_rate" title="ineqpy.inequality.avg_tax_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">avg_tax_rate</span></code></a>(total_tax, total_base, weights=None, data=None)</p></td>
+<td><p>Calculate average tax rate.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.inequality.concentration">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.inequality.</span></span><span class="sig-name descname"><span class="pre">concentration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/inequality.html#concentration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.inequality.concentration" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate concentration’s index.</p>
+<p>This function calculate the concentration index, according to the notation
+used in <span id="id1">[Jenkins1988]</span> you can calculate the:</p>
+<p>C_x = 2 / x · cov(x, F_x)
+if x = g(x) then C_x becomes C_y</p>
+<p>when there are taxes:</p>
+<p>y = g(x) = x - t(x)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>income</strong><span class="classifier">array-like</span></dt><dd></dd>
+<dt><strong>weights</strong><span class="classifier">array-like</span></dt><dd></dd>
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd></dd>
+<dt><strong>sort</strong><span class="classifier">bool</span></dt><dd><p>If true, will sort the values.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>concentration</strong><span class="classifier">array-like</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Jenkins, S. (1988). Calculating income distribution indices
+from micro-data. National Tax Journal. <a class="reference external" href="http://doi.org/10.2307/41788716">http://doi.org/10.2307/41788716</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.inequality.lorenz">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.inequality.</span></span><span class="sig-name descname"><span class="pre">lorenz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/inequality.html#lorenz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.inequality.lorenz" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate Lorent’s curve.</p>
+<p>In economics, the Lorenz curve is a graphical representation of the
+distribution of income or of wealth. It was developed by Max O. Lorenz in
+1905 for representing grouped of the wealth distribution. This function
+compute the lorenz curve and returns a DF with two columns of axis x and y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A pandas.DataFrame that contains data.</p>
+</dd>
+<dt><strong>income</strong><span class="classifier">str or 1d-array, optional</span></dt><dd><p>Population or wights, if a DataFrame is passed then <cite>income</cite> should be
+a name of the column of DataFrame, else can pass a pandas.Series or
+array.</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">str or 1d-array</span></dt><dd><p>Income, monetary variable, if a DataFrame is passed then <a href="#id2"><span class="problematic" id="id3">`</span></a>y`is a name
+of the series on this DataFrame, however, you can pass a pd.Series or
+np.array.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>lorenz</strong><span class="classifier">pandas.Dataframe</span></dt><dd><p>Lorenz distribution in a Dataframe with two columns, labeled x and y,
+that corresponds to plots axis.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Lorenz curve. (2017, February 11). In Wikipedia, The Free Encyclopedia.
+Retrieved 14:34, May 15, 2017, from
+<a class="reference external" href="https://en.wikipedia.org/w/index.php?title=Lorenz_curve&amp;oldid=764853675">https://en.wikipedia.org/w/index.php?title=Lorenz_curve&amp;oldid=764853675</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.inequality.gini">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.inequality.</span></span><span class="sig-name descname"><span class="pre">gini</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/inequality.html#gini"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.inequality.gini" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate Gini’s index.</p>
+<p>The Gini coefficient (sometimes expressed as a Gini ratio or a
+normalized Gini index) is a measure of statistical dispersion intended to
+represent the income or wealth distribution of a nation’s residents, and is
+the most commonly used measure of grouped. It was developed by Corrado
+Gini.
+The Gini coefficient measures the grouped among values of a frequency
+distribution (for example, levels of income). A Gini coefficient of zero
+expresses perfect equality, where all values are the same (for example,
+where everyone has the same income). A Gini coefficient of 1 (or 100%)
+expresses maximal grouped among values (e.g., for a large number of
+people, where only one person has all the income or consumption, and all
+others have none, the Gini coefficient will be very nearly one).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>DataFrame that contains the data.</p>
+</dd>
+<dt><strong>income</strong><span class="classifier">str or np.array, optional</span></dt><dd><p>Name of the monetary variable <cite>x</cite> in` df`</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">str or np.array, optional</span></dt><dd><p>Name of the series containing the weights <cite>x</cite> in` df`</p>
+</dd>
+<dt><strong>sorted</strong><span class="classifier">bool, optional</span></dt><dd><p>If the DataFrame is previously ordered by the variable <cite>x</cite>, it’s must
+pass True, but False by default.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>gini</strong><span class="classifier">float</span></dt><dd><p>Gini Index Value.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The calculation is done following (discrete probability distribution):
+G = 1 - [∑_i^n f(y_i)·(S_{i-1} + S_i)]
+where:
+- y_i = Income
+- S_i = ∑_{j=1}^i y_i · f(y_i)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.inequality.atkinson">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.inequality.</span></span><span class="sig-name descname"><span class="pre">atkinson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../../../_modules/ineqpy/inequality.html#atkinson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.inequality.atkinson" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate atkinson index.</p>
+<p>More precisely labelled a family of income grouped measures, the
+theoretical range of Atkinson values is 0 to 1, with 0 being a state of
+equal distribution.</p>
+<p>An intuitive interpretation of this index is possible: Atkinson values can
+be used to calculate the proportion of total income that would be required
+to achieve an equal level of social welfare as at present if incomes were
+perfectly distributed.</p>
+<p>For example, an Atkinson index value of 0.20 suggests that we could achieve
+the same level of social welfare with only 1 – 0.20 = 80% of income. The
+theoretical range of Atkinson values is 0 to 1, with 0 being a state of
+equal distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>income</strong><span class="classifier">array or str</span></dt><dd><p>If <cite>data</cite> is none <cite>income</cite> must be an 1D-array, when <cite>data</cite> is a
+pd.DataFrame, you must pass the name of income variable as string.</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">array or str, optional</span></dt><dd><p>If <cite>data</cite> is none <cite>weights</cite> must be an 1D-array, when <cite>data</cite> is a
+pd.DataFrame, you must pass the name of weights variable as string.</p>
+</dd>
+<dt><strong>e</strong><span class="classifier">int, optional</span></dt><dd><p>Epsilon parameter interpreted by atkinson index as grouped adversion,
+must be between 0 and 1.</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">pd.DataFrame, optional</span></dt><dd><p>data is a pd.DataFrame that contains the variables.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>atkinson</strong><span class="classifier">float</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.inequality.kakwani">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.inequality.</span></span><span class="sig-name descname"><span class="pre">kakwani</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income_pre_tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/inequality.html#kakwani"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.inequality.kakwani" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate Kakwani’s index.</p>
+<p>The Kakwani (1977) index of tax progressivity is defined as twice the
+area between the concentration curves for taxes and pre-tax income,
+or equivalently, the concentration index for t(x) minus the Gini index for
+x, i.e.</p>
+<dl class="simple">
+<dt>K = C(t) - G(x)</dt><dd><p>= (2/t) cov [t(x), F(x)] - (2/x) cov [x, F(x)].</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>This variable is a DataFrame that contains all data required in
+columns.</p>
+</dd>
+<dt><strong>tax_variable</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent tax payment of person, if pass array-like
+then data must be None, else you pass str-name column in <cite>data</cite>.</p>
+</dd>
+<dt><strong>income_pre_tax</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent income of person, if pass array-like
+then data must be None, else you pass str-name column in <cite>data</cite>.</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent weights of each person, if pass array-like
+then data must be None, else you pass str-name column in <cite>data</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>kakwani</strong><span class="classifier">float</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Jenkins, S. (1988). Calculating income distribution indices from
+micro-data. National Tax Journal. <a class="reference external" href="http://doi.org/10.2307/41788716">http://doi.org/10.2307/41788716</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.inequality.reynolds_smolensky">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.inequality.</span></span><span class="sig-name descname"><span class="pre">reynolds_smolensky</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income_pre_tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income_post_tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/inequality.html#reynolds_smolensky"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.inequality.reynolds_smolensky" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate Reynolds-Smolensky’s index.</p>
+<p>The Reynolds-Smolensky (1977) index of the redistributive effect of
+taxes, which can also be interpreted as an index of progressivity
+(Lambert 1985), is defined as:</p>
+<dl class="simple">
+<dt>L = Gx - Gy</dt><dd><p>= [2/x]cov[x,F(x)] - [2/ybar] cov [y, F(y)].</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>This variable is a DataFrame that contains all data required in it’s
+columns.</p>
+</dd>
+<dt><strong>income_pre_tax</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent tax payment of person, if pass array-like
+then data must be None, else you pass str-name column in <cite>data</cite>.</p>
+</dd>
+<dt><strong>income_post_tax</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent income of person, if pass array-like
+then data must be None, else you pass str-name column in <cite>data</cite>.</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent weights of each person, if pass array-like
+then data must be None, else you pass str-name column in <cite>data</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>reynolds_smolensky</strong><span class="classifier">float</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Jenkins, S. (1988). Calculating income distribution indices from
+micro-data. National Tax Journal. <a class="reference external" href="http://doi.org/10.2307/41788716">http://doi.org/10.2307/41788716</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.inequality.theil">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.inequality.</span></span><span class="sig-name descname"><span class="pre">theil</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/inequality.html#theil"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.inequality.theil" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate Theil’s index.</p>
+<p>The Theil index is a statistic primarily used to measure economic
+grouped and other economic phenomena. It is a special case of the
+generalized entropy index. It can be viewed as a measure of redundancy,
+lack of diversity, isolation, segregation, grouped, non-randomness, and
+compressibility. It was proposed by econometrician Henri Theil.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>This variable is a DataFrame that contains all data required in it’s
+columns.</p>
+</dd>
+<dt><strong>income</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent tax payment of person, if pass array-like
+then data must be None, else you pass str-name column in <cite>data</cite>.</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent weights of each person, if pass array-like
+then data must be None, else you pass str-name column in <cite>data</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>theil</strong><span class="classifier">float</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Theil index. (2016, December 17). In Wikipedia, The Free Encyclopedia.
+Retrieved 14:17, May 15, 2017, from
+<a class="reference external" href="https://en.wikipedia.org/w/index.php?title=Theil_index&amp;oldid=755407818">https://en.wikipedia.org/w/index.php?title=Theil_index&amp;oldid=755407818</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.inequality.avg_tax_rate">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.inequality.</span></span><span class="sig-name descname"><span class="pre">avg_tax_rate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/inequality.html#avg_tax_rate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.inequality.avg_tax_rate" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate average tax rate.</p>
+<p>This function compute the average tax rate given a base income and a total
+tax.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>total_base</strong><span class="classifier">str or numpy.array</span></dt><dd></dd>
+<dt><strong>total_tax</strong><span class="classifier">str or numpy.array</span></dt><dd></dd>
+<dt><strong>data</strong><span class="classifier">pd.DataFrame</span></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>avg_tax_rate</strong><span class="classifier">float or pd.Series</span></dt><dd><p>Is the ratio between mean the tax income and base of income.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Maximiliano Greco.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

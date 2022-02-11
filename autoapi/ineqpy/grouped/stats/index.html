@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ineqpy.grouped.stats &mdash; IneqPy  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> IneqPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">IneqPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.grouped.stats</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/ineqpy/grouped/stats/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-ineqpy.grouped.stats">
+<span id="ineqpy-grouped-stats"></span><h1><a class="reference internal" href="#module-ineqpy.grouped.stats" title="ineqpy.grouped.stats"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.grouped.stats</span></code></a><a class="headerlink" href="#module-ineqpy.grouped.stats" title="Permalink to this headline"></a></h1>
+<p>Stats’ module.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.grouped.stats.variance_hat_group" title="ineqpy.grouped.stats.variance_hat_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variance_hat_group</span></code></a>(data=None, variable='x', weights='w', group='h')</p></td>
+<td><p>Calculate variance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.grouped.stats.moment_group" title="ineqpy.grouped.stats.moment_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">moment_group</span></code></a>(data=None, variable='x', weights='w', group='h', order=2)</p></td>
+<td><p>Calculate the asymmetry of each <cite>h</cite> stratum.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.grouped.stats.quasivariance_hat_group" title="ineqpy.grouped.stats.quasivariance_hat_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quasivariance_hat_group</span></code></a>(data=None, variable=None, weights=None, group=None)</p></td>
+<td><p>Calculate quasivariance.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.grouped.stats.variance_hat_group">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.grouped.stats.</span></span><span class="sig-name descname"><span class="pre">variance_hat_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'x'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'h'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/ineqpy/grouped/stats.html#variance_hat_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.grouped.stats.variance_hat_group" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate variance.</p>
+<p>Data a DataFrame calculates the sample variance for each stratum. The
+objective of this function is to make it easy to calculate the moments of
+the distribution that follows an estimator, eg. Can be used to calculate
+the variance that follows the mean.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>Dataframe containing the series needed for the calculation</p>
+</dd>
+<dt><strong>x</strong><span class="classifier">str</span></dt><dd></dd>
+<dt><strong>weights</strong><span class="classifier">str</span></dt><dd><p>Name of the weights <cite>w</cite> in the DataFrame</p>
+</dd>
+<dt><strong>group</strong><span class="classifier">str</span></dt><dd><p>Name of the stratum variable <cite>h</cite> in the DataFrame</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>vhat_h</strong><span class="classifier">pandas.Series</span></dt><dd><p>A series with the values of the variance of each <cite>h</cite> stratum.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Computes the variance of the mean</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">renta</span><span class="p">,</span> <span class="n">peso</span><span class="p">,</span> <span class="n">estrato</span><span class="p">],</span>
+<span class="go">                        columns=[&quot;renta&quot;, &quot;peso&quot;, &quot;estrato&quot;])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">variance_hat_group</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span>
+<span class="go">stratum</span>
+<span class="go">1                700.917.728,64</span>
+<span class="go">2              9.431.897.980,96</span>
+<span class="go">3            317.865.839.789,10</span>
+<span class="go">4            741.304.873.092,88</span>
+<span class="go">5            535.275.436.859,10</span>
+<span class="go">6            225.573.783.240,68</span>
+<span class="go">7            142.048.272.010,63</span>
+<span class="go">8             40.136.989.131,06</span>
+<span class="go">9             18.501.808.022,56</span>
+<span class="go">dtype: float64</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># the value of de variance of the mean:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v_total</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">peso</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="go">    24662655225.947945</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.grouped.stats.moment_group">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.grouped.stats.</span></span><span class="sig-name descname"><span class="pre">moment_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'x'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'h'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/ineqpy/grouped/stats.html#moment_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.grouped.stats.moment_group" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the asymmetry of each <cite>h</cite> stratum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>variable</strong><span class="classifier">array or str</span></dt><dd></dd>
+<dt><strong>weights</strong><span class="classifier">array or str</span></dt><dd></dd>
+<dt><strong>group</strong><span class="classifier">array or str</span></dt><dd></dd>
+<dt><strong>data</strong><span class="classifier">pd.DataFrame, optional</span></dt><dd></dd>
+<dt><strong>order</strong><span class="classifier">int, optional</span></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>moment_of_order</strong><span class="classifier">float</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.grouped.stats.quasivariance_hat_group">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.grouped.stats.</span></span><span class="sig-name descname"><span class="pre">quasivariance_hat_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/ineqpy/grouped/stats.html#quasivariance_hat_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.grouped.stats.quasivariance_hat_group" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate quasivariance.</p>
+<p>Sample variance of <cite>variable</cite>, calculated as the second-order central
+moment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">pd.DataFrame, optional</span></dt><dd><p>pd.DataFrame that contains all variables needed.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier">array or str</span></dt><dd><p>variable <cite>x</cite> apply the statistic. If <cite>data</cite> is None then must pass this
+argument as array, else as string name in <cite>data</cite></p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">array or str</span></dt><dd><p>weights can be interpreted as frequency, probability,
+density function of <cite>x</cite>, each element in <cite>x</cite>. If <cite>data</cite> is None then
+must pass this argument as array, else as string name in <cite>data</cite></p>
+</dd>
+<dt><strong>group</strong><span class="classifier">array or str</span></dt><dd><p>group is a categorical variable to calculate the statistical by each
+group. If <cite>data</cite> is None then must pass this argument as array, else as
+string name in <cite>data</cite></p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>shat2_group</strong><span class="classifier">array or pd.Series</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function is useful to calculate the variance of the mean.</p>
+<p class="rubric">References</p>
+<p>Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
+Retrieved 14:40, May 15, 2017, from
+<a class="reference external" href="https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&amp;oldid=778996402">https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)&amp;oldid=778996402</a></p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Maximiliano Greco.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

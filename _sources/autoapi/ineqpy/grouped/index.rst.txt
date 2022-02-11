@@ -1,0 +1,40 @@
+:py:mod:`ineqpy.grouped`
+========================
+
+.. py:module:: ineqpy.grouped
+
+.. autoapi-nested-parse::
+
+   
+   Grouped subpackage.
+
+   Contains inequality and stats module.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   inequality/index.rst
+   stats/index.rst
+
+

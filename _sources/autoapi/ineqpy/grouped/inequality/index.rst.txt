@@ -1,0 +1,77 @@
+:py:mod:`ineqpy.grouped.inequality`
+===================================
+
+.. py:module:: ineqpy.grouped.inequality
+
+.. autoapi-nested-parse::
+
+   inequality module.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   ineqpy.grouped.inequality.atkinson_group
+
+
+
+.. py:function:: atkinson_group(data: pandas.DataFrame = None, income: Union[str, pandas.DataFrame, numpy.ndarray] = None, weights: Union[str, pandas.DataFrame, numpy.ndarray] = None, group: Union[str, pandas.DataFrame, numpy.ndarray] = None, e: float = 0.5)
+
+   
+   Calculate atkinson index.
+
+   The Atkinson index (also known as the Atkinson measure or Atkinson
+   grouped measure) is a measure of income grouped developed by British
+   economist Anthony Barnes Atkinson. The measure is useful in determining
+   which end of the distribution contributed most to the observed grouped.The
+   index is subgroup decomposable. This means that overall grouped in the
+   population can be computed as the sum of the corresponding Atkinson indices
+   within each group, and the Atkinson index of the group mean incomes.
+
+   :Parameters:
+
+       **income** : str or np.array
+           Income variable, you can pass name of variable in `df` or array-like
+
+       **weights** : str or np.array
+           probability or weights, you can pass name of variable in `df` or
+           array-like
+
+       **groups** : str or np.array
+           stratum, name of stratum in `df` or array-like
+
+       **e** : int, optional
+           Value of epsilon parameter
+
+       **data** : pd.DataFrame, optional
+           DataFrame that's contains the previous data.
+
+   :Returns:
+
+       **atkinson_by_group** : float
+           ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

@@ -1,0 +1,340 @@
+:py:mod:`ineqpy.utils`
+======================
+
+.. py:module:: ineqpy.utils
+
+.. autoapi-nested-parse::
+
+   Useful functions that make easier develop other functions.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   ineqpy.utils._to_df
+   ineqpy.utils._apply_to_df
+   ineqpy.utils.not_empty_weights
+   ineqpy.utils.not_null_condition
+   ineqpy.utils._sort_values
+   ineqpy.utils._clean_nans_values
+   ineqpy.utils.normalize
+   ineqpy.utils.extract_values
+   ineqpy.utils.repeat_data_from_weighted
+   ineqpy.utils.generate_data_to_test
+
+
+
+.. py:function:: _to_df(*args, **kwargs) -> pandas.DataFrame
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: _apply_to_df(func, df, x, weights, *args, **kwargs)
+
+   
+   Generalize main arguments as Series of a pd.Dataframe.
+
+
+   :Parameters:
+
+       **func** : function
+           Function to convert his arguments in Series of an Dataframe.
+
+       **df** : pandas.Dataframe
+           DataFrame whats contains the Series `x_name` and `w_name`.
+
+       **x_name** : str
+           Name of the column in `df`.
+
+       **weights_name** : str
+           Name of the column in `df`.
+
+   :Returns:
+
+       **return** : func return
+           It's depends of func output type.
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: not_empty_weights(weights, like)
+
+   
+   Create weights.
+
+   Create normalized weight if it's None use like to create it.
+
+   :Parameters:
+
+       **income, like** : array-like
+           ..
+
+   :Returns:
+
+       **weights** : array-like
+           Filtered array-like.
+
+
+
+
+
+
+
+   .. seealso::
+
+       
+       :obj:`normalize`
+           ..
+       
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: not_null_condition(income, weights)
+
+   
+   Filter not null condition.
+
+   If a negative value is found in the incomes it will dropped.
+
+   :Parameters:
+
+       **income, weights** : array-like
+           ..
+
+   :Returns:
+
+       **income, weights** : array-like
+           Filtered array-like.
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: _sort_values(values, partner)
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: _clean_nans_values(this, pair)
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: normalize(this)
+
+   
+   Normalize data by the sum.
+
+
+   :Parameters:
+
+       **this** : array-like
+           ..
+
+   :Returns:
+
+       **out** : array-like
+           ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: extract_values(data, variable, weights)
+
+   
+   Extract values.
+
+
+   :Parameters:
+
+       **data** : pandas.DataFrame
+           ..
+
+       **variable** : str
+           ..
+
+       **weights** : str
+           ..
+
+   :Returns:
+
+       **variable, weights** : array-like
+           ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: repeat_data_from_weighted(x, w)
+
+   
+   Generate data data (not sampled) from weights.
+
+
+   :Parameters:
+
+       **x, w** : array-like
+           ..
+
+   :Returns:
+
+       **repeated_x, repeated_w** : np.array
+           ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: generate_data_to_test(n_sample_range=(20, 100))
+
+   
+   Generate sampled data for testing.
+
+
+   :Parameters:
+
+       **n_sample_range** : tuple[int, int]
+           It's a shape, lenght and columns.
+
+   :Returns:
+
+       **income, weights** : np.array
+           ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

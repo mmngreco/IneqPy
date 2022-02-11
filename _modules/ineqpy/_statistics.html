@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ineqpy._statistics &mdash; IneqPy  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> IneqPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">IneqPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>ineqpy._statistics</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for ineqpy._statistics</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Low level desciptive statistics.</span>
+
+<span class="sd">References</span>
+<span class="sd">----------</span>
+<span class="sd">1. http://people.ds.cam.ac.uk/fanf2/hermes/doc/antiforgery/stats.pdf</span>
+<span class="sd">2. https://en.wikipedia.org/wiki/Weighted_arithmetic_mean</span>
+<span class="sd">   #Weighted_sample_variance</span>
+<span class="sd">3. https://en.wikipedia.org/wiki/Algorithms%5Ffor%5Fcalculating%5Fvariance</span>
+<span class="sd">   #Weighted_incremental_algorithm</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">guvectorize</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">utils</span>
+
+
+<div class="viewcode-block" id="c_moment"><a class="viewcode-back" href="../../autoapi/ineqpy/_statistics/index.html#ineqpy._statistics.c_moment">[docs]</a><span class="k">def</span> <span class="nf">c_moment</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate central momment.</span>
+
+<span class="sd">    Calculate the central moment of `x` with respect to `param` of order `n`,</span>
+<span class="sd">    given the weights `w`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    variable : 1d-array</span>
+<span class="sd">        Variable</span>
+<span class="sd">    weights : 1d-array</span>
+<span class="sd">        Weights</span>
+<span class="sd">    order : int, optional</span>
+<span class="sd">        Moment order, 2 by default (variance)</span>
+<span class="sd">    param : int or array, optional</span>
+<span class="sd">        Parameter for which the moment is calculated, the default is None,</span>
+<span class="sd">        implies use the mean.</span>
+<span class="sd">    ddof : int, optional</span>
+<span class="sd">        Degree of freedom, zero by default.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    central_moment : float</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The cmoment of order 1 is 0</span>
+<span class="sd">    - The cmoment of order 2 is the variance.</span>
+
+<span class="sd">    Source : https://en.wikipedia.org/wiki/Moment_(mathematics)</span>
+
+<span class="sd">    Todo</span>
+<span class="sd">    ----</span>
+<span class="sd">    Implement : https://en.wikipedia.org/wiki/L-moment#cite_note-wang:96-6</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># return np.sum((x-c)^n*counts) / np.sum(counts)</span>
+    <span class="n">variable</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">not_empty_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">like</span><span class="o">=</span><span class="n">variable</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">variable</span> <span class="o">-</span> <span class="n">param</span><span class="p">)</span> <span class="o">**</span> <span class="n">order</span> <span class="o">*</span> <span class="n">weights</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">-</span> <span class="n">ddof</span></div>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="percentile"><a class="viewcode-back" href="../../autoapi/ineqpy/_statistics/index.html#ineqpy._statistics.percentile">[docs]</a><span class="k">def</span> <span class="nf">percentile</span><span class="p">(</span>
+    <span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">percentile</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;lower&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the percentile.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    variable : str or array</span>
+<span class="sd">    weights :  str or array</span>
+<span class="sd">    percentile : int or list</span>
+<span class="sd">        Percentile level, if pass 50 we get the median.</span>
+<span class="sd">    interpolation : {&#39;lower&#39;, &#39;higher&#39;, &#39;midpoint&#39;}, optional</span>
+<span class="sd">        Select interpolation method.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    percentile : float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sorted_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+    <span class="n">cum_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">])</span>
+    <span class="n">lower_percentile_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span>
+        <span class="n">cum_weights</span><span class="p">,</span> <span class="p">(</span><span class="n">percentile</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">cum_weights</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">interpolation</span> <span class="o">==</span> <span class="s2">&quot;midpoint&quot;</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span>
+            <span class="n">lower_percentile_idx</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">variable</span><span class="p">)),</span>
+            <span class="n">variable</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">interpolation</span> <span class="o">==</span> <span class="s2">&quot;lower&quot;</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">variable</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">[</span><span class="n">lower_percentile_idx</span><span class="p">]]</span>
+    <span class="k">elif</span> <span class="n">interpolation</span> <span class="o">==</span> <span class="s2">&quot;higher&quot;</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">variable</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">[</span><span class="n">lower_percentile_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="std_moment"><a class="viewcode-back" href="../../autoapi/ineqpy/_statistics/index.html#ineqpy._statistics.std_moment">[docs]</a><span class="k">def</span> <span class="nf">std_moment</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the standarized moment.</span>
+
+<span class="sd">    Calculate the standarized moment of order `c` for the variable` x` with</span>
+<span class="sd">    respect to `c`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    variable : 1d-array</span>
+<span class="sd">       Random Variable</span>
+<span class="sd">    weights : 1d-array, optional</span>
+<span class="sd">       Weights or probability</span>
+<span class="sd">    order : int, optional</span>
+<span class="sd">       Order of Moment, three by default</span>
+<span class="sd">    param : int or float or array, optional</span>
+<span class="sd">       Central trend, default is the mean.</span>
+<span class="sd">    ddof : int, optional</span>
+<span class="sd">        Degree of freedom.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    std_moment : float</span>
+<span class="sd">       Returns the standardized `n` order moment.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - https://en.wikipedia.org/wiki/Moment_(mathematics)</span>
+<span class="sd">      #Significance_of_the_moments</span>
+<span class="sd">    - https://en.wikipedia.org/wiki/Standardized_moment</span>
+
+<span class="sd">    Todo</span>
+<span class="sd">    ----</span>
+<span class="sd">    It is the general case of the raw and central moments. Review</span>
+<span class="sd">    implementation.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">c_moment</span><span class="p">(</span>
+        <span class="n">variable</span><span class="o">=</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">param</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="n">ddof</span>
+    <span class="p">)</span>
+    <span class="n">res</span> <span class="o">/=</span> <span class="n">var</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="n">ddof</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">order</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="mean"><a class="viewcode-back" href="../../autoapi/ineqpy/_statistics/index.html#ineqpy._statistics.mean">[docs]</a><span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the mean of `variable` given `weights`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    variable : array-like or str</span>
+<span class="sd">        Variable on which the mean is estimated.</span>
+<span class="sd">    weights : array-like or str</span>
+<span class="sd">        Weights of the `x` variable.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mean : array-like or float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># if pass a DataFrame separate variables.</span>
+    <span class="n">variable</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">not_empty_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">like</span><span class="o">=</span><span class="n">variable</span><span class="p">)</span>
+    <span class="n">variable</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">_clean_nans_values</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="var"><a class="viewcode-back" href="../../autoapi/ineqpy/_statistics/index.html#ineqpy._statistics.var">[docs]</a><span class="k">def</span> <span class="nf">var</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the population variance of ``variable`` given `weights`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    variable : 1d-array or pd.Series or pd.DataFrame</span>
+<span class="sd">        Variable on which the quasivariation is estimated</span>
+<span class="sd">    weights : 1d-array or pd.Series or pd.DataFrame</span>
+<span class="sd">        Weights of the `variable`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    variance : 1d-array or pd.Series or float</span>
+<span class="sd">        Estimation of quasivariance of `variable`</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.</span>
+<span class="sd">    Retrieved 14:40, May 15, 2017, from</span>
+<span class="sd">    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If stratificated sample must pass with groupby each strata.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">c_moment</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="n">ddof</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="coef_variation"><a class="viewcode-back" href="../../autoapi/ineqpy/_statistics/index.html#ineqpy._statistics.coef_variation">[docs]</a><span class="k">def</span> <span class="nf">coef_variation</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the coefficient of variation.</span>
+
+<span class="sd">    Calculate the coefficient of variation of a `variable` given weights. The</span>
+<span class="sd">    coefficient of variation is the square root of the variance of the incomes</span>
+<span class="sd">    divided by the mean income. It has the advantages of being mathematically</span>
+<span class="sd">    tractable and is subgroup decomposable, but is not bounded from above.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    variable : array-like or str</span>
+<span class="sd">    weights : array-like or str</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    coefficient_variation : float</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Coefficient of variation. (2017, May 5). In Wikipedia, The Free</span>
+<span class="sd">    Encyclopedia. Retrieved 15:03, May 15, 2017, from</span>
+<span class="sd">    https://en.wikipedia.org/w/index.php?title=Coefficient_of_variation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># todo complete docstring</span>
+    <span class="k">return</span> <span class="n">var</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="nb">abs</span><span class="p">(</span>
+        <span class="n">mean</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span></div>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="kurt"><a class="viewcode-back" href="../../autoapi/ineqpy/_statistics/index.html#ineqpy._statistics.kurt">[docs]</a><span class="k">def</span> <span class="nf">kurt</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the asymmetry coefficient.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    variable : 1d-array</span>
+<span class="sd">    weights : 1d-array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kurt : float</span>
+<span class="sd">        Kurtosis coefficient.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.</span>
+<span class="sd">    Retrieved 14:40, May 15, 2017, from</span>
+<span class="sd">    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    It is an alias of the standardized fourth-order moment.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">std_moment</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="skew"><a class="viewcode-back" href="../../autoapi/ineqpy/_statistics/index.html#ineqpy._statistics.skew">[docs]</a><span class="k">def</span> <span class="nf">skew</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the asymmetry coefficient of a sample.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    variable : array-like, str</span>
+<span class="sd">    weights : array-like, str</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    skew : float</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.</span>
+<span class="sd">    Retrieved 14:40, May 15, 2017, from</span>
+<span class="sd">    https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    It is an alias of the standardized third-order moment.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">std_moment</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span></div>
+
+
+<span class="nd">@guvectorize</span><span class="p">(</span>
+    <span class="s2">&quot;float64[:], float64[:], int64, float64[:]&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;(n),(n),()-&gt;()&quot;</span><span class="p">,</span>
+    <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<div class="viewcode-block" id="wvar"><a class="viewcode-back" href="../../autoapi/ineqpy/_statistics/index.html#ineqpy._statistics.wvar">[docs]</a><span class="p">)</span>
+<span class="k">def</span> <span class="nf">wvar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">out</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate weighted variance of X.</span>
+
+<span class="sd">    Calculates the weighted variance of x according to a kind of weights.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : np.ndarray</span>
+<span class="sd">        Main variable.</span>
+<span class="sd">    w : np.ndarray</span>
+<span class="sd">        Weigths.</span>
+<span class="sd">    kind : int</span>
+<span class="sd">        Has three modes to calculate de variance, you can control that with</span>
+<span class="sd">        this argument, the values and the output are the next:</span>
+<span class="sd">        * 1. population variance</span>
+<span class="sd">        * 2. sample frequency variance</span>
+<span class="sd">        * 3. sample reliability variance.</span>
+<span class="sd">    out : np.ndarray</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    weighted_variance : float</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance</span>
+<span class="sd">    #Weighted_incremental_algorithm</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wSum</span> <span class="o">=</span> <span class="n">wSum2</span> <span class="o">=</span> <span class="n">mean</span> <span class="o">=</span> <span class="n">S</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>  <span class="c1"># Alternatively &quot;for x, w in zip(data, weights):&quot;</span>
+        <span class="n">wSum</span> <span class="o">=</span> <span class="n">wSum</span> <span class="o">+</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">wSum2</span> <span class="o">=</span> <span class="n">wSum2</span> <span class="o">+</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">meanOld</span> <span class="o">=</span> <span class="n">mean</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="n">meanOld</span> <span class="o">+</span> <span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">wSum</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">meanOld</span><span class="p">)</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">S</span> <span class="o">+</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">meanOld</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># population_variance</span>
+        <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">S</span> <span class="o">/</span> <span class="n">wSum</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1"># Bessel&#39;s correction for weighted samples</span>
+        <span class="c1"># Frequency weights</span>
+        <span class="c1"># sample_frequency_variance</span>
+        <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">S</span> <span class="o">/</span> <span class="p">(</span><span class="n">wSum</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1"># Reliability weights</span>
+        <span class="c1"># sample_reliability_variance</span>
+        <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">S</span> <span class="o">/</span> <span class="p">(</span><span class="n">wSum</span> <span class="o">-</span> <span class="n">wSum2</span> <span class="o">/</span> <span class="n">wSum</span><span class="p">)</span></div>
+
+
+<span class="nd">@guvectorize</span><span class="p">(</span>
+    <span class="s2">&quot;float64[:], float64[:], float64[:], int64, float64[:]&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;(n),(n),(n),()-&gt;()&quot;</span><span class="p">,</span>
+    <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<div class="viewcode-block" id="wcov"><a class="viewcode-back" href="../../autoapi/ineqpy/_statistics/index.html#ineqpy._statistics.wcov">[docs]</a><span class="p">)</span>
+<span class="k">def</span> <span class="nf">wcov</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">out</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute weighted covariance between x and y.</span>
+
+<span class="sd">    Compute the weighted covariance between two variables, we can chose which</span>
+<span class="sd">    kind of covariance returns.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : np.array</span>
+<span class="sd">        Main variable.</span>
+<span class="sd">    y : np.array</span>
+<span class="sd">        Second variable.</span>
+<span class="sd">    w : np.array</span>
+<span class="sd">        Weights.</span>
+<span class="sd">    kind : int</span>
+<span class="sd">        Kind of weighted covariance is returned:</span>
+<span class="sd">            1 : population variance</span>
+<span class="sd">            2 : sample frequency variance</span>
+<span class="sd">            3 : sample reliability variance.</span>
+<span class="sd">    out : np.array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    weighted_covariance = float</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Online</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">meanx</span> <span class="o">=</span> <span class="n">meany</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">wsum</span> <span class="o">=</span> <span class="n">wsum2</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>
+        <span class="n">wsum</span> <span class="o">+=</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">wsum2</span> <span class="o">+=</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">meanx</span>
+        <span class="n">meanx</span> <span class="o">+=</span> <span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">wsum</span><span class="p">)</span> <span class="o">*</span> <span class="n">dx</span>
+        <span class="n">meany</span> <span class="o">+=</span> <span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">wsum</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">meany</span><span class="p">)</span>
+        <span class="n">C</span> <span class="o">+=</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">dx</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">meany</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># population_covar</span>
+        <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span> <span class="o">/</span> <span class="n">wsum</span></div>
+
+
+<span class="nd">@guvectorize</span><span class="p">(</span>
+    <span class="s2">&quot;float64[:], float64[:], float64[:]&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;(n),(n)-&gt;()&quot;</span><span class="p">,</span>
+    <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<div class="viewcode-block" id="online_kurtosis"><a class="viewcode-back" href="../../autoapi/ineqpy/_statistics/index.html#ineqpy._statistics.online_kurtosis">[docs]</a><span class="p">)</span>
+<span class="k">def</span> <span class="nf">online_kurtosis</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">out</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Online kurtosis.&quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">M2</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">M3</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">M4</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>
+        <span class="n">n1</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span>
+        <span class="n">delta_n</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">/</span> <span class="n">n</span>
+        <span class="n">delta_n2</span> <span class="o">=</span> <span class="n">delta_n</span> <span class="o">*</span> <span class="n">delta_n</span>
+        <span class="n">term1</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">delta_n</span> <span class="o">*</span> <span class="n">n1</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span> <span class="o">+</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">delta_n</span> <span class="o">/</span> <span class="n">n</span>
+        <span class="n">M4</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">M4</span>
+            <span class="o">+</span> <span class="n">term1</span> <span class="o">*</span> <span class="n">delta_n2</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="o">+</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">delta_n2</span> <span class="o">*</span> <span class="n">M2</span>
+            <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">delta_n</span> <span class="o">*</span> <span class="n">M3</span>
+        <span class="p">)</span>
+        <span class="n">M3</span> <span class="o">=</span> <span class="n">M3</span> <span class="o">+</span> <span class="n">term1</span> <span class="o">*</span> <span class="n">delta_n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">delta_n</span> <span class="o">*</span> <span class="n">M2</span>
+        <span class="n">M2</span> <span class="o">=</span> <span class="n">M2</span> <span class="o">+</span> <span class="n">term1</span>
+
+    <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">M4</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">M2</span> <span class="o">*</span> <span class="n">M2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span></div>
+
+
+<span class="nd">@guvectorize</span><span class="p">(</span>
+    <span class="s2">&quot;float64[:], float64[:], int64, float64[:]&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;(n),(n),()-&gt;()&quot;</span><span class="p">,</span>
+    <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<div class="viewcode-block" id="Mk"><a class="viewcode-back" href="../../autoapi/ineqpy/_statistics/index.html#ineqpy._statistics.Mk">[docs]</a><span class="p">)</span>
+<span class="k">def</span> <span class="nf">Mk</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">out</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate Mk.&quot;&quot;&quot;</span>
+    <span class="n">w_sum</span> <span class="o">=</span> <span class="n">wx_sum</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>
+        <span class="n">wx_sum</span> <span class="o">+=</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">**</span> <span class="n">k</span><span class="p">)</span>
+        <span class="n">w_sum</span> <span class="o">+=</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">wx_sum</span> <span class="o">/</span> <span class="n">w_sum</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Maximiliano Greco.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

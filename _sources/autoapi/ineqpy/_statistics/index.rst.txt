@@ -1,0 +1,564 @@
+:py:mod:`ineqpy._statistics`
+============================
+
+.. py:module:: ineqpy._statistics
+
+.. autoapi-nested-parse::
+
+   Low level desciptive statistics.
+
+   References
+   ----------
+   1. http://people.ds.cam.ac.uk/fanf2/hermes/doc/antiforgery/stats.pdf
+   2. https://en.wikipedia.org/wiki/Weighted_arithmetic_mean
+      #Weighted_sample_variance
+   3. https://en.wikipedia.org/wiki/Algorithms%5Ffor%5Fcalculating%5Fvariance
+      #Weighted_incremental_algorithm
+
+   ..
+       !! processed by numpydoc !!
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   ineqpy._statistics.c_moment
+   ineqpy._statistics.percentile
+   ineqpy._statistics.std_moment
+   ineqpy._statistics.mean
+   ineqpy._statistics.var
+   ineqpy._statistics.coef_variation
+   ineqpy._statistics.kurt
+   ineqpy._statistics.skew
+   ineqpy._statistics.wvar
+   ineqpy._statistics.wcov
+   ineqpy._statistics.online_kurtosis
+   ineqpy._statistics.Mk
+
+
+
+.. py:function:: c_moment(variable=None, weights=None, order=2, param=None, ddof=0)
+
+   
+   Calculate central momment.
+
+   Calculate the central moment of `x` with respect to `param` of order `n`,
+   given the weights `w`.
+
+   :Parameters:
+
+       **variable** : 1d-array
+           Variable
+
+       **weights** : 1d-array
+           Weights
+
+       **order** : int, optional
+           Moment order, 2 by default (variance)
+
+       **param** : int or array, optional
+           Parameter for which the moment is calculated, the default is None,
+           implies use the mean.
+
+       **ddof** : int, optional
+           Degree of freedom, zero by default.
+
+   :Returns:
+
+       **central_moment** : float
+           ..
+
+
+
+
+
+
+
+
+   .. rubric:: Notes
+
+   - The cmoment of order 1 is 0
+   - The cmoment of order 2 is the variance.
+
+   Source : https://en.wikipedia.org/wiki/Moment_(mathematics)
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: percentile(variable, weights, percentile=50, interpolation='lower') -> float
+
+   
+   Calculate the percentile.
+
+
+   :Parameters:
+
+       **variable** : str or array
+           ..
+
+       **weights** : str or array
+           ..
+
+       **percentile** : int or list
+           Percentile level, if pass 50 we get the median.
+
+       **interpolation** : {'lower', 'higher', 'midpoint'}, optional
+           Select interpolation method.
+
+   :Returns:
+
+       **percentile** : float
+           ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: std_moment(variable=None, weights=None, param=None, order=3, ddof=0)
+
+   
+   Calculate the standarized moment.
+
+   Calculate the standarized moment of order `c` for the variable` x` with
+   respect to `c`.
+
+   :Parameters:
+
+       **variable** : 1d-array
+           Random Variable
+
+       **weights** : 1d-array, optional
+           Weights or probability
+
+       **order** : int, optional
+           Order of Moment, three by default
+
+       **param** : int or float or array, optional
+           Central trend, default is the mean.
+
+       **ddof** : int, optional
+           Degree of freedom.
+
+   :Returns:
+
+       **std_moment** : float
+           Returns the standardized `n` order moment.
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   - https://en.wikipedia.org/wiki/Moment_(mathematics)
+     #Significance_of_the_moments
+   - https://en.wikipedia.org/wiki/Standardized_moment
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: mean(variable=None, weights=None)
+
+   
+   Calculate the mean of `variable` given `weights`.
+
+
+   :Parameters:
+
+       **variable** : array-like or str
+           Variable on which the mean is estimated.
+
+       **weights** : array-like or str
+           Weights of the `x` variable.
+
+   :Returns:
+
+       **mean** : array-like or float
+           ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: var(variable=None, weights=None, ddof=0)
+
+   
+   Calculate the population variance of ``variable`` given `weights`.
+
+
+   :Parameters:
+
+       **variable** : 1d-array or pd.Series or pd.DataFrame
+           Variable on which the quasivariation is estimated
+
+       **weights** : 1d-array or pd.Series or pd.DataFrame
+           Weights of the `variable`.
+
+   :Returns:
+
+       **variance** : 1d-array or pd.Series or float
+           Estimation of quasivariance of `variable`
+
+
+
+
+
+
+
+
+   .. rubric:: Notes
+
+   If stratificated sample must pass with groupby each strata.
+
+   .. rubric:: References
+
+   Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
+   Retrieved 14:40, May 15, 2017, from
+   https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: coef_variation(variable=None, weights=None)
+
+   
+   Calculate the coefficient of variation.
+
+   Calculate the coefficient of variation of a `variable` given weights. The
+   coefficient of variation is the square root of the variance of the incomes
+   divided by the mean income. It has the advantages of being mathematically
+   tractable and is subgroup decomposable, but is not bounded from above.
+
+   :Parameters:
+
+       **variable** : array-like or str
+           ..
+
+       **weights** : array-like or str
+           ..
+
+   :Returns:
+
+       **coefficient_variation** : float
+           ..
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   Coefficient of variation. (2017, May 5). In Wikipedia, The Free
+   Encyclopedia. Retrieved 15:03, May 15, 2017, from
+   https://en.wikipedia.org/w/index.php?title=Coefficient_of_variation
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: kurt(variable=None, weights=None)
+
+   
+   Calculate the asymmetry coefficient.
+
+
+   :Parameters:
+
+       **variable** : 1d-array
+           ..
+
+       **weights** : 1d-array
+           ..
+
+   :Returns:
+
+       **kurt** : float
+           Kurtosis coefficient.
+
+
+
+
+
+
+
+
+   .. rubric:: Notes
+
+   It is an alias of the standardized fourth-order moment.
+
+   .. rubric:: References
+
+   Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
+   Retrieved 14:40, May 15, 2017, from
+   https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: skew(variable=None, weights=None)
+
+   
+   Return the asymmetry coefficient of a sample.
+
+
+   :Parameters:
+
+       **variable** : array-like, str
+           ..
+
+       **weights** : array-like, str
+           ..
+
+   :Returns:
+
+       **skew** : float
+           ..
+
+
+
+
+
+
+
+
+   .. rubric:: Notes
+
+   It is an alias of the standardized third-order moment.
+
+   .. rubric:: References
+
+   Moment (mathematics). (2017, May 6). In Wikipedia, The Free Encyclopedia.
+   Retrieved 14:40, May 15, 2017, from
+   https://en.wikipedia.org/w/index.php?title=Moment_(mathematics)
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: wvar(x, w, kind, out)
+
+   
+   Calculate weighted variance of X.
+
+   Calculates the weighted variance of x according to a kind of weights.
+
+   :Parameters:
+
+       **x** : np.ndarray
+           Main variable.
+
+       **w** : np.ndarray
+           Weigths.
+
+       **kind** : int
+           Has three modes to calculate de variance, you can control that with
+           this argument, the values and the output are the next:
+           * 1. population variance
+           * 2. sample frequency variance
+           * 3. sample reliability variance.
+
+       **out** : np.ndarray
+           ..
+
+   :Returns:
+
+       **weighted_variance** : float
+           ..
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
+   #Weighted_incremental_algorithm
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: wcov(x, y, w, kind, out)
+
+   
+   Compute weighted covariance between x and y.
+
+   Compute the weighted covariance between two variables, we can chose which
+   kind of covariance returns.
+
+   :Parameters:
+
+       **x** : np.array
+           Main variable.
+
+       **y** : np.array
+           Second variable.
+
+       **w** : np.array
+           Weights.
+
+       **kind** : int
+           Kind of weighted covariance is returned:
+               1 : population variance
+               2 : sample frequency variance
+               3 : sample reliability variance.
+
+       **out** : np.array
+           ..
+
+   :Returns:
+
+       weighted_covariance = float
+           ..
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Online
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: online_kurtosis(x, w, out)
+
+   
+   Online kurtosis.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: Mk(x, w, k, out)
+
+   
+   Calculate Mk.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
