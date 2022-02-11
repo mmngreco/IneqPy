@@ -499,9 +499,9 @@ def ratio_top_rest(income, weights=None, data=None, percentage=10.0):
     income, weights = utils._sort_values(income, weights)
 
     # variables needed
+    weights = utils.normalize(weights)
     cumw = np.cumsum(weights)
-    n = cumw[-1]  # equals np.sum(weights)
-    ftosearch = n * (1 - percentage / 100)
+    ftosearch = 1 - percentage / 100
     k = np.searchsorted(cumw, ftosearch, side='right')
     f_i = income*weights
 
@@ -510,8 +510,8 @@ def ratio_top_rest(income, weights=None, data=None, percentage=10.0):
 
     # Correction
     if k > 0:
-        error = np.floor(ftosearch) - cumw[k-1]
-        t -= error * income[k]
-        r += error * income[k]
+        error = (ftosearch - cumw[k-1]) * income[k]
+        t -= error
+        r += error
 
     return t / r
