@@ -455,7 +455,7 @@ def avg_tax_rate(total_tax, total_base, weights=None, data=None):
     return res
 
 
-def ratio_top_rest(income, percentage=10, weights=None, data=None):
+def ratio_top_rest(income, weights=None, data=None, percentage=10.0):
     """Calculate the 10:90 Ratio
     Calculates the quotient between the number of contributions from the top
     10% of contributors divided by the number contributions made by the other
@@ -468,6 +468,7 @@ def ratio_top_rest(income, percentage=10, weights=None, data=None):
     ----------
     percentage : float
         The richest x percent to consider. (10 percent by default)
+        It must be a number between 0 and 100
     data : pandas.DataFrame
         This variable is a DataFrame that contains all data required in it's
         columns.
@@ -477,6 +478,7 @@ def ratio_top_rest(income, percentage=10, weights=None, data=None):
     weights : array-like or str
         This variable represent weights of each person, if pass array-like
         then data must be None, else you pass str-name column in `data`.
+        All-ones by default
 
     Returns
     -------
@@ -492,14 +494,24 @@ def ratio_top_rest(income, percentage=10, weights=None, data=None):
         income, weights = utils.extract_values(data, income, weights)
     else:
         income = income.copy()
-        weights = weights.copy() if weights is not None else np.ones_like(1)
+        weights = np.ones_like(income) if weights is None else weights.copy()
+
+    income, weights = utils._sort_values(income, weights)
 
     # variables needed
-    k = int(income.size - np.ceil(percentage / 100 * len(income)))
-    f_i = income * weights
-    f_i.sort()
+    cumw = np.cumsum(weights)
+    n = cumw[-1]  # equals np.sum(weights)
+    ftosearch = n * (1 - percentage / 100)
+    k = np.searchsorted(cumw, ftosearch, side='right')
+    f_i = income*weights
 
-    r = f_i[:k]
-    t = f_i[k:]
+    t = np.sum(f_i[k:])
+    r = np.sum(f_i[:k])
 
-    return np.sum(t) / np.sum(r)
+    # Correction
+    if k > 0:
+        error = np.floor(ftosearch) - cumw[k-1]
+        t -= error * income[k]
+        r += error * income[k]
+
+    return t / r
