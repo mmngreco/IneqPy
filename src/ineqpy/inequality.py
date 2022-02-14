@@ -455,23 +455,17 @@ def avg_tax_rate(total_tax, total_base, weights=None, data=None):
     return res
 
 
-def ratio_top_rest(income, weights=None, data=None, percentage=10.0):
-    """Calculate the 10:90 Ratio
+def ratio_top_rest(income, weights=None, data=None, top_percentage=10.0):
+    """Calculate the 10:90 Ratio.
     Calculates the quotient between the number of contributions from the top
     10% of contributors divided by the number contributions made by the other
-    90%. The ratio is 1 if the toal contributions by the top contributors are
+    90%. The ratio is 1 if the total contributions by the top contributors are
     equal to the cotnributions made by the rest; less than zero if the top 10%
     contributes less than the rest; and greater that 1 if the top 10%
     contributes more than the other ninety percent.
 
     Parameters
     ----------
-    percentage : float
-        The richest x percent to consider. (10 percent by default)
-        It must be a number between 0 and 100
-    data : pandas.DataFrame
-        This variable is a DataFrame that contains all data required in it's
-        columns.
     income : array-like or str
         This variable represent tax payment of person, if pass array-like
         then data must be None, else you pass str-name column in `data`.
@@ -479,6 +473,12 @@ def ratio_top_rest(income, weights=None, data=None, percentage=10.0):
         This variable represent weights of each person, if pass array-like
         then data must be None, else you pass str-name column in `data`.
         All-ones by default
+    data : pandas.DataFrame
+        This variable is a DataFrame that contains all data required in it's
+        columns.
+    top_percentage : float
+        The richest x percent to consider. (10 percent by default)
+        It must be a number between 0 and 100
 
     Returns
     -------
@@ -501,7 +501,7 @@ def ratio_top_rest(income, weights=None, data=None, percentage=10.0):
     # variables needed
     weights = utils.normalize(weights)
     cumw = np.cumsum(weights)
-    ftosearch = 1 - percentage / 100
+    ftosearch = 1 - top_percentage / 100
     k = np.searchsorted(cumw, ftosearch, side='right')
     f_i = income*weights
 
