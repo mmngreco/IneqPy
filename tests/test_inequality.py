@@ -96,15 +96,15 @@ def test_ratio_equality_fracc():
     assert obtained == 1.0
 
 def test_ratio_1d():
-    x = np.array([57, 63, 81, 79, 88, 57, 42, 3, 77, 89])
-    w = np.array([2, 5, 2, 9, 5, 7, 4, 5, 9, 9])
+    x = np.array([57, 63, 81, 79, 88, 42, 3, 77, 89])
+    w = np.array([9, 5, 2, 9, 5, 4, 5, 9, 9])
     obtained = inequality.ratio_top_rest(income=x, weights=w)
     expected = pytest.approx(0.15323043465128208)
     assert obtained == expected
 
 def test_ratio_2d():
-    x = np.array([[57], [63], [81], [79], [88], [57], [42], [3], [77], [89]])
-    w = np.array([[2], [5], [2], [9], [5], [7], [4], [5], [9], [9]])
+    x = np.array([[57], [63], [81], [79], [88], [42], [3], [77], [89]])
+    w = np.array([[9], [5], [2], [9], [5], [4], [5], [9], [9]])
     obtained = inequality.ratio_top_rest(income=x, weights=w)
     expected = pytest.approx(0.15323043465128208)
     assert obtained == expected
