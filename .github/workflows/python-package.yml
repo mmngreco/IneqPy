@@ -41,7 +41,7 @@ jobs:
       with:
         python-version: "3.9"
     - name: Create env
-    - run: make venv
+      run: make venv
     - name: Install dependencies
       run: make install
     - name: Build package
