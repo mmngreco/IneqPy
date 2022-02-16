@@ -1,7 +1,7 @@
 name: Docs2Pages
 on:
   push:
-    tags: '*'
+    tags: 'ineqpy*'
   pull_request:
     branches:
       - master
