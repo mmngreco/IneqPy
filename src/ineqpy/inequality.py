@@ -457,6 +457,7 @@ def avg_tax_rate(total_tax, total_base, weights=None, data=None):
 
 def ratio_top_rest(income, weights=None, data=None, top_percentage=10.0):
     """Calculate the 10:90 Ratio.
+
     Calculates the quotient between the number of contributions from the top
     10% of contributors divided by the number contributions made by the other
     90%. The ratio is 1 if the total contributions by the top contributors are

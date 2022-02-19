@@ -14,7 +14,7 @@ from . import inequality, statistics
 
 
 class Convey:
-    """Conver."""
+    """Convey."""
 
     def __init__(
         self,
@@ -116,9 +116,7 @@ class Survey:
         self.weights = weights
         self.group = group
 
-    def c_moment(
-        self, variable=None, weights=None, order=2, param=None, ddof=0
-    ):
+    def c_moment(self, variable, weights=None, order=2, param=None, ddof=0):
         """Calculate central momment.
 
         Calculate the central moment of `x` with respect to `param` of order
@@ -154,15 +152,12 @@ class Survey:
 
         """
         data = self.df
-
         if weights is None:
             weights = self.weights
 
         return statistics.c_moment(variable, weights, data, order, param, ddof)
 
-    def percentile(
-        self, variable=None, weights=None, p=50, interpolate="lower"
-    ):
+    def percentile(self, variable, weights=None, p=50, interpolate="lower"):
         """Calculate the value of a quantile given a variable and his weights.
 
         Parameters
@@ -183,11 +178,10 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
+
         return statistics.percentile(variable, weights, data, p, interpolate)
 
-    def std_moment(
-        self, variable=None, weights=None, param=None, order=3, ddof=0
-    ):
+    def std_moment(self, variable, weights=None, param=None, order=3, ddof=0):
         """Calculate the standardized moment.
 
         Calculate the standardized moment of order `c` for the variable` x`
@@ -228,11 +222,12 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
+
         return statistics.std_moment(
             variable, weights, data, param, order, ddof
         )
 
-    def mean(self, variable=None, weights=None):
+    def mean(self, variable, weights=None):
         """Calculate the mean of `variable` given `weights`.
 
         Parameters
@@ -254,9 +249,10 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
+
         return statistics.mean(variable, weights, data)
 
-    def density(self, variable=None, weights=None, groups=None):
+    def density(self, variable, weights=None, groups=None):
         """Calculate density in percentage.
 
         This make division of variable inferring width in groups as max - min.
@@ -281,9 +277,10 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
+
         return statistics.density(variable, weights, groups, data)
 
-    def var(self, variable=None, weights=None, ddof=0):
+    def var(self, variable, weights=None, ddof=0):
         """Calculate the population variance of `variable` given `weights`.
 
         Parameters
@@ -314,9 +311,10 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
+
         return statistics.var(variable, weights, data, ddof)
 
-    def coef_variation(self, variable=None, weights=None):
+    def coef_variation(self, variable, weights=None):
         """Calculate the coefficient of variation.
 
         The coefficient of variation is the square root of the variance of the
@@ -345,9 +343,10 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
+
         return statistics.coef_variation(variable, weights, data)
 
-    def kurt(self, variable=None, weights=None):
+    def kurt(self, variable, weights=None):
         """Calculate the asymmetry coefficient.
 
         Parameters
@@ -374,9 +373,10 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
+
         return statistics.kurt(variable, weights, data)
 
-    def skew(self, variable=None, weights=None):
+    def skew(self, variable, weights=None):
         """Return the asymmetry coefficient of a sample.
 
         Parameters
@@ -405,12 +405,13 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
+
         return statistics.skew(variable, weights, data)
 
     # INEQUALITY
     #  ----------
 
-    def concentration(self, income=None, weights=None, sort=True):
+    def concentration(self, income, weights=None, sort=True):
         """Calculate concentration index.
 
         This function calculate the concentration index, according to the
@@ -441,9 +442,10 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
+
         return inequality.concentration(income, weights, data, sort)
 
-    def lorenz(self, income=None, weights=None):
+    def lorenz(self, income, weights=None):
         """Calculate lorenz curve.
 
         In economics, the Lorenz curve is a graphical representation of the
@@ -480,11 +482,10 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
-        if income is None:
-            income = self.income
+
         return inequality.lorenz(income, weights, data)
 
-    def gini(self, income=None, weights=None, sort=True):
+    def gini(self, income, weights=None, sort=True):
         """Calculate Gini's index.
 
         The Gini coefficient (sometimes expressed as a Gini ratio or a
@@ -544,9 +545,10 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
+
         return inequality.gini(income, weights, data, sort)
 
-    def atkinson(self, income=None, weights=None, e=0.5):
+    def atkinson(self, income, weights=None, e=0.5):
         """Calculate Atkinson index.
 
         More precisely labelled a family of income grouped measures, the
@@ -595,9 +597,10 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
+
         return inequality.atkinson(income, weights, data, e)
 
-    def kakwani(self, tax=None, income_pre_tax=None, weights=None):
+    def kakwani(self, tax, income_pre_tax, weights=None):
         """Calculate kakwani's index.
 
         The Kakwani (1977) index of tax progressivity is defined as twice the
@@ -636,10 +639,11 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
+
         return inequality.kakwani(tax, income_pre_tax, weights, data)
 
     def reynolds_smolensky(
-        self, income_pre_tax=None, income_post_tax=None, weights=None
+        self, income_pre_tax, income_post_tax, weights=None
     ):
         """Calculate Reynolds-Smolensky's index.
 
@@ -677,11 +681,12 @@ class Survey:
         data = self.df
         if weights is None:
             weights = self.weights
+
         return inequality.reynolds_smolensky(
             income_pre_tax, income_post_tax, weights, data
         )
 
-    def theil(self, income=None, weights=None):
+    def theil(self, income, weights=None):
         """Calculate theil index.
 
         The Theil index is a statistic primarily used to measure economic
@@ -719,7 +724,7 @@ class Survey:
 
         return inequality.theil(income, weights, data)
 
-    def avg_tax_rate(self, total_tax=None, total_base=None, weights=None):
+    def avg_tax_rate(self, total_tax, total_base, weights=None):
         """Compute the average tax rate given a base income and a total tax.
 
         Parameters
@@ -745,3 +750,45 @@ class Survey:
             weights = self.weights
 
         return inequality.avg_tax_rate(total_tax, total_base, weights, data)
+
+    def ratio_top_rest(self, income, weights=None, data=None, top_percentage=10):
+        """Calculate the 10:90 Ratio.
+
+        Calculates the quotient between the number of contributions from the
+        top 10% of contributors divided by the number contributions made by the
+        other 90%. The ratio is 1 if the total contributions by the top
+        contributors are equal to the cotnributions made by the rest; less than
+        zero if the top 10% contributes less than the rest; and greater that 1
+        if the top 10% contributes more than the other ninety percent.
+
+        Parameters
+        ----------
+        income : array-like or str
+            This variable represent tax payment of person, if pass array-like
+            then data must be None, else you pass str-name column in `data`.
+        weights : array-like or str
+            This variable represent weights of each person, if pass array-like
+            then data must be None, else you pass str-name column in `data`.
+            All-ones by default
+        data : pandas.DataFrame
+            This variable is a DataFrame that contains all data required in
+            it's columns.
+        top_percentage : float
+            The richest x percent to consider. (10 percent by default)
+            It must be a number between 0 and 100
+
+        Returns
+        -------
+        ratio : float
+
+        References
+        ----------
+        Participation Inequality in Wikis: A Temporal Analysis Using WikiChron.
+        Serrano, Abel & Arroyo, Javier & Hassan, Samer. (2018).
+        DOI: 10.1145/3233391.3233536.
+        """
+        data = self.df
+        if weights is None:
+            weights = self.weights
+
+        return inequality.ratio_top_rest(income, weights, data, top_percentage)
