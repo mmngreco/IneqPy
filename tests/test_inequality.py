@@ -120,7 +120,7 @@ def test_ratio_weighted_eq_unweighted(n):
     xw = []
     for xi, wi in zip(x,w):
         xw += [xi]*wi  # Create a list that contains
-    
+
     xw = np.array(xw)
 
     assert len(xw) == np.sum(w)
@@ -140,3 +140,11 @@ def test_ratio_unweighted():
     obtained = inequality.ratio_top_rest(x)
     expected = 0.22203712517848642
     assert pytest.approx(obtained) == expected
+
+
+def test_hoover_index():
+    x = np.arange(10)
+    w = np.ones(10)
+    obtained = inequality.hoover(x, w)
+    expected = 4
+    np.testing.assert_almost_equal(obtained, expected)
