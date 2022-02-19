@@ -54,6 +54,7 @@ extensions = [
     'sphinx_rtd_theme',
     'autoapi.extension',
     'numpydoc',
+    'myst_parser',
 ]
 
 autoapi_type = 'python'

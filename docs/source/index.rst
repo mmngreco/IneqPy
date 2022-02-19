@@ -10,7 +10,7 @@ Welcome to IneqPy's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   ./quickstart.rst
 
 Indices and tables
 ==================
