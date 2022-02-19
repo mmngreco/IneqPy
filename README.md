@@ -1,13 +1,10 @@
 ![Build Status](https://github.com/mmngreco/ineqpy/actions/workflows/python-package.yml/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/ineqpy/badge/?version=latest)](https://ineqpy.readthedocs.io/en/latest/?badge=latest)
 
+# IneqPy's Package
 
-
-IneqPy Package
-==============
-
-This package provides statistics to do a properly quantitative analysis of
-inequality. Among the estimators provided by this package you can find:
+This package provides statistics to carry on inequality's analysis. Among the
+estimators provided by this package you can find:
 
 
 | Main Statistics                   | Inequality Indicators |
@@ -19,25 +16,24 @@ inequality. Among the estimators provided by this package you can find:
 | Weighted Skewness                 | Weighted Lorenz curve |
 
 
-Installation
-------------
+## Installation
 
 ```bash
-$ pip install git+https://github.com/mmngreco/IneqPy.git
+pip install ineqpy
+# or from github's repo
+pip install git+https://github.com/mmngreco/IneqPy.git
 ```
 
-Examples
---------
+## What you can find
 
 Some examples of how use this package:
-Data of example:
 
 ```python
 >>> import pandas as pd
 >>> import numpy as np
 >>> import ineqpy
+>>> d = load_data()  # dataframe
 >>> d
-
              renta   factor
 0        -13004.12   1.0031
 89900    141656.97   1.4145
@@ -65,9 +61,7 @@ Data of example:
 2067700    3281.95   1.1670
 ```
 
-----------------------
-Descriptive statistics
-----------------------
+### Descriptive statistics
 
 ```python
 >>> ineqpy.mean(variable=d.renta, weights=d.factor)
@@ -78,19 +72,19 @@ Descriptive statistics
 ```
 
 > Note that the standardized moment for order `n`, retrieve the value in that
-  column:
-
-| `n` | value     |
-|:---:|:---------:|
-| 1   | 0         |
-| 2   | 1         |
-| 3   | Skew      |
-| 4   | Kurtosis  |
+> column:
+>
+> | `n` | value     |
+> |:---:|:---------:|
+> | 1   | 0         |
+> | 2   | 1         |
+> | 3   | Skew      |
+> | 4   | Kurtosis  |
 
 A helpful table of interpretation of the moments
 
 ```python
->>> ineqpy.std_moment(variable=x, weights=w, order=1)  # = 0
+>>> ineqpy.std_moment(variable=x, weights=w, order=1)  # ~= 0
 2.4624948200717338e-17
 >>> ineqpy.std_moment(variable=x, weights=w, order=2)  # = 1
 1.0
@@ -103,9 +97,8 @@ A helpful table of interpretation of the moments
 >>> ineqpy.kurt(variable=x, weights=w)
 42.319928851703004
 ```
----------------------
-Inequality estimators
----------------------
+
+### Inequality's estimators
 
 ```python
 # pass a pandas.DataFrame and inputs as strings
@@ -116,8 +109,7 @@ Inequality estimators
 0.76739136365917116
 ```
 
-More examples and comparision with other packages:
-==================================================
+### More examples and comparison with other packages:
 
 We generate random weighted data to show how ineqpy works. The variables
 simulate being:
@@ -139,8 +131,7 @@ Additional information:
     ineq : IneqPy
 
 
-MEAN
-----
+#### Mean
 
 ```python
 >>> np.mean(x_rep)       = 488.535714286
@@ -148,8 +139,7 @@ MEAN
 >>> gsl_stat.wmean(w, x) = 488.5357142857143
 ```
 
-VARIANCE
---------
+#### Variance
 
 ```python
 >>> np.var(x_rep)                = 63086.1364796
@@ -160,8 +150,7 @@ VARIANCE
 >>> ineq_stat.wvar(x, w, kind=3) = 63993.1615859
 ```
 
-COVARIANCE
-----------
+#### Covariance
 
 ```python
 >>> np.cov(x_rep, x_rep)            =  [[ 63247.48209719  63247.48209719]
@@ -171,8 +160,7 @@ COVARIANCE
 >>> ineq_stat.wcov(x, x, w, kind=3) =  9.88131291682e-324
 ```
 
-SKEWNESS
---------
+#### Skewness
 
 ```python
 >>> gsl_stat.wskew(w, x) =  -0.05742668111416989
@@ -180,8 +168,7 @@ SKEWNESS
 >>> ineq.skew(x, w)      =  -0.0586696059679
 ```
 
-KURTOSIS
---------
+#### Kurtosis
 
 ```python
 >>> sp_stat.kurtosis(x_rep)  =  -0.7919389201857214
@@ -189,32 +176,28 @@ KURTOSIS
 >>> ineq.kurt(x, w) - 3      =  -0.791938920186
 ```
 
-PERCENTILES
------------
+#### Percentiles
 
-```pyhton
->>> ineq_stat.percentile(x, w, 50) =  526
->>> np.percentile(x_rep, 50)       =  526.0
+```python
 >>> ineq_stat.percentile(x, w, 25) =  293
 >>> np.percentile(x_rep, 25)       =  293.0
->>> ineq_stat.percentile(x, w, 75) =  667
->>> np.percentile(x_rep, 75)       =  670.0
->>> ineq_stat.percentile(x, w, 10) =  135
->>> np.percentile(x_rep, 10)       =  135.0
+
+>>> ineq_stat.percentile(x, w, 50) =  526
+>>> np.percentile(x_rep, 50)       =  526.0
+
 >>> ineq_stat.percentile(x, w, 90) =  839
 >>> np.percentile(x_rep, 90)       =  839.0
 ```
 
 Another way to use this is through the API module as shown below:
 
-API MODULE
-----------
+## API's module
 
-Using api module:
+Using API's module:
 
 ```python
->>> data = svy(data=data, columns=columns, weights='w')
->>> data.head()
+>>> data = Survey(data=data, columns=columns, weights='w')
+>>> data.df.head()
      x  w
 0  111  3
 1  711  4
@@ -223,7 +206,7 @@ Using api module:
 4  944  1
 ```
 
-Statistics:
+### Statistics
 
 ```python
 >>> data.weights = w
@@ -236,4 +219,3 @@ Statistics:
 >>> df.atkinson(main_var)   = 0.0925853855635
 >>> df.theil(main_var)      = 0.156137490566
 ```
-

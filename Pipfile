@@ -10,7 +10,7 @@ pandas = "*"
 black = "*"
 flake8 = "*"
 pdbpp = "*"
-IneqPy = {path = "."}
+IneqPy = {editable = true, path = "."}
 
 [dev-packages]
 scipy = "*"
