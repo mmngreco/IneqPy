@@ -751,7 +751,9 @@ class Survey:
 
         return inequality.avg_tax_rate(total_tax, total_base, weights, data)
 
-    def ratio_top_rest(self, income, weights=None, data=None, top_percentage=10):
+    def ratio_top_rest(
+        self, income, weights=None, data=None, top_percentage=10
+    ):
         """Calculate the 10:90 Ratio.
 
         Calculates the quotient between the number of contributions from the
