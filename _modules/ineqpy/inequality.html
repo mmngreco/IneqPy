@@ -37,6 +37,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">IneqPy’s Package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
 </ul>
 
@@ -94,6 +95,8 @@
     <span class="s2">&quot;lorenz&quot;</span><span class="p">,</span>
     <span class="s2">&quot;reynolds_smolensky&quot;</span><span class="p">,</span>
     <span class="s2">&quot;theil&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ratio_top_rest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hoover&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
@@ -519,6 +522,121 @@
     <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tax_name</span><span class="p">,</span> <span class="n">base_name</span><span class="p">)]</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="ratio_top_rest"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.ratio_top_rest">[docs]</a><span class="k">def</span> <span class="nf">ratio_top_rest</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">top_percentage</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the 10:90 Ratio.</span>
+
+<span class="sd">    Calculates the quotient between the number of contributions from the top</span>
+<span class="sd">    10% of contributors divided by the number contributions made by the other</span>
+<span class="sd">    90%. The ratio is 1 if the total contributions by the top contributors are</span>
+<span class="sd">    equal to the cotnributions made by the rest; less than zero if the top 10%</span>
+<span class="sd">    contributes less than the rest; and greater that 1 if the top 10%</span>
+<span class="sd">    contributes more than the other ninety percent.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    income : array-like or str</span>
+<span class="sd">        This variable represent tax payment of person, if pass array-like</span>
+<span class="sd">        then data must be None, else you pass str-name column in `data`.</span>
+<span class="sd">    weights : array-like or str</span>
+<span class="sd">        This variable represent weights of each person, if pass array-like</span>
+<span class="sd">        then data must be None, else you pass str-name column in `data`.</span>
+<span class="sd">        All-ones by default</span>
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">        This variable is a DataFrame that contains all data required in it&#39;s</span>
+<span class="sd">        columns.</span>
+<span class="sd">    top_percentage : float</span>
+<span class="sd">        The richest x percent to consider. (10 percent by default)</span>
+<span class="sd">        It must be a number between 0 and 100</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ratio : float</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Participation Inequality in Wikis: A Temporal Analysis Using WikiChron.</span>
+<span class="sd">    Serrano, Abel &amp; Arroyo, Javier &amp; Hassan, Samer. (2018).</span>
+<span class="sd">    DOI: 10.1145/3233391.3233536.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">extract_values</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">income</span> <span class="o">=</span> <span class="n">income</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">income</span><span class="p">)</span> <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">weights</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">_sort_values</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+
+    <span class="c1"># variables needed</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">cumw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">ftosearch</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">top_percentage</span> <span class="o">/</span> <span class="mi">100</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">cumw</span><span class="p">,</span> <span class="n">ftosearch</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+    <span class="n">f_i</span> <span class="o">=</span> <span class="n">income</span><span class="o">*</span><span class="n">weights</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">f_i</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">f_i</span><span class="p">[:</span><span class="n">k</span><span class="p">])</span>
+
+    <span class="c1"># Correction</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="p">(</span><span class="n">ftosearch</span> <span class="o">-</span> <span class="n">cumw</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">income</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="n">t</span> <span class="o">-=</span> <span class="n">error</span>
+        <span class="n">r</span> <span class="o">+=</span> <span class="n">error</span>
+
+    <span class="k">return</span> <span class="n">t</span> <span class="o">/</span> <span class="n">r</span></div>
+
+
+<div class="viewcode-block" id="hoover"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.hoover">[docs]</a><span class="k">def</span> <span class="nf">hoover</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate Hoover index.</span>
+
+<span class="sd">    The Hoover index, also known as the Robin Hood index or the Schutz index,</span>
+<span class="sd">    is a measure of income metrics. It is equal to the portion of the total</span>
+<span class="sd">    community income that would have to be redistributed (taken from the richer</span>
+<span class="sd">    half of the population and given to the poorer half) for there to be income</span>
+<span class="sd">    uniformity.</span>
+
+<span class="sd">    Formula:</span>
+
+<span class="sd">        H = 1/2 sum_i( |xi - mu| ) / sum_i(xi)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    income : array-like or str</span>
+<span class="sd">        This variable represent tax payment of person, if pass array-like</span>
+<span class="sd">        then data must be None, else you pass str-name column in `data`.</span>
+<span class="sd">    weights : array-like or str</span>
+<span class="sd">        This variable represent weights of each person, if pass array-like</span>
+<span class="sd">        then data must be None, else you pass str-name column in `data`.</span>
+<span class="sd">    data : pandas.DataFrame</span>
+<span class="sd">        This variable is a DataFrame that contains all data required in it&#39;s</span>
+<span class="sd">        columns.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hoover : float</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Hoover index : https://en.wikipedia.org/wiki/Hoover_index</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">extract_values</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">income</span> <span class="o">=</span> <span class="n">income</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">not_null_condition</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+
+    <span class="c1"># variables needed</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">f_i</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">xi</span> <span class="o">=</span> <span class="n">f_i</span> <span class="o">*</span> <span class="n">income</span>
+
+    <span class="c1"># main calc</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">xi</span> <span class="o">-</span> <span class="n">mu</span><span class="p">))</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">h</span></div>
 </pre></div>
 
            </div>

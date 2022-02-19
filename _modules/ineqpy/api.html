@@ -37,6 +37,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">IneqPy’s Package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
 </ul>
 
@@ -81,7 +82,7 @@
 
 
 <div class="viewcode-block" id="Convey"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Convey">[docs]</a><span class="k">class</span> <span class="nc">Convey</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Conver.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Convey.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -183,9 +184,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">group</span> <span class="o">=</span> <span class="n">group</span>
 
-<div class="viewcode-block" id="Survey.c_moment"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.c_moment">[docs]</a>    <span class="k">def</span> <span class="nf">c_moment</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="Survey.c_moment"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.c_moment">[docs]</a>    <span class="k">def</span> <span class="nf">c_moment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate central momment.</span>
 
 <span class="sd">        Calculate the central moment of `x` with respect to `param` of order</span>
@@ -221,15 +220,12 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
-
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
 
         <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">c_moment</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">ddof</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Survey.percentile"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.percentile">[docs]</a>    <span class="k">def</span> <span class="nf">percentile</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="s2">&quot;lower&quot;</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="Survey.percentile"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.percentile">[docs]</a>    <span class="k">def</span> <span class="nf">percentile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="s2">&quot;lower&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the value of a quantile given a variable and his weights.</span>
 
 <span class="sd">        Parameters</span>
@@ -250,11 +246,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
         <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">interpolate</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Survey.std_moment"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.std_moment">[docs]</a>    <span class="k">def</span> <span class="nf">std_moment</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span>
-    <span class="p">):</span>
+<div class="viewcode-block" id="Survey.std_moment"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.std_moment">[docs]</a>    <span class="k">def</span> <span class="nf">std_moment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the standardized moment.</span>
 
 <span class="sd">        Calculate the standardized moment of order `c` for the variable` x`</span>
@@ -295,11 +290,12 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
         <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">std_moment</span><span class="p">(</span>
             <span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">ddof</span></div>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="Survey.mean"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.mean">[docs]</a>    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Survey.mean"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.mean">[docs]</a>    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the mean of `variable` given `weights`.</span>
 
 <span class="sd">        Parameters</span>
@@ -321,9 +317,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
         <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Survey.density"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.density">[docs]</a>    <span class="k">def</span> <span class="nf">density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Survey.density"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.density">[docs]</a>    <span class="k">def</span> <span class="nf">density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate density in percentage.</span>
 
 <span class="sd">        This make division of variable inferring width in groups as max - min.</span>
@@ -348,9 +345,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
         <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Survey.var"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.var">[docs]</a>    <span class="k">def</span> <span class="nf">var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="Survey.var"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.var">[docs]</a>    <span class="k">def</span> <span class="nf">var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the population variance of `variable` given `weights`.</span>
 
 <span class="sd">        Parameters</span>
@@ -381,9 +379,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
         <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ddof</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Survey.coef_variation"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.coef_variation">[docs]</a>    <span class="k">def</span> <span class="nf">coef_variation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Survey.coef_variation"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.coef_variation">[docs]</a>    <span class="k">def</span> <span class="nf">coef_variation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the coefficient of variation.</span>
 
 <span class="sd">        The coefficient of variation is the square root of the variance of the</span>
@@ -412,9 +411,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
         <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">coef_variation</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Survey.kurt"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.kurt">[docs]</a>    <span class="k">def</span> <span class="nf">kurt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Survey.kurt"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.kurt">[docs]</a>    <span class="k">def</span> <span class="nf">kurt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the asymmetry coefficient.</span>
 
 <span class="sd">        Parameters</span>
@@ -441,9 +441,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
         <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">kurt</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Survey.skew"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.skew">[docs]</a>    <span class="k">def</span> <span class="nf">skew</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Survey.skew"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.skew">[docs]</a>    <span class="k">def</span> <span class="nf">skew</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the asymmetry coefficient of a sample.</span>
 
 <span class="sd">        Parameters</span>
@@ -472,12 +473,13 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
         <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
     <span class="c1"># INEQUALITY</span>
     <span class="c1">#  ----------</span>
 
-<div class="viewcode-block" id="Survey.concentration"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.concentration">[docs]</a>    <span class="k">def</span> <span class="nf">concentration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">income</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Survey.concentration"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.concentration">[docs]</a>    <span class="k">def</span> <span class="nf">concentration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate concentration index.</span>
 
 <span class="sd">        This function calculate the concentration index, according to the</span>
@@ -508,9 +510,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
         <span class="k">return</span> <span class="n">inequality</span><span class="o">.</span><span class="n">concentration</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Survey.lorenz"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.lorenz">[docs]</a>    <span class="k">def</span> <span class="nf">lorenz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">income</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Survey.lorenz"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.lorenz">[docs]</a>    <span class="k">def</span> <span class="nf">lorenz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate lorenz curve.</span>
 
 <span class="sd">        In economics, the Lorenz curve is a graphical representation of the</span>
@@ -547,11 +550,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
-        <span class="k">if</span> <span class="n">income</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">income</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">income</span>
+
         <span class="k">return</span> <span class="n">inequality</span><span class="o">.</span><span class="n">lorenz</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Survey.gini"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.gini">[docs]</a>    <span class="k">def</span> <span class="nf">gini</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">income</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Survey.gini"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.gini">[docs]</a>    <span class="k">def</span> <span class="nf">gini</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate Gini&#39;s index.</span>
 
 <span class="sd">        The Gini coefficient (sometimes expressed as a Gini ratio or a</span>
@@ -611,9 +613,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
         <span class="k">return</span> <span class="n">inequality</span><span class="o">.</span><span class="n">gini</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">sort</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Survey.atkinson"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.atkinson">[docs]</a>    <span class="k">def</span> <span class="nf">atkinson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">income</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+<div class="viewcode-block" id="Survey.atkinson"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.atkinson">[docs]</a>    <span class="k">def</span> <span class="nf">atkinson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate Atkinson index.</span>
 
 <span class="sd">        More precisely labelled a family of income grouped measures, the</span>
@@ -662,9 +665,10 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
         <span class="k">return</span> <span class="n">inequality</span><span class="o">.</span><span class="n">atkinson</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Survey.kakwani"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.kakwani">[docs]</a>    <span class="k">def</span> <span class="nf">kakwani</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">income_pre_tax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Survey.kakwani"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.kakwani">[docs]</a>    <span class="k">def</span> <span class="nf">kakwani</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tax</span><span class="p">,</span> <span class="n">income_pre_tax</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate kakwani&#39;s index.</span>
 
 <span class="sd">        The Kakwani (1977) index of tax progressivity is defined as twice the</span>
@@ -703,10 +707,11 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
         <span class="k">return</span> <span class="n">inequality</span><span class="o">.</span><span class="n">kakwani</span><span class="p">(</span><span class="n">tax</span><span class="p">,</span> <span class="n">income_pre_tax</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Survey.reynolds_smolensky"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.reynolds_smolensky">[docs]</a>    <span class="k">def</span> <span class="nf">reynolds_smolensky</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">income_pre_tax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">income_post_tax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">income_pre_tax</span><span class="p">,</span> <span class="n">income_post_tax</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate Reynolds-Smolensky&#39;s index.</span>
 
@@ -744,11 +749,12 @@
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
         <span class="k">return</span> <span class="n">inequality</span><span class="o">.</span><span class="n">reynolds_smolensky</span><span class="p">(</span>
             <span class="n">income_pre_tax</span><span class="p">,</span> <span class="n">income_post_tax</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span></div>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="Survey.theil"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.theil">[docs]</a>    <span class="k">def</span> <span class="nf">theil</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">income</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Survey.theil"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.theil">[docs]</a>    <span class="k">def</span> <span class="nf">theil</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate theil index.</span>
 
 <span class="sd">        The Theil index is a statistic primarily used to measure economic</span>
@@ -786,7 +792,7 @@
 
         <span class="k">return</span> <span class="n">inequality</span><span class="o">.</span><span class="n">theil</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Survey.avg_tax_rate"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.avg_tax_rate">[docs]</a>    <span class="k">def</span> <span class="nf">avg_tax_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total_tax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">total_base</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Survey.avg_tax_rate"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.avg_tax_rate">[docs]</a>    <span class="k">def</span> <span class="nf">avg_tax_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total_tax</span><span class="p">,</span> <span class="n">total_base</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute the average tax rate given a base income and a total tax.</span>
 
 <span class="sd">        Parameters</span>
@@ -811,7 +817,51 @@
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
 
-        <span class="k">return</span> <span class="n">inequality</span><span class="o">.</span><span class="n">avg_tax_rate</span><span class="p">(</span><span class="n">total_tax</span><span class="p">,</span> <span class="n">total_base</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">inequality</span><span class="o">.</span><span class="n">avg_tax_rate</span><span class="p">(</span><span class="n">total_tax</span><span class="p">,</span> <span class="n">total_base</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Survey.ratio_top_rest"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.ratio_top_rest">[docs]</a>    <span class="k">def</span> <span class="nf">ratio_top_rest</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">top_percentage</span><span class="o">=</span><span class="mi">10</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the 10:90 Ratio.</span>
+
+<span class="sd">        Calculates the quotient between the number of contributions from the</span>
+<span class="sd">        top 10% of contributors divided by the number contributions made by the</span>
+<span class="sd">        other 90%. The ratio is 1 if the total contributions by the top</span>
+<span class="sd">        contributors are equal to the cotnributions made by the rest; less than</span>
+<span class="sd">        zero if the top 10% contributes less than the rest; and greater that 1</span>
+<span class="sd">        if the top 10% contributes more than the other ninety percent.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        income : array-like or str</span>
+<span class="sd">            This variable represent tax payment of person, if pass array-like</span>
+<span class="sd">            then data must be None, else you pass str-name column in `data`.</span>
+<span class="sd">        weights : array-like or str</span>
+<span class="sd">            This variable represent weights of each person, if pass array-like</span>
+<span class="sd">            then data must be None, else you pass str-name column in `data`.</span>
+<span class="sd">            All-ones by default</span>
+<span class="sd">        data : pandas.DataFrame</span>
+<span class="sd">            This variable is a DataFrame that contains all data required in</span>
+<span class="sd">            it&#39;s columns.</span>
+<span class="sd">        top_percentage : float</span>
+<span class="sd">            The richest x percent to consider. (10 percent by default)</span>
+<span class="sd">            It must be a number between 0 and 100</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ratio : float</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Participation Inequality in Wikis: A Temporal Analysis Using WikiChron.</span>
+<span class="sd">        Serrano, Abel &amp; Arroyo, Javier &amp; Hassan, Samer. (2018).</span>
+<span class="sd">        DOI: 10.1145/3233391.3233536.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
+
+        <span class="k">return</span> <span class="n">inequality</span><span class="o">.</span><span class="n">ratio_top_rest</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">top_percentage</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

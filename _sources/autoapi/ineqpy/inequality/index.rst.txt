@@ -37,6 +37,8 @@ Functions
    ineqpy.inequality.reynolds_smolensky
    ineqpy.inequality.theil
    ineqpy.inequality.avg_tax_rate
+   ineqpy.inequality.ratio_top_rest
+   ineqpy.inequality.hoover
 
 
 
@@ -471,6 +473,122 @@ Functions
 
 
 
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: ratio_top_rest(income, weights=None, data=None, top_percentage=10.0)
+
+   
+   Calculate the 10:90 Ratio.
+
+   Calculates the quotient between the number of contributions from the top
+   10% of contributors divided by the number contributions made by the other
+   90%. The ratio is 1 if the total contributions by the top contributors are
+   equal to the cotnributions made by the rest; less than zero if the top 10%
+   contributes less than the rest; and greater that 1 if the top 10%
+   contributes more than the other ninety percent.
+
+   :Parameters:
+
+       **income** : array-like or str
+           This variable represent tax payment of person, if pass array-like
+           then data must be None, else you pass str-name column in `data`.
+
+       **weights** : array-like or str
+           This variable represent weights of each person, if pass array-like
+           then data must be None, else you pass str-name column in `data`.
+           All-ones by default
+
+       **data** : pandas.DataFrame
+           This variable is a DataFrame that contains all data required in it's
+           columns.
+
+       **top_percentage** : float
+           The richest x percent to consider. (10 percent by default)
+           It must be a number between 0 and 100
+
+   :Returns:
+
+       **ratio** : float
+           ..
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   Participation Inequality in Wikis: A Temporal Analysis Using WikiChron.
+   Serrano, Abel & Arroyo, Javier & Hassan, Samer. (2018).
+   DOI: 10.1145/3233391.3233536.
+
+   .. only:: latex
+
+      
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: hoover(income, weights=None, data=None)
+
+   
+   Calculate Hoover index.
+
+   The Hoover index, also known as the Robin Hood index or the Schutz index,
+   is a measure of income metrics. It is equal to the portion of the total
+   community income that would have to be redistributed (taken from the richer
+   half of the population and given to the poorer half) for there to be income
+   uniformity.
+
+   Formula:
+
+       H = 1/2 sum_i( |xi - mu| ) / sum_i(xi)
+
+   :Parameters:
+
+       **income** : array-like or str
+           This variable represent tax payment of person, if pass array-like
+           then data must be None, else you pass str-name column in `data`.
+
+       **weights** : array-like or str
+           This variable represent weights of each person, if pass array-like
+           then data must be None, else you pass str-name column in `data`.
+
+       **data** : pandas.DataFrame
+           This variable is a DataFrame that contains all data required in it's
+           columns.
+
+   :Returns:
+
+       **hoover** : float
+           ..
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   Hoover index : https://en.wikipedia.org/wiki/Hoover_index
+
+   .. only:: latex
+
+      
 
 
 

@@ -31,7 +31,7 @@ Classes
 .. py:class:: Convey(data=None, index=None, columns=None, weights=None, group=None, **kw)
 
    
-   Conver.
+   Convey.
 
 
 
@@ -152,7 +152,7 @@ Classes
 
    ..
        !! processed by numpydoc !!
-   .. py:method:: c_moment(self, variable=None, weights=None, order=2, param=None, ddof=0)
+   .. py:method:: c_moment(self, variable, weights=None, order=2, param=None, ddof=0)
 
       
       Calculate central momment.
@@ -203,7 +203,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: percentile(self, variable=None, weights=None, p=50, interpolate='lower')
+   .. py:method:: percentile(self, variable, weights=None, p=50, interpolate='lower')
 
       
       Calculate the value of a quantile given a variable and his weights.
@@ -246,7 +246,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: std_moment(self, variable=None, weights=None, param=None, order=3, ddof=0)
+   .. py:method:: std_moment(self, variable, weights=None, param=None, order=3, ddof=0)
 
       
       Calculate the standardized moment.
@@ -303,7 +303,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: mean(self, variable=None, weights=None)
+   .. py:method:: mean(self, variable, weights=None)
 
       
       Calculate the mean of `variable` given `weights`.
@@ -342,7 +342,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: density(self, variable=None, weights=None, groups=None)
+   .. py:method:: density(self, variable, weights=None, groups=None)
 
       
       Calculate density in percentage.
@@ -391,7 +391,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: var(self, variable=None, weights=None, ddof=0)
+   .. py:method:: var(self, variable, weights=None, ddof=0)
 
       
       Calculate the population variance of `variable` given `weights`.
@@ -441,7 +441,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: coef_variation(self, variable=None, weights=None)
+   .. py:method:: coef_variation(self, variable, weights=None)
 
       
       Calculate the coefficient of variation.
@@ -492,7 +492,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: kurt(self, variable=None, weights=None)
+   .. py:method:: kurt(self, variable, weights=None)
 
       
       Calculate the asymmetry coefficient.
@@ -539,7 +539,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: skew(self, variable=None, weights=None)
+   .. py:method:: skew(self, variable, weights=None)
 
       
       Return the asymmetry coefficient of a sample.
@@ -590,7 +590,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: concentration(self, income=None, weights=None, sort=True)
+   .. py:method:: concentration(self, income, weights=None, sort=True)
 
       
       Calculate concentration index.
@@ -645,7 +645,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: lorenz(self, income=None, weights=None)
+   .. py:method:: lorenz(self, income, weights=None)
 
       
       Calculate lorenz curve.
@@ -701,7 +701,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: gini(self, income=None, weights=None, sort=True)
+   .. py:method:: gini(self, income, weights=None, sort=True)
 
       
       Calculate Gini's index.
@@ -763,7 +763,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: atkinson(self, income=None, weights=None, e=0.5)
+   .. py:method:: atkinson(self, income, weights=None, e=0.5)
 
       
       Calculate Atkinson index.
@@ -818,7 +818,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: kakwani(self, tax=None, income_pre_tax=None, weights=None)
+   .. py:method:: kakwani(self, tax, income_pre_tax, weights=None)
 
       
       Calculate kakwani's index.
@@ -877,7 +877,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: reynolds_smolensky(self, income_pre_tax=None, income_post_tax=None, weights=None)
+   .. py:method:: reynolds_smolensky(self, income_pre_tax, income_post_tax, weights=None)
 
       
       Calculate Reynolds-Smolensky's index.
@@ -935,7 +935,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: theil(self, income=None, weights=None)
+   .. py:method:: theil(self, income, weights=None)
 
       
       Calculate theil index.
@@ -989,7 +989,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: avg_tax_rate(self, total_tax=None, total_base=None, weights=None)
+   .. py:method:: avg_tax_rate(self, total_tax, total_base, weights=None)
 
       
       Compute the average tax rate given a base income and a total tax.
@@ -1019,6 +1019,66 @@ Classes
 
 
 
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+   .. py:method:: ratio_top_rest(self, income, weights=None, data=None, top_percentage=10)
+
+      
+      Calculate the 10:90 Ratio.
+
+      Calculates the quotient between the number of contributions from the
+      top 10% of contributors divided by the number contributions made by the
+      other 90%. The ratio is 1 if the total contributions by the top
+      contributors are equal to the cotnributions made by the rest; less than
+      zero if the top 10% contributes less than the rest; and greater that 1
+      if the top 10% contributes more than the other ninety percent.
+
+      :Parameters:
+
+          **income** : array-like or str
+              This variable represent tax payment of person, if pass array-like
+              then data must be None, else you pass str-name column in `data`.
+
+          **weights** : array-like or str
+              This variable represent weights of each person, if pass array-like
+              then data must be None, else you pass str-name column in `data`.
+              All-ones by default
+
+          **data** : pandas.DataFrame
+              This variable is a DataFrame that contains all data required in
+              it's columns.
+
+          **top_percentage** : float
+              The richest x percent to consider. (10 percent by default)
+              It must be a number between 0 and 100
+
+      :Returns:
+
+          **ratio** : float
+              ..
+
+
+
+
+
+
+
+
+
+      .. rubric:: References
+
+      Participation Inequality in Wikis: A Temporal Analysis Using WikiChron.
+      Serrano, Abel & Arroyo, Javier & Hassan, Samer. (2018).
+      DOI: 10.1145/3233391.3233536.
+
+      .. only:: latex
+
+         
 
 
 

@@ -38,6 +38,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">IneqPy’s Package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">API Reference</a></li>
 </ul>
 
@@ -111,6 +112,12 @@ find statistics and grouped indicators to this task.</p>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.avg_tax_rate" title="ineqpy.inequality.avg_tax_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">avg_tax_rate</span></code></a>(total_tax, total_base, weights=None, data=None)</p></td>
 <td><p>Calculate average tax rate.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.ratio_top_rest" title="ineqpy.inequality.ratio_top_rest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ratio_top_rest</span></code></a>(income, weights=None, data=None, top_percentage=10.0)</p></td>
+<td><p>Calculate the 10:90 Ratio.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.hoover" title="ineqpy.inequality.hoover"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hoover</span></code></a>(income, weights=None, data=None)</p></td>
+<td><p>Calculate Hoover index.</p></td>
 </tr>
 </tbody>
 </table>
@@ -401,6 +408,83 @@ tax.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.inequality.ratio_top_rest">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.inequality.</span></span><span class="sig-name descname"><span class="pre">ratio_top_rest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_percentage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/inequality.html#ratio_top_rest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.inequality.ratio_top_rest" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the 10:90 Ratio.</p>
+<p>Calculates the quotient between the number of contributions from the top
+10% of contributors divided by the number contributions made by the other
+90%. The ratio is 1 if the total contributions by the top contributors are
+equal to the cotnributions made by the rest; less than zero if the top 10%
+contributes less than the rest; and greater that 1 if the top 10%
+contributes more than the other ninety percent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>income</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent tax payment of person, if pass array-like
+then data must be None, else you pass str-name column in <cite>data</cite>.</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent weights of each person, if pass array-like
+then data must be None, else you pass str-name column in <cite>data</cite>.
+All-ones by default</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>This variable is a DataFrame that contains all data required in it’s
+columns.</p>
+</dd>
+<dt><strong>top_percentage</strong><span class="classifier">float</span></dt><dd><p>The richest x percent to consider. (10 percent by default)
+It must be a number between 0 and 100</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ratio</strong><span class="classifier">float</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Participation Inequality in Wikis: A Temporal Analysis Using WikiChron.
+Serrano, Abel &amp; Arroyo, Javier &amp; Hassan, Samer. (2018).
+DOI: 10.1145/3233391.3233536.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ineqpy.inequality.hoover">
+<span class="sig-prename descclassname"><span class="pre">ineqpy.inequality.</span></span><span class="sig-name descname"><span class="pre">hoover</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/inequality.html#hoover"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.inequality.hoover" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate Hoover index.</p>
+<p>The Hoover index, also known as the Robin Hood index or the Schutz index,
+is a measure of income metrics. It is equal to the portion of the total
+community income that would have to be redistributed (taken from the richer
+half of the population and given to the poorer half) for there to be income
+uniformity.</p>
+<p>Formula:</p>
+<blockquote>
+<div><p>H = 1/2 sum_i( <a href="#id4"><span class="problematic" id="id5">|xi - mu|</span></a> ) / sum_i(xi)</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>income</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent tax payment of person, if pass array-like
+then data must be None, else you pass str-name column in <cite>data</cite>.</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent weights of each person, if pass array-like
+then data must be None, else you pass str-name column in <cite>data</cite>.</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>This variable is a DataFrame that contains all data required in it’s
+columns.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>hoover</strong><span class="classifier">float</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Hoover index : <a class="reference external" href="https://en.wikipedia.org/wiki/Hoover_index">https://en.wikipedia.org/wiki/Hoover_index</a></p>
 </dd></dl>
 
 </section>
