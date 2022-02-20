@@ -1,5 +1,4 @@
 ![Build Status](https://github.com/mmngreco/ineqpy/actions/workflows/python-package.yml/badge.svg)
-[![Documentation Status](https://readthedocs.org/projects/ineqpy/badge/?version=latest)](https://ineqpy.readthedocs.io/en/latest/?badge=latest)
 
 # IneqPy's Package
 

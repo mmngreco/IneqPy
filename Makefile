@@ -17,6 +17,7 @@ test:
 .PHONY: lint
 lint:
 	pipenv run flake8 src
+	pipenv run pydocstyle --match='(?!test_|_version).*\.py' --convention=numpy src
 
 .PHONY: fix
 fix:
