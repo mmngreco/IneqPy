@@ -751,7 +751,7 @@ class Survey:
 
         return inequality.avg_tax_rate(total_tax, total_base, weights, data)
 
-    def ratio_top_rest(
+    def top_rest(
         self, income, weights=None, data=None, top_percentage=10
     ):
         """Calculate the 10:90 Ratio.
@@ -793,4 +793,4 @@ class Survey:
         if weights is None:
             weights = self.weights
 
-        return inequality.ratio_top_rest(income, weights, data, top_percentage)
+        return inequality.top_rest(income, weights, data, top_percentage)

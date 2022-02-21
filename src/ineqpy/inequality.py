@@ -27,7 +27,7 @@ __all__ = [
     "lorenz",
     "reynolds_smolensky",
     "theil",
-    "ratio_top_rest",
+    "top_rest",
     "hoover",
 ]
 
@@ -456,7 +456,7 @@ def avg_tax_rate(total_tax, total_base, weights=None, data=None):
     return res
 
 
-def ratio_top_rest(income, weights=None, data=None, top_percentage=10.0):
+def top_rest(income, weights=None, data=None, top_percentage=10.0):
     """Calculate the 10:90 Ratio.
 
     Calculates the quotient between the number of contributions from the top
