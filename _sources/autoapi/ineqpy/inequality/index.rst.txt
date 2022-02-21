@@ -37,7 +37,7 @@ Functions
    ineqpy.inequality.reynolds_smolensky
    ineqpy.inequality.theil
    ineqpy.inequality.avg_tax_rate
-   ineqpy.inequality.ratio_top_rest
+   ineqpy.inequality.top_rest
    ineqpy.inequality.hoover
 
 
@@ -480,7 +480,7 @@ Functions
    ..
        !! processed by numpydoc !!
 
-.. py:function:: ratio_top_rest(income, weights=None, data=None, top_percentage=10.0)
+.. py:function:: top_rest(income, weights=None, data=None, top_percentage=10.0)
 
    
    Calculate the 10:90 Ratio.

@@ -819,7 +819,7 @@
 
         <span class="k">return</span> <span class="n">inequality</span><span class="o">.</span><span class="n">avg_tax_rate</span><span class="p">(</span><span class="n">total_tax</span><span class="p">,</span> <span class="n">total_base</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Survey.ratio_top_rest"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.ratio_top_rest">[docs]</a>    <span class="k">def</span> <span class="nf">ratio_top_rest</span><span class="p">(</span>
+<div class="viewcode-block" id="Survey.top_rest"><a class="viewcode-back" href="../../autoapi/ineqpy/api/index.html#ineqpy.api.Survey.top_rest">[docs]</a>    <span class="k">def</span> <span class="nf">top_rest</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">top_percentage</span><span class="o">=</span><span class="mi">10</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the 10:90 Ratio.</span>
@@ -861,7 +861,7 @@
         <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span>
 
-        <span class="k">return</span> <span class="n">inequality</span><span class="o">.</span><span class="n">ratio_top_rest</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">top_percentage</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">inequality</span><span class="o">.</span><span class="n">top_rest</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">top_percentage</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>
