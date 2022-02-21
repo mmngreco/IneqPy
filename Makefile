@@ -4,11 +4,11 @@ venv:
 
 .PHONY: dev
 dev:
-	pipenv install -e . --dev
+	pipenv install --dev
 
 .PHONY: install
 install:
-	pipenv install .
+	pipenv install --skip-lock
 
 .PHONY: test
 test:
