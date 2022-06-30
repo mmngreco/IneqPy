@@ -1,7 +1,15 @@
+from unittest import expectedFailure
 import numpy as np
 from ineqpy import inequality
 import pytest
 
+
+def test_concentration_0d():
+    x = np.array([100])
+
+    obtained = inequality.concentration(income=x)
+
+    assert np.isnan(obtained)
 
 def test_gini_2d():
     x = np.array([[57], [63], [81], [79], [88], [57], [42], [3], [77], [89]])
@@ -99,7 +107,7 @@ def test_theil_1d_1_w():
     expected = 0
     assert obtained==expected
 
-def test_ratio_eqaulity():
+def test_ratio_equality():
     x = np.array([1, 9])
     w = np.array([9, 1])
     obtained = inequality.top_rest(income=x, weights=w)
@@ -110,6 +118,12 @@ def test_ratio_equality_fracc():
     w = np.array([.9, .1])
     obtained = inequality.top_rest(income=x, weights=w)
     assert obtained == 1.0
+
+def test_ratio_0d():
+    x = np.array([100])
+    obtained = inequality.top_rest(income=x)
+
+    assert np.isnan(obtained)
 
 def test_ratio_1d():
     x = np.array([57, 63, 81, 79, 88, 42, 3, 77, 89])

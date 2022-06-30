@@ -80,6 +80,10 @@ def concentration(income, weights=None, data=None, sort=True):
     elif weights.ndim == 2:
         weights = np.squeeze(weights, axis=1)
 
+    # Small shortcut to avoid warnings below
+    if income.size <= 1:
+        return np.nan
+
     # if sort is true then sort the variables.
     if sort:
         income, weights = utils._sort_values(income, weights)
@@ -508,6 +512,10 @@ def top_rest(income, weights=None, data=None, top_percentage=10.0):
     else:
         income = income.copy()
         weights = np.ones_like(income) if weights is None else weights.copy()
+
+    # Small shortcut to avoid divide by zero below
+    if income.size <= 1:
+        return np.nan
 
     income, weights = utils._sort_values(income, weights)
 
