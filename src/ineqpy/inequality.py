@@ -69,18 +69,27 @@ def concentration(income, weights=None, data=None, sort=True):
     income, weights = utils.extract_values(data, income, weights)
     if weights is None:
         weights = utils.not_empty_weights(weights, like=income)
+
+    if income.ndim == 0:
+        income = np.array([income])
+    elif income.ndim == 2:
+        income = np.squeeze(income, axis=1)
+
+    if weights.ndim == 0:
+        weights = np.array([weights])
+    elif weights.ndim == 2:
+        weights = np.squeeze(weights, axis=1)
+
+    # Small shortcut to avoid warnings below
+    if income.size <= 1:
+        return np.nan
+
     # if sort is true then sort the variables.
     if sort:
         income, weights = utils._sort_values(income, weights)
 
-    if weights.ndim == 2:
-        weights = np.squeeze(weights, axis=1)
-
-    if income.ndim == 2:
-        income = np.squeeze(income, axis=1)
-
     # main calc
-    f_x = utils.normalize(weights)
+    f_x = np.atleast_1d(utils.normalize(weights))
     F_x = f_x.cumsum(axis=0)
     mu = np.sum(income * f_x)
     cov = np.cov(income, F_x, rowvar=False, aweights=f_x)[0, 1]
@@ -122,6 +131,8 @@ def lorenz(income, weights=None, data=None):
     """
     if data is not None:
         income, weights = utils.extract_values(data, income, weights)
+    if weights is None:
+        weights = utils.not_empty_weights(weights, like=income)
 
     total_income = income * weights
     idx_sort = np.argsort(income)
@@ -262,7 +273,7 @@ def atkinson(income, weights=None, data=None, e=0.5) -> float:
 
     # auxiliar variables: mean and distribution
     mu = mean(variable=income, weights=weights)
-    f_i = weights / sum(weights)  # density function
+    f_i = np.atleast_1d(weights / sum(weights))  # density function
 
     # main calc
     if e == 1:
@@ -396,7 +407,11 @@ def theil(income, weights=None, data=None):
         income, weights = utils.extract_values(data, income, weights)
     else:
         income = income.copy()
-        weights = weights.copy()
+
+        if weights is None:
+            weights = utils.not_empty_weights(weights, like=income)
+        else:
+            weights = weights.copy()
     income, weights = utils.not_null_condition(income, weights)
 
     # variables needed
@@ -498,6 +513,10 @@ def top_rest(income, weights=None, data=None, top_percentage=10.0):
         income = income.copy()
         weights = np.ones_like(income) if weights is None else weights.copy()
 
+    # Small shortcut to avoid divide by zero below
+    if income.size <= 1:
+        return np.nan
+
     income, weights = utils._sort_values(income, weights)
 
     # variables needed
@@ -505,7 +524,7 @@ def top_rest(income, weights=None, data=None, top_percentage=10.0):
     cumw = np.cumsum(weights)
     ftosearch = 1 - top_percentage / 100
     k = np.searchsorted(cumw, ftosearch, side='right')
-    f_i = income*weights
+    f_i = np.atleast_1d(income*weights)
 
     t = np.sum(f_i[k:])
     r = np.sum(f_i[:k])
@@ -556,7 +575,10 @@ def hoover(income, weights=None, data=None):
         income, weights = utils.extract_values(data, income, weights)
     else:
         income = income.copy()
-        weights = weights.copy()
+        if weights is None:
+            weights = utils.not_empty_weights(weights, like=income)
+        else:
+            weights = weights.copy()
 
     income, weights = utils.not_null_condition(income, weights)
 

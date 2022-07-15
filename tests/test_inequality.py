@@ -1,7 +1,15 @@
+from unittest import expectedFailure
 import numpy as np
 from ineqpy import inequality
 import pytest
 
+
+def test_concentration_0d():
+    x = np.array([100])
+
+    obtained = inequality.concentration(income=x)
+
+    assert np.isnan(obtained)
 
 def test_gini_2d():
     x = np.array([[57], [63], [81], [79], [88], [57], [42], [3], [77], [89]])
@@ -74,6 +82,22 @@ def test_atkinson_1d_1_w():
     expected = 0
     assert obtained==expected
 
+def test_theil_1d_series():
+    """ Testing theil with no weights. Every value is the same """
+    x = np.repeat(5, 10)
+    
+    obtained = inequality.theil(income=x)
+    expected = 0
+
+    np.testing.assert_almost_equal(obtained, expected)
+
+def test_theil_1d_series_2():
+    x = np.arange(1, 10)
+
+    obtained = inequality.theil(income=x)
+    expected = 0.1473838569435545
+
+    np.testing.assert_almost_equal(obtained, expected)
 
 def test_theil_1d_1_w():
     # TODO check this
@@ -83,7 +107,7 @@ def test_theil_1d_1_w():
     expected = 0
     assert obtained==expected
 
-def test_ratio_eqaulity():
+def test_ratio_equality():
     x = np.array([1, 9])
     w = np.array([9, 1])
     obtained = inequality.top_rest(income=x, weights=w)
@@ -94,6 +118,12 @@ def test_ratio_equality_fracc():
     w = np.array([.9, .1])
     obtained = inequality.top_rest(income=x, weights=w)
     assert obtained == 1.0
+
+def test_ratio_0d():
+    x = np.array([100])
+    obtained = inequality.top_rest(income=x)
+
+    assert np.isnan(obtained)
 
 def test_ratio_1d():
     x = np.array([57, 63, 81, 79, 88, 42, 3, 77, 89])
@@ -141,6 +171,14 @@ def test_ratio_unweighted():
     expected = 0.22203712517848642
     assert pytest.approx(obtained) == expected
 
+
+def test_hoover_index_series():
+    """ Testing hoover with no weights (default all ones) """
+    x = np.arange(10)
+    obtained = inequality.hoover(x)
+    expected = 4.0
+
+    np.testing.assert_almost_equal(obtained, expected)
 
 def test_hoover_index():
     x = np.arange(10)
