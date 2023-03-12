@@ -11,7 +11,7 @@ on:
 jobs:
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         python-version: ["3.6", "3.7", "3.8", "3.9"]
@@ -32,7 +32,7 @@ jobs:
 
   release:
     needs: test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
     - name: Setup venv
@@ -49,7 +49,8 @@ jobs:
       run: make build
     - name: Publish package
       if: github.event_name == 'release' && github.event.action == 'created'
-      uses: pypa/gh-action-pypi-publish@release/v1
+      # uses: pypa/gh-action-pypi-publish@release/v1
+      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
