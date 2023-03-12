@@ -11,10 +11,10 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -25,11 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> IneqPy
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            IneqPy
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -54,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>ineqpy.statistics</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">ineqpy.statistics</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -79,7 +83,7 @@
 <div class="viewcode-block" id="c_moment"><a class="viewcode-back" href="../../autoapi/ineqpy/statistics/index.html#ineqpy.statistics.c_moment">[docs]</a><span class="k">def</span> <span class="nf">c_moment</span><span class="p">(</span>
     <span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate central momment.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate central momment.</span>
 
 <span class="sd">    Calculate the central moment of `x` with respect to `param` of order `n`,</span>
 <span class="sd">    given the weights `w`.</span>
@@ -123,7 +127,7 @@
 <div class="viewcode-block" id="percentile"><a class="viewcode-back" href="../../autoapi/ineqpy/statistics/index.html#ineqpy.statistics.percentile">[docs]</a><span class="k">def</span> <span class="nf">percentile</span><span class="p">(</span>
     <span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="s2">&quot;lower&quot;</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate the value of a quantile given a variable and his weights.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the value of a quantile given a variable and his weights.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -147,7 +151,7 @@
 <div class="viewcode-block" id="std_moment"><a class="viewcode-back" href="../../autoapi/ineqpy/statistics/index.html#ineqpy.statistics.std_moment">[docs]</a><span class="k">def</span> <span class="nf">std_moment</span><span class="p">(</span>
     <span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate standarized momment.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate standarized momment.</span>
 
 <span class="sd">    Calculate the standardized moment of order `c` for the variable` x` with</span>
 <span class="sd">    respect to `c`.</span>
@@ -188,7 +192,7 @@
 
 
 <div class="viewcode-block" id="mean"><a class="viewcode-back" href="../../autoapi/ineqpy/statistics/index.html#ineqpy.statistics.mean">[docs]</a><span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate the mean of `variable` given `weights`.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the mean of `variable` given `weights`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -211,7 +215,7 @@
 
 
 <div class="viewcode-block" id="density"><a class="viewcode-back" href="../../autoapi/ineqpy/statistics/index.html#ineqpy.statistics.density">[docs]</a><span class="k">def</span> <span class="nf">density</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Density in percentage.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Density in percentage.</span>
 
 <span class="sd">    Calculates density in percentage. This make division of variable inferring</span>
 <span class="sd">    width in groups as max - min.</span>
@@ -245,7 +249,7 @@
 
 
 <div class="viewcode-block" id="var"><a class="viewcode-back" href="../../autoapi/ineqpy/statistics/index.html#ineqpy.statistics.var">[docs]</a><span class="k">def</span> <span class="nf">var</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate the variance.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the variance.</span>
 
 <span class="sd">    Calculate the population variance of `variable` given `weights`.</span>
 
@@ -282,7 +286,7 @@
 
 
 <div class="viewcode-block" id="coef_variation"><a class="viewcode-back" href="../../autoapi/ineqpy/statistics/index.html#ineqpy.statistics.coef_variation">[docs]</a><span class="k">def</span> <span class="nf">coef_variation</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate the coefficient of variation.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the coefficient of variation.</span>
 
 <span class="sd">    Calculate the coefficient of variation of a `variable` given weights.</span>
 <span class="sd">    The coefficient of variation is the square root of the variance of the</span>
@@ -312,7 +316,7 @@
 
 
 <div class="viewcode-block" id="kurt"><a class="viewcode-back" href="../../autoapi/ineqpy/statistics/index.html#ineqpy.statistics.kurt">[docs]</a><span class="k">def</span> <span class="nf">kurt</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate the Kurtosis coefficient.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the Kurtosis coefficient.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -341,7 +345,7 @@
 
 
 <div class="viewcode-block" id="skew"><a class="viewcode-back" href="../../autoapi/ineqpy/statistics/index.html#ineqpy.statistics.skew">[docs]</a><span class="k">def</span> <span class="nf">skew</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return the asymmetry coefficient of a sample.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the asymmetry coefficient of a sample.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

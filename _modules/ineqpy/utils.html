@@ -11,10 +11,10 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -25,11 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> IneqPy
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            IneqPy
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -54,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>ineqpy.utils</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">ineqpy.utils</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -89,7 +93,7 @@
 
 
 <div class="viewcode-block" id="_apply_to_df"><a class="viewcode-back" href="../../autoapi/ineqpy/utils/index.html#ineqpy.utils._apply_to_df">[docs]</a><span class="k">def</span> <span class="nf">_apply_to_df</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generalize main arguments as Series of a pd.Dataframe.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generalize main arguments as Series of a pd.Dataframe.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -111,7 +115,7 @@
 
 
 <div class="viewcode-block" id="not_empty_weights"><a class="viewcode-back" href="../../autoapi/ineqpy/utils/index.html#ineqpy.utils.not_empty_weights">[docs]</a><span class="k">def</span> <span class="nf">not_empty_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">like</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Create weights.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create weights.</span>
 
 <span class="sd">    Create normalized weight if it&#39;s None use like to create it.</span>
 
@@ -135,7 +139,7 @@
 
 
 <div class="viewcode-block" id="not_null_condition"><a class="viewcode-back" href="../../autoapi/ineqpy/utils/index.html#ineqpy.utils.not_null_condition">[docs]</a><span class="k">def</span> <span class="nf">not_null_condition</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Filter not null condition.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter not null condition.</span>
 
 <span class="sd">    If a negative value is found in the incomes it will dropped.</span>
 
@@ -173,7 +177,7 @@
 
 
 <div class="viewcode-block" id="normalize"><a class="viewcode-back" href="../../autoapi/ineqpy/utils/index.html#ineqpy.utils.normalize">[docs]</a><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">this</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Normalize data by the sum.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize data by the sum.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -187,7 +191,7 @@
 
 
 <div class="viewcode-block" id="extract_values"><a class="viewcode-back" href="../../autoapi/ineqpy/utils/index.html#ineqpy.utils.extract_values">[docs]</a><span class="k">def</span> <span class="nf">extract_values</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extract values.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract values.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -208,7 +212,7 @@
 
 
 <div class="viewcode-block" id="repeat_data_from_weighted"><a class="viewcode-back" href="../../autoapi/ineqpy/utils/index.html#ineqpy.utils.repeat_data_from_weighted">[docs]</a><span class="k">def</span> <span class="nf">repeat_data_from_weighted</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generate data data (not sampled) from weights.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate data data (not sampled) from weights.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -232,7 +236,7 @@
 
 
 <div class="viewcode-block" id="generate_data_to_test"><a class="viewcode-back" href="../../autoapi/ineqpy/utils/index.html#ineqpy.utils.generate_data_to_test">[docs]</a><span class="k">def</span> <span class="nf">generate_data_to_test</span><span class="p">(</span><span class="n">n_sample_range</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">)):</span>
-    <span class="sd">&quot;&quot;&quot;Generate sampled data for testing.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate sampled data for testing.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

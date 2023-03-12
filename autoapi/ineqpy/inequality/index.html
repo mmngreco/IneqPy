@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ineqpy.inequality &mdash; IneqPy  documentation</title>
@@ -12,10 +12,10 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -26,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> IneqPy
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            IneqPy
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -55,8 +59,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.inequality</span></code></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.inequality</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../_sources/autoapi/ineqpy/inequality/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -67,56 +71,52 @@
            <div itemprop="articleBody">
              
   <section id="module-ineqpy.inequality">
-<span id="ineqpy-inequality"></span><h1><a class="reference internal" href="#module-ineqpy.inequality" title="ineqpy.inequality"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.inequality</span></code></a><a class="headerlink" href="#module-ineqpy.inequality" title="Permalink to this headline"></a></h1>
+<span id="ineqpy-inequality"></span><h1><a class="reference internal" href="#module-ineqpy.inequality" title="ineqpy.inequality"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.inequality</span></code></a><a class="headerlink" href="#module-ineqpy.inequality" title="Permalink to this heading"></a></h1>
 <p>Analysis of inequality.</p>
 <p>This package provide an easy way to realize a quantitative analysis of
 grouped, also make easy work with stratified data, in this module you can
 find statistics and grouped indicators to this task.</p>
 <section id="todo">
-<h2>Todo<a class="headerlink" href="#todo" title="Permalink to this headline"></a></h2>
+<h2>Todo<a class="headerlink" href="#todo" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Rethinking this module as Class.</p></li>
 <li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Income_inequality_metrics">https://en.wikipedia.org/wiki/Income_inequality_metrics</a></p></li>
 </ul>
 </section>
 <section id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
 <section id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h3>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.concentration" title="ineqpy.inequality.concentration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concentration</span></code></a>(income, weights=None, data=None, sort=True)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.concentration" title="ineqpy.inequality.concentration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concentration</span></code></a>(income[, weights, data, sort])</p></td>
 <td><p>Calculate concentration's index.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.lorenz" title="ineqpy.inequality.lorenz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lorenz</span></code></a>(income, weights=None, data=None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.lorenz" title="ineqpy.inequality.lorenz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lorenz</span></code></a>(income[, weights, data])</p></td>
 <td><p>Calculate Lorent's curve.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.gini" title="ineqpy.inequality.gini"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gini</span></code></a>(income, weights=None, data=None, sort=True)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.gini" title="ineqpy.inequality.gini"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gini</span></code></a>(income[, weights, data, sort])</p></td>
 <td><p>Calculate Gini's index.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.atkinson" title="ineqpy.inequality.atkinson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">atkinson</span></code></a>(income, weights=None, data=None, e=0.5) → float</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.atkinson" title="ineqpy.inequality.atkinson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">atkinson</span></code></a>(→ float)</p></td>
 <td><p>Calculate atkinson index.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.kakwani" title="ineqpy.inequality.kakwani"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kakwani</span></code></a>(tax, income_pre_tax, weights=None, data=None)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.kakwani" title="ineqpy.inequality.kakwani"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kakwani</span></code></a>(tax, income_pre_tax[, weights, data])</p></td>
 <td><p>Calculate Kakwani's index.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.reynolds_smolensky" title="ineqpy.inequality.reynolds_smolensky"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reynolds_smolensky</span></code></a>(income_pre_tax, income_post_tax, weights=None, data=None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.reynolds_smolensky" title="ineqpy.inequality.reynolds_smolensky"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reynolds_smolensky</span></code></a>(income_pre_tax, income_post_tax[, ...])</p></td>
 <td><p>Calculate Reynolds-Smolensky's index.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.theil" title="ineqpy.inequality.theil"><code class="xref py py-obj docutils literal notranslate"><span class="pre">theil</span></code></a>(income, weights=None, data=None)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.theil" title="ineqpy.inequality.theil"><code class="xref py py-obj docutils literal notranslate"><span class="pre">theil</span></code></a>(income[, weights, data])</p></td>
 <td><p>Calculate Theil's index.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.avg_tax_rate" title="ineqpy.inequality.avg_tax_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">avg_tax_rate</span></code></a>(total_tax, total_base, weights=None, data=None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.avg_tax_rate" title="ineqpy.inequality.avg_tax_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">avg_tax_rate</span></code></a>(total_tax, total_base[, weights, data])</p></td>
 <td><p>Calculate average tax rate.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.top_rest" title="ineqpy.inequality.top_rest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">top_rest</span></code></a>(income, weights=None, data=None, top_percentage=10.0)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.inequality.top_rest" title="ineqpy.inequality.top_rest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">top_rest</span></code></a>(income[, weights, data, top_percentage])</p></td>
 <td><p>Calculate the 10:90 Ratio.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.hoover" title="ineqpy.inequality.hoover"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hoover</span></code></a>(income, weights=None, data=None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.inequality.hoover" title="ineqpy.inequality.hoover"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hoover</span></code></a>(income[, weights, data])</p></td>
 <td><p>Calculate Hoover index.</p></td>
 </tr>
 </tbody>
@@ -132,7 +132,7 @@ if x = g(x) then C_x becomes C_y</p>
 <p>when there are taxes:</p>
 <p>y = g(x) = x - t(x)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>income</strong><span class="classifier">array-like</span></dt><dd></dd>
 <dt><strong>weights</strong><span class="classifier">array-like</span></dt><dd></dd>
@@ -141,7 +141,7 @@ if x = g(x) then C_x becomes C_y</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>concentration</strong><span class="classifier">array-like</span></dt><dd></dd>
 </dl>
@@ -161,7 +161,7 @@ distribution of income or of wealth. It was developed by Max O. Lorenz in
 1905 for representing grouped of the wealth distribution. This function
 compute the lorenz curve and returns a DF with two columns of axis x and y.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A pandas.DataFrame that contains data.</p>
 </dd>
@@ -175,7 +175,7 @@ np.array.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>lorenz</strong><span class="classifier">pandas.Dataframe</span></dt><dd><p>Lorenz distribution in a Dataframe with two columns, labeled x and y,
 that corresponds to plots axis.</p>
@@ -206,7 +206,7 @@ expresses maximal grouped among values (e.g., for a large number of
 people, where only one person has all the income or consumption, and all
 others have none, the Gini coefficient will be very nearly one).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>DataFrame that contains the data.</p>
 </dd>
@@ -219,7 +219,7 @@ pass True, but False by default.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>gini</strong><span class="classifier">float</span></dt><dd><p>Gini Index Value.</p>
 </dd>
@@ -250,7 +250,7 @@ the same level of social welfare with only 1 – 0.20 = 80% of income. The
 theoretical range of Atkinson values is 0 to 1, with 0 being a state of
 equal distribution.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>income</strong><span class="classifier">array or str</span></dt><dd><p>If <cite>data</cite> is none <cite>income</cite> must be an 1D-array, when <cite>data</cite> is a
 pd.DataFrame, you must pass the name of income variable as string.</p>
@@ -265,7 +265,7 @@ must be between 0 and 1.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>atkinson</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>
@@ -286,7 +286,7 @@ x, i.e.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>This variable is a DataFrame that contains all data required in
 columns.</p>
@@ -302,7 +302,7 @@ then data must be None, else you pass str-name column in <cite>data</cite>.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>kakwani</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>
@@ -325,7 +325,7 @@ taxes, which can also be interpreted as an index of progressivity
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>This variable is a DataFrame that contains all data required in it’s
 columns.</p>
@@ -341,7 +341,7 @@ then data must be None, else you pass str-name column in <cite>data</cite>.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>reynolds_smolensky</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>
@@ -362,7 +362,7 @@ generalized entropy index. It can be viewed as a measure of redundancy,
 lack of diversity, isolation, segregation, grouped, non-randomness, and
 compressibility. It was proposed by econometrician Henri Theil.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>This variable is a DataFrame that contains all data required in it’s
 columns.</p>
@@ -375,7 +375,7 @@ then data must be None, else you pass str-name column in <cite>data</cite>.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>theil</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>
@@ -394,14 +394,14 @@ Retrieved 14:17, May 15, 2017, from
 <p>This function compute the average tax rate given a base income and a total
 tax.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>total_base</strong><span class="classifier">str or numpy.array</span></dt><dd></dd>
 <dt><strong>total_tax</strong><span class="classifier">str or numpy.array</span></dt><dd></dd>
 <dt><strong>data</strong><span class="classifier">pd.DataFrame</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>avg_tax_rate</strong><span class="classifier">float or pd.Series</span></dt><dd><p>Is the ratio between mean the tax income and base of income.</p>
 </dd>
@@ -421,7 +421,7 @@ equal to the cotnributions made by the rest; less than zero if the top 10%
 contributes less than the rest; and greater that 1 if the top 10%
 contributes more than the other ninety percent.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>income</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent tax payment of person, if pass array-like
 then data must be None, else you pass str-name column in <cite>data</cite>.</p>
@@ -438,7 +438,7 @@ It must be a number between 0 and 100</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>ratio</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>
@@ -464,7 +464,7 @@ uniformity.</p>
 <div><p>H = 1/2 sum_i( <a href="#id4"><span class="problematic" id="id5">|xi - mu|</span></a> ) / sum_i(xi)</p>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>income</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent tax payment of person, if pass array-like
 then data must be None, else you pass str-name column in <cite>data</cite>.</p>
@@ -477,7 +477,7 @@ columns.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>hoover</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>

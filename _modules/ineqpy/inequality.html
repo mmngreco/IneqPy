@@ -11,10 +11,10 @@
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -25,11 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> IneqPy
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            IneqPy
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -54,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>ineqpy.inequality</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">ineqpy.inequality</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -101,7 +105,7 @@
 
 
 <div class="viewcode-block" id="concentration"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.concentration">[docs]</a><span class="k">def</span> <span class="nf">concentration</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate concentration&#39;s index.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate concentration&#39;s index.</span>
 
 <span class="sd">    This function calculate the concentration index, according to the notation</span>
 <span class="sd">    used in [Jenkins1988]_ you can calculate the:</span>
@@ -137,18 +141,27 @@
     <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">extract_values</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">not_empty_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">like</span><span class="o">=</span><span class="n">income</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">income</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">income</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">income</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">income</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">income</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">weights</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">weights</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">weights</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Small shortcut to avoid warnings below</span>
+    <span class="k">if</span> <span class="n">income</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
     <span class="c1"># if sort is true then sort the variables.</span>
     <span class="k">if</span> <span class="n">sort</span><span class="p">:</span>
         <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">_sort_values</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">weights</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">income</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">income</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
     <span class="c1"># main calc</span>
-    <span class="n">f_x</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">f_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span>
     <span class="n">F_x</span> <span class="o">=</span> <span class="n">f_x</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">income</span> <span class="o">*</span> <span class="n">f_x</span><span class="p">)</span>
     <span class="n">cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">F_x</span><span class="p">,</span> <span class="n">rowvar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">aweights</span><span class="o">=</span><span class="n">f_x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
@@ -156,7 +169,7 @@
 
 
 <div class="viewcode-block" id="lorenz"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.lorenz">[docs]</a><span class="k">def</span> <span class="nf">lorenz</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate Lorent&#39;s curve.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate Lorent&#39;s curve.</span>
 
 <span class="sd">    In economics, the Lorenz curve is a graphical representation of the</span>
 <span class="sd">    distribution of income or of wealth. It was developed by Max O. Lorenz in</span>
@@ -190,6 +203,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">extract_values</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">not_empty_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">like</span><span class="o">=</span><span class="n">income</span><span class="p">)</span>
 
     <span class="n">total_income</span> <span class="o">=</span> <span class="n">income</span> <span class="o">*</span> <span class="n">weights</span>
     <span class="n">idx_sort</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">income</span><span class="p">)</span>
@@ -211,7 +226,7 @@
 
 
 <div class="viewcode-block" id="gini"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.gini">[docs]</a><span class="k">def</span> <span class="nf">gini</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate Gini&#39;s index.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate Gini&#39;s index.</span>
 
 <span class="sd">    The Gini coefficient (sometimes expressed as a Gini ratio or a</span>
 <span class="sd">    normalized Gini index) is a measure of statistical dispersion intended to</span>
@@ -269,7 +284,7 @@
 
 
 <div class="viewcode-block" id="atkinson"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.atkinson">[docs]</a><span class="k">def</span> <span class="nf">atkinson</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Calculate atkinson index.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate atkinson index.</span>
 
 <span class="sd">    More precisely labelled a family of income grouped measures, the</span>
 <span class="sd">    theoretical range of Atkinson values is 0 to 1, with 0 being a state of</span>
@@ -330,7 +345,7 @@
 
     <span class="c1"># auxiliar variables: mean and distribution</span>
     <span class="n">mu</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
-    <span class="n">f_i</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>  <span class="c1"># density function</span>
+    <span class="n">f_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">weights</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span>  <span class="c1"># density function</span>
 
     <span class="c1"># main calc</span>
     <span class="k">if</span> <span class="n">e</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -345,7 +360,7 @@
 
 
 <div class="viewcode-block" id="kakwani"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.kakwani">[docs]</a><span class="k">def</span> <span class="nf">kakwani</span><span class="p">(</span><span class="n">tax</span><span class="p">,</span> <span class="n">income_pre_tax</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate Kakwani&#39;s index.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate Kakwani&#39;s index.</span>
 
 <span class="sd">    The Kakwani (1977) index of tax progressivity is defined as twice the</span>
 <span class="sd">    area between the concentration curves for taxes and pre-tax income,</span>
@@ -390,7 +405,7 @@
 <div class="viewcode-block" id="reynolds_smolensky"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.reynolds_smolensky">[docs]</a><span class="k">def</span> <span class="nf">reynolds_smolensky</span><span class="p">(</span>
     <span class="n">income_pre_tax</span><span class="p">,</span> <span class="n">income_post_tax</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate Reynolds-Smolensky&#39;s index.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate Reynolds-Smolensky&#39;s index.</span>
 
 <span class="sd">    The Reynolds-Smolensky (1977) index of the redistributive effect of</span>
 <span class="sd">    taxes, which can also be interpreted as an index of progressivity</span>
@@ -429,7 +444,7 @@
 
 
 <div class="viewcode-block" id="theil"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.theil">[docs]</a><span class="k">def</span> <span class="nf">theil</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate Theil&#39;s index.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate Theil&#39;s index.</span>
 
 <span class="sd">    The Theil index is a statistic primarily used to measure economic</span>
 <span class="sd">    grouped and other economic phenomena. It is a special case of the</span>
@@ -464,7 +479,11 @@
         <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">extract_values</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">income</span> <span class="o">=</span> <span class="n">income</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">not_empty_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">like</span><span class="o">=</span><span class="n">income</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">not_null_condition</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
 
     <span class="c1"># variables needed</span>
@@ -474,7 +493,7 @@
 
 
 <div class="viewcode-block" id="avg_tax_rate"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.avg_tax_rate">[docs]</a><span class="k">def</span> <span class="nf">avg_tax_rate</span><span class="p">(</span><span class="n">total_tax</span><span class="p">,</span> <span class="n">total_base</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate average tax rate.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate average tax rate.</span>
 
 <span class="sd">    This function compute the average tax rate given a base income and a total</span>
 <span class="sd">    tax.</span>
@@ -525,7 +544,7 @@
 
 
 <div class="viewcode-block" id="top_rest"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.top_rest">[docs]</a><span class="k">def</span> <span class="nf">top_rest</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">top_percentage</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate the 10:90 Ratio.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the 10:90 Ratio.</span>
 
 <span class="sd">    Calculates the quotient between the number of contributions from the top</span>
 <span class="sd">    10% of contributors divided by the number contributions made by the other</span>
@@ -566,6 +585,10 @@
         <span class="n">income</span> <span class="o">=</span> <span class="n">income</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">income</span><span class="p">)</span> <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">weights</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
+    <span class="c1"># Small shortcut to avoid divide by zero below</span>
+    <span class="k">if</span> <span class="n">income</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
     <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">_sort_values</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
 
     <span class="c1"># variables needed</span>
@@ -573,7 +596,7 @@
     <span class="n">cumw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
     <span class="n">ftosearch</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">top_percentage</span> <span class="o">/</span> <span class="mi">100</span>
     <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">cumw</span><span class="p">,</span> <span class="n">ftosearch</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
-    <span class="n">f_i</span> <span class="o">=</span> <span class="n">income</span><span class="o">*</span><span class="n">weights</span>
+    <span class="n">f_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">income</span><span class="o">*</span><span class="n">weights</span><span class="p">)</span>
 
     <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">f_i</span><span class="p">[</span><span class="n">k</span><span class="p">:])</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">f_i</span><span class="p">[:</span><span class="n">k</span><span class="p">])</span>
@@ -588,7 +611,7 @@
 
 
 <div class="viewcode-block" id="hoover"><a class="viewcode-back" href="../../autoapi/ineqpy/inequality/index.html#ineqpy.inequality.hoover">[docs]</a><span class="k">def</span> <span class="nf">hoover</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate Hoover index.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate Hoover index.</span>
 
 <span class="sd">    The Hoover index, also known as the Robin Hood index or the Schutz index,</span>
 <span class="sd">    is a measure of income metrics. It is equal to the portion of the total</span>
@@ -624,7 +647,10 @@
         <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">extract_values</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">income</span> <span class="o">=</span> <span class="n">income</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">not_empty_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">like</span><span class="o">=</span><span class="n">income</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="n">income</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">not_null_condition</span><span class="p">(</span><span class="n">income</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
 

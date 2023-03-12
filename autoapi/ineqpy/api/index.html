@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ineqpy.api &mdash; IneqPy  documentation</title>
@@ -12,10 +12,10 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -26,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> IneqPy
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            IneqPy
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -55,8 +59,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.api</span></code></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.api</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../_sources/autoapi/ineqpy/api/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -67,19 +71,15 @@
            <div itemprop="articleBody">
              
   <section id="module-ineqpy.api">
-<span id="ineqpy-api"></span><h1><a class="reference internal" href="#module-ineqpy.api" title="ineqpy.api"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.api</span></code></a><a class="headerlink" href="#module-ineqpy.api" title="Permalink to this headline"></a></h1>
+<span id="ineqpy-api"></span><h1><a class="reference internal" href="#module-ineqpy.api" title="ineqpy.api"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.api</span></code></a><a class="headerlink" href="#module-ineqpy.api" title="Permalink to this heading"></a></h1>
 <p>API’s module.</p>
 <p>Extend pandas.DataFrames with the main functions from statistics and
 inequality modules.</p>
 <section id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
 <section id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h3>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.api.Convey" title="ineqpy.api.Convey"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Convey</span></code></a></p></td>
 <td><p>Convey.</p></td>
@@ -93,14 +93,14 @@ inequality modules.</p>
 <dt class="sig sig-object py" id="ineqpy.api.Convey">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ineqpy.api.</span></span><span class="sig-name descname"><span class="pre">Convey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Convey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Convey" title="Permalink to this definition"></a></dt>
 <dd><p>Convey.</p>
-<dl class="py method">
+<dl class="py property">
 <dt class="sig sig-object py" id="ineqpy.api.Convey._constructor">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_constructor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Convey._constructor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Convey._constructor" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_constructor</span></span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Convey._constructor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Convey._constructor" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Convey._attach_method">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_attach_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Convey._attach_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Convey._attach_method" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_attach_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Convey._attach_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Convey._attach_method" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -110,7 +110,7 @@ inequality modules.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ineqpy.api.</span></span><span class="sig-name descname"><span class="pre">Survey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey" title="Permalink to this definition"></a></dt>
 <dd><p>Survey it’s a data structure that handles survey data.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Attributes</dt>
+<dt class="field-odd">Attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>df</strong><span class="classifier">pandas.DataFrame</span></dt><dd></dd>
 <dt><strong>weights</strong><span class="classifier">str</span></dt><dd></dd>
@@ -120,10 +120,6 @@ inequality modules.</p>
 </dl>
 <p class="rubric">Methods</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 68%" />
-<col style="width: 32%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><strong>atkinson(income=None, weights=None, e=0.5)</strong></p></td>
 <td><p>Calculate Atkinson’s index.</p></td>
@@ -180,12 +176,12 @@ inequality modules.</p>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.c_moment">
-<span class="sig-name descname"><span class="pre">c_moment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.c_moment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.c_moment" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">c_moment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.c_moment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.c_moment" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate central momment.</p>
 <p>Calculate the central moment of <cite>x</cite> with respect to <cite>param</cite> of order
 <cite>n</cite>, given the weights <cite>w</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>variable</strong><span class="classifier">1d-array</span></dt><dd><p>Variable</p>
 </dd>
@@ -200,7 +196,7 @@ implies use the mean.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>central_moment</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>
@@ -216,10 +212,10 @@ implies use the mean.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.percentile">
-<span class="sig-name descname"><span class="pre">percentile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lower'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.percentile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.percentile" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">percentile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lower'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.percentile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.percentile" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the value of a quantile given a variable and his weights.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pd.DataFrame, optional</span></dt><dd><p>pd.DataFrame that contains all variables needed.</p>
 </dd>
@@ -230,7 +226,7 @@ implies use the mean.</p>
 <dt><strong>interpolate</strong><span class="classifier">bool</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>percentile</strong><span class="classifier">float or pd.Series</span></dt><dd></dd>
 </dl>
@@ -240,12 +236,12 @@ implies use the mean.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.std_moment">
-<span class="sig-name descname"><span class="pre">std_moment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.std_moment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.std_moment" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">std_moment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.std_moment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.std_moment" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the standardized moment.</p>
 <p>Calculate the standardized moment of order <cite>c</cite> for the variable` x`
 with respect to <cite>c</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pd.DataFrame, optional</span></dt><dd><p>pd.DataFrame that contains all variables needed.</p>
 </dd>
@@ -261,7 +257,7 @@ with respect to <cite>c</cite>.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>std_moment</strong><span class="classifier">float</span></dt><dd><p>Returns the standardized <cite>n</cite> order moment.</p>
 </dd>
@@ -278,10 +274,10 @@ of_the_moments</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.mean">
-<span class="sig-name descname"><span class="pre">mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.mean" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.mean" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the mean of <cite>variable</cite> given <cite>weights</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>variable</strong><span class="classifier">array-like or str</span></dt><dd><p>Variable on which the mean is estimated.</p>
 </dd>
@@ -293,7 +289,7 @@ must pass as <cite>variable</cite> and <cite>weights</cite> the column name stor
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>mean</strong><span class="classifier">array-like or float</span></dt><dd></dd>
 </dl>
@@ -303,11 +299,11 @@ must pass as <cite>variable</cite> and <cite>weights</cite> the column name stor
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.density">
-<span class="sig-name descname"><span class="pre">density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.density" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.density" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate density in percentage.</p>
 <p>This make division of variable inferring width in groups as max - min.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pd.DataFrame, optional</span></dt><dd><p>pandas.DataFrame that contains all variables needed.</p>
 </dd>
@@ -316,7 +312,7 @@ must pass as <cite>variable</cite> and <cite>weights</cite> the column name stor
 <dt><strong>groups</strong><span class="classifier">array-like, optional</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>density</strong><span class="classifier">array-like</span></dt><dd></dd>
 </dl>
@@ -329,10 +325,10 @@ Retrieved: <a class="reference external" href="https://en.wikipedia.org/w/index.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.var">
-<span class="sig-name descname"><span class="pre">var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.var" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.var" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the population variance of <cite>variable</cite> given <cite>weights</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pd.DataFrame, optional</span></dt><dd><p>pd.DataFrame that contains all variables needed.</p>
 </dd>
@@ -342,7 +338,7 @@ Retrieved: <a class="reference external" href="https://en.wikipedia.org/w/index.
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>variance</strong><span class="classifier">1d-array or pd.Series or float</span></dt><dd><p>Estimation of quasivariance of <cite>variable</cite></p>
 </dd>
@@ -360,21 +356,21 @@ Retrieved 14:40, May 15, 2017, from
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.coef_variation">
-<span class="sig-name descname"><span class="pre">coef_variation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.coef_variation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.coef_variation" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">coef_variation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.coef_variation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.coef_variation" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the coefficient of variation.</p>
 <p>The coefficient of variation is the square root of the variance of the
 incomes divided by the mean income. It has the advantages of being
 mathematically tractable and is subgroup decomposable, but is not
 bounded from above.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd></dd>
 <dt><strong>variable</strong><span class="classifier">array-like or str</span></dt><dd></dd>
 <dt><strong>weights</strong><span class="classifier">array-like or str</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>coefficient_variation</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>
@@ -389,16 +385,16 @@ Retrieved 15:03, May 15, 2017, from
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.kurt">
-<span class="sig-name descname"><span class="pre">kurt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.kurt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.kurt" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">kurt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.kurt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.kurt" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the asymmetry coefficient.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>variable</strong><span class="classifier">1d-array</span></dt><dd></dd>
 <dt><strong>w</strong><span class="classifier">1d-array</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>kurt</strong><span class="classifier">float</span></dt><dd><p>Kurtosis coefficient.</p>
 </dd>
@@ -416,17 +412,17 @@ Retrieved 14:40, May 15, 2017, from
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.skew">
-<span class="sig-name descname"><span class="pre">skew</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.skew"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.skew" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">skew</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.skew"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.skew" title="Permalink to this definition"></a></dt>
 <dd><p>Return the asymmetry coefficient of a sample.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd></dd>
 <dt><strong>variable</strong><span class="classifier">array-like, str</span></dt><dd></dd>
 <dt><strong>weights</strong><span class="classifier">array-like, str</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>skew</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>
@@ -444,7 +440,7 @@ oldid=778996402</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.concentration">
-<span class="sig-name descname"><span class="pre">concentration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.concentration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.concentration" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">concentration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.concentration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.concentration" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate concentration index.</p>
 <p>This function calculate the concentration index, according to the
 notation used in <span id="id1">[Jenkins1988]</span> you can calculate the:
@@ -453,7 +449,7 @@ if x = g(x) then C_x becomes C_y
 when there are taxes:</p>
 <p>y = g(x) = x - t(x)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>income</strong><span class="classifier">array-like</span></dt><dd></dd>
 <dt><strong>weights</strong><span class="classifier">array-like</span></dt><dd></dd>
@@ -461,7 +457,7 @@ when there are taxes:</p>
 <dt><strong>sort</strong><span class="classifier">bool</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>concentration</strong><span class="classifier">array-like</span></dt><dd></dd>
 </dl>
@@ -474,7 +470,7 @@ from micro-data. National Tax Journal. <a class="reference external" href="http:
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.lorenz">
-<span class="sig-name descname"><span class="pre">lorenz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.lorenz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.lorenz" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">lorenz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.lorenz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.lorenz" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate lorenz curve.</p>
 <p>In economics, the Lorenz curve is a graphical representation of the
 distribution of income or of wealth. It was developed by Max O. Lorenz
@@ -482,7 +478,7 @@ in 1905 for representing grouped of the wealth distribution. This
 function compute the lorenz curve and returns a DF with two columns of
 axis x and y.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A pandas.DataFrame that contains data.</p>
 </dd>
@@ -496,7 +492,7 @@ pd.Series or np.array.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>lorenz</strong><span class="classifier">pandas.Dataframe</span></dt><dd><p>Lorenz distribution in a Dataframe with two columns, labeled x and
 y, that corresponds to plots axis.</p>
@@ -512,7 +508,7 @@ Retrieved 14:34, May 15, 2017, from
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.gini">
-<span class="sig-name descname"><span class="pre">gini</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.gini"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.gini" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">gini</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.gini"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.gini" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate Gini’s index.</p>
 <p>The Gini coefficient (sometimes expressed as a Gini ratio or a
 normalized Gini index) is a measure of statistical dispersion intended
@@ -528,7 +524,7 @@ number of people, where only one person has all the income or
 consumption, and all others have none, the Gini coefficient will be
 very nearly one).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>DataFrame that contains the data.</p>
 </dd>
@@ -541,7 +537,7 @@ must pass True, but False by default.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>gini</strong><span class="classifier">float</span></dt><dd><p>Gini Index Value.</p>
 </dd>
@@ -558,7 +554,7 @@ where:
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.atkinson">
-<span class="sig-name descname"><span class="pre">atkinson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.atkinson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.atkinson" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">atkinson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.atkinson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.atkinson" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate Atkinson index.</p>
 <p>More precisely labelled a family of income grouped measures, the
 theoretical range of Atkinson values is 0 to 1, with 0 being a state of
@@ -572,7 +568,7 @@ that we could achieve the same level of social welfare with only
 1 – 0.20 = 80% of income. The theoretical range of Atkinson values is 0
 to 1, with 0 being a state of equal distribution.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>income</strong><span class="classifier">array or str</span></dt><dd><p>If <cite>data</cite> is none <cite>income</cite> must be an 1D-array, when <cite>data</cite> is a
 pd.DataFrame, you must pass the name of income variable as string.</p>
@@ -587,7 +583,7 @@ adversion, must be a number between 0 to 1.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>atkinson</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>
@@ -597,7 +593,7 @@ adversion, must be a number between 0 to 1.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.kakwani">
-<span class="sig-name descname"><span class="pre">kakwani</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income_pre_tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.kakwani"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.kakwani" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">kakwani</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income_pre_tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.kakwani"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.kakwani" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate kakwani’s index.</p>
 <p>The Kakwani (1977) index of tax progressivity is defined as twice the
 area between the concentration curves for taxes and pre-tax income,
@@ -608,7 +604,7 @@ for x, i.e.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>This variable is a DataFrame that contains all data required in
 columns.</p>
@@ -624,7 +620,7 @@ then data must be None, else you pass str-name column in <cite>data</cite>.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>kakwani</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>
@@ -637,7 +633,7 @@ micro-data. National Tax Journal. <a class="reference external" href="http://doi
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.reynolds_smolensky">
-<span class="sig-name descname"><span class="pre">reynolds_smolensky</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income_pre_tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income_post_tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.reynolds_smolensky"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.reynolds_smolensky" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reynolds_smolensky</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income_pre_tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income_post_tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.reynolds_smolensky"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.reynolds_smolensky" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate Reynolds-Smolensky’s index.</p>
 <p>The Reynolds-Smolensky (1977) index of the redistributive effect of
 taxes, which can also be interpreted as an index of progressivity
@@ -647,7 +643,7 @@ taxes, which can also be interpreted as an index of progressivity
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>This variable is a DataFrame that contains all data required in
 it’s columns.</p>
@@ -663,7 +659,7 @@ then data must be None, else you pass str-name column in <cite>data</cite>.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>reynolds_smolensky</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>
@@ -676,7 +672,7 @@ micro-data. National Tax Journal. <a class="reference external" href="http://doi
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.theil">
-<span class="sig-name descname"><span class="pre">theil</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.theil"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.theil" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">theil</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.theil"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.theil" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate theil index.</p>
 <p>The Theil index is a statistic primarily used to measure economic
 grouped and other economic phenomena. It is a special case of the
@@ -684,7 +680,7 @@ generalized entropy index. It can be viewed as a measure of redundancy,
 lack of diversity, isolation, segregation, grouped, non-randomness, and
 compressibility. It was proposed by econometrician Henri Theil.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>This variable is a DataFrame that contains all data required in
 it’s columns.</p>
@@ -697,7 +693,7 @@ then data must be None, else you pass str-name column in <cite>data</cite>.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>theil</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>
@@ -711,17 +707,17 @@ Retrieved 14:17, May 15, 2017, from
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.avg_tax_rate">
-<span class="sig-name descname"><span class="pre">avg_tax_rate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.avg_tax_rate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.avg_tax_rate" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">avg_tax_rate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_tax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.avg_tax_rate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.avg_tax_rate" title="Permalink to this definition"></a></dt>
 <dd><p>Compute the average tax rate given a base income and a total tax.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>total_base</strong><span class="classifier">str or numpy.array</span></dt><dd></dd>
 <dt><strong>total_tax</strong><span class="classifier">str or numpy.array</span></dt><dd></dd>
 <dt><strong>data</strong><span class="classifier">pd.DataFrame</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>avg_tax_rate</strong><span class="classifier">float or pd.Series</span></dt><dd><p>Is the ratio between mean the tax income and base of income.</p>
 </dd>
@@ -732,7 +728,7 @@ Retrieved 14:17, May 15, 2017, from
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ineqpy.api.Survey.top_rest">
-<span class="sig-name descname"><span class="pre">top_rest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_percentage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.top_rest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.top_rest" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">top_rest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">income</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_percentage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/api.html#Survey.top_rest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.api.Survey.top_rest" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the 10:90 Ratio.</p>
 <p>Calculates the quotient between the number of contributions from the
 top 10% of contributors divided by the number contributions made by the
@@ -741,7 +737,7 @@ contributors are equal to the cotnributions made by the rest; less than
 zero if the top 10% contributes less than the rest; and greater that 1
 if the top 10% contributes more than the other ninety percent.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>income</strong><span class="classifier">array-like or str</span></dt><dd><p>This variable represent tax payment of person, if pass array-like
 then data must be None, else you pass str-name column in <cite>data</cite>.</p>
@@ -758,7 +754,7 @@ It must be a number between 0 and 100</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>ratio</strong><span class="classifier">float</span></dt><dd></dd>
 </dl>

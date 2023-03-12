@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ineqpy._version &mdash; IneqPy  documentation</title>
@@ -12,10 +12,10 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -26,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> IneqPy
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            IneqPy
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -55,8 +59,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy._version</span></code></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy._version</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../_sources/autoapi/ineqpy/_version/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -67,17 +71,13 @@
            <div itemprop="articleBody">
              
   <section id="module-ineqpy._version">
-<span id="ineqpy-version"></span><h1><a class="reference internal" href="#module-ineqpy._version" title="ineqpy._version"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy._version</span></code></a><a class="headerlink" href="#module-ineqpy._version" title="Permalink to this headline"></a></h1>
+<span id="ineqpy-version"></span><h1><a class="reference internal" href="#module-ineqpy._version" title="ineqpy._version"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy._version</span></code></a><a class="headerlink" href="#module-ineqpy._version" title="Permalink to this heading"></a></h1>
 <p>Git implementation of _version.py.</p>
 <section id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
 <section id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h3>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy._version.VersioneerConfig" title="ineqpy._version.VersioneerConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VersioneerConfig</span></code></a></p></td>
 <td><p>Container for Versioneer configuration parameters.</p></td>
@@ -86,12 +86,8 @@
 </table>
 </section>
 <section id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h3>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy._version.get_keywords" title="ineqpy._version.get_keywords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_keywords</span></code></a>()</p></td>
 <td><p>Get the keywords needed to look up the version information.</p></td>
@@ -102,7 +98,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy._version.register_vcs_handler" title="ineqpy._version.register_vcs_handler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_vcs_handler</span></code></a>(vcs, method)</p></td>
 <td><p>Decorator to mark a method as the handler for a particular VCS.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy._version.run_command" title="ineqpy._version.run_command"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_command</span></code></a>(commands, args, cwd=None, verbose=False, hide_stderr=False, env=None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy._version.run_command" title="ineqpy._version.run_command"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_command</span></code></a>(commands, args[, cwd, verbose, ...])</p></td>
 <td><p>Call the given command(s).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy._version.versions_from_parentdir" title="ineqpy._version.versions_from_parentdir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">versions_from_parentdir</span></code></a>(parentdir_prefix, root, verbose)</p></td>
@@ -114,7 +110,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy._version.git_versions_from_keywords" title="ineqpy._version.git_versions_from_keywords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">git_versions_from_keywords</span></code></a>(keywords, tag_prefix, verbose)</p></td>
 <td><p>Get version information from git keywords.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy._version.git_pieces_from_vcs" title="ineqpy._version.git_pieces_from_vcs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">git_pieces_from_vcs</span></code></a>(tag_prefix, root, verbose, run_command=run_command)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy._version.git_pieces_from_vcs" title="ineqpy._version.git_pieces_from_vcs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">git_pieces_from_vcs</span></code></a>(tag_prefix, root, verbose[, ...])</p></td>
 <td><p>Get version from 'git describe' in the root of the source tree.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy._version.plus_or_dot" title="ineqpy._version.plus_or_dot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plus_or_dot</span></code></a>(pieces)</p></td>
@@ -148,12 +144,8 @@
 </table>
 </section>
 <section id="attributes">
-<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline"></a></h3>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy._version.LONG_VERSION_PY" title="ineqpy._version.LONG_VERSION_PY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LONG_VERSION_PY</span></code></a></p></td>
 <td><p></p></td>

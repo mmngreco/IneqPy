@@ -35,25 +35,6 @@ Functions
 
 .. py:function:: _to_df(*args, **kwargs) -> pandas.DataFrame
 
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
 
 .. py:function:: _apply_to_df(func, df, x, weights, *args, **kwargs)
 
@@ -166,47 +147,9 @@ Functions
 
 .. py:function:: _sort_values(values, partner)
 
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
 
 .. py:function:: _clean_nans_values(this, pair)
 
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
 
 .. py:function:: normalize(this)
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ineqpy.utils &mdash; IneqPy  documentation</title>
@@ -12,10 +12,10 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -26,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> IneqPy
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            IneqPy
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -55,8 +59,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.utils</span></code></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.utils</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../_sources/autoapi/ineqpy/utils/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -67,19 +71,15 @@
            <div itemprop="articleBody">
              
   <section id="module-ineqpy.utils">
-<span id="ineqpy-utils"></span><h1><a class="reference internal" href="#module-ineqpy.utils" title="ineqpy.utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.utils</span></code></a><a class="headerlink" href="#module-ineqpy.utils" title="Permalink to this headline"></a></h1>
+<span id="ineqpy-utils"></span><h1><a class="reference internal" href="#module-ineqpy.utils" title="ineqpy.utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ineqpy.utils</span></code></a><a class="headerlink" href="#module-ineqpy.utils" title="Permalink to this heading"></a></h1>
 <p>Useful functions that make easier develop other functions.</p>
 <section id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline"></a></h2>
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
 <section id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h3>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.utils._to_df" title="ineqpy.utils._to_df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_to_df</span></code></a>(*args, **kwargs) → pandas.DataFrame</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.utils._to_df" title="ineqpy.utils._to_df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_to_df</span></code></a>(→ pandas.DataFrame)</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.utils._apply_to_df" title="ineqpy.utils._apply_to_df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_apply_to_df</span></code></a>(func, df, x, weights, *args, **kwargs)</p></td>
@@ -106,7 +106,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#ineqpy.utils.repeat_data_from_weighted" title="ineqpy.utils.repeat_data_from_weighted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeat_data_from_weighted</span></code></a>(x, w)</p></td>
 <td><p>Generate data data (not sampled) from weights.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.utils.generate_data_to_test" title="ineqpy.utils.generate_data_to_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_data_to_test</span></code></a>(n_sample_range=(20, 100))</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#ineqpy.utils.generate_data_to_test" title="ineqpy.utils.generate_data_to_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_data_to_test</span></code></a>([n_sample_range])</p></td>
 <td><p>Generate sampled data for testing.</p></td>
 </tr>
 </tbody>
@@ -121,7 +121,7 @@
 <span class="sig-prename descclassname"><span class="pre">ineqpy.utils.</span></span><span class="sig-name descname"><span class="pre">_apply_to_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/utils.html#_apply_to_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.utils._apply_to_df" title="Permalink to this definition"></a></dt>
 <dd><p>Generalize main arguments as Series of a pd.Dataframe.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>func</strong><span class="classifier">function</span></dt><dd><p>Function to convert his arguments in Series of an Dataframe.</p>
 </dd>
@@ -133,7 +133,7 @@
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>return</strong><span class="classifier">func return</span></dt><dd><p>It’s depends of func output type.</p>
 </dd>
@@ -148,12 +148,12 @@
 <dd><p>Create weights.</p>
 <p>Create normalized weight if it’s None use like to create it.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>income, like</strong><span class="classifier">array-like</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>weights</strong><span class="classifier">array-like</span></dt><dd><p>Filtered array-like.</p>
 </dd>
@@ -174,12 +174,12 @@
 <dd><p>Filter not null condition.</p>
 <p>If a negative value is found in the incomes it will dropped.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>income, weights</strong><span class="classifier">array-like</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>income, weights</strong><span class="classifier">array-like</span></dt><dd><p>Filtered array-like.</p>
 </dd>
@@ -203,12 +203,12 @@
 <span class="sig-prename descclassname"><span class="pre">ineqpy.utils.</span></span><span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">this</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/utils.html#normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.utils.normalize" title="Permalink to this definition"></a></dt>
 <dd><p>Normalize data by the sum.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>this</strong><span class="classifier">array-like</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">array-like</span></dt><dd></dd>
 </dl>
@@ -221,14 +221,14 @@
 <span class="sig-prename descclassname"><span class="pre">ineqpy.utils.</span></span><span class="sig-name descname"><span class="pre">extract_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/utils.html#extract_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.utils.extract_values" title="Permalink to this definition"></a></dt>
 <dd><p>Extract values.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">pandas.DataFrame</span></dt><dd></dd>
 <dt><strong>variable</strong><span class="classifier">str</span></dt><dd></dd>
 <dt><strong>weights</strong><span class="classifier">str</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>variable, weights</strong><span class="classifier">array-like</span></dt><dd></dd>
 </dl>
@@ -241,12 +241,12 @@
 <span class="sig-prename descclassname"><span class="pre">ineqpy.utils.</span></span><span class="sig-name descname"><span class="pre">repeat_data_from_weighted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/utils.html#repeat_data_from_weighted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.utils.repeat_data_from_weighted" title="Permalink to this definition"></a></dt>
 <dd><p>Generate data data (not sampled) from weights.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>x, w</strong><span class="classifier">array-like</span></dt><dd></dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>repeated_x, repeated_w</strong><span class="classifier">np.array</span></dt><dd></dd>
 </dl>
@@ -259,13 +259,13 @@
 <span class="sig-prename descclassname"><span class="pre">ineqpy.utils.</span></span><span class="sig-name descname"><span class="pre">generate_data_to_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_sample_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(20,</span> <span class="pre">100)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/ineqpy/utils.html#generate_data_to_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ineqpy.utils.generate_data_to_test" title="Permalink to this definition"></a></dt>
 <dd><p>Generate sampled data for testing.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>n_sample_range</strong><span class="classifier">tuple[int, int]</span></dt><dd><p>It’s a shape, lenght and columns.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>income, weights</strong><span class="classifier">np.array</span></dt><dd></dd>
 </dl>

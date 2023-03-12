@@ -50,51 +50,12 @@ Classes
 
    ..
        !! processed by numpydoc !!
-   .. py:method:: _constructor(self)
-      :property:
-
-      
+   .. py:property:: _constructor
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-   .. py:method:: _attach_method(module, instance)
+   .. py:method:: _attach_method(instance)
       :classmethod:
 
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
 
 
 .. py:class:: Survey(data=None, index=None, columns=None, weights=None, group=None, **kw)
@@ -152,7 +113,7 @@ Classes
 
    ..
        !! processed by numpydoc !!
-   .. py:method:: c_moment(self, variable, weights=None, order=2, param=None, ddof=0)
+   .. py:method:: c_moment(variable, weights=None, order=2, param=None, ddof=0)
 
       
       Calculate central momment.
@@ -203,7 +164,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: percentile(self, variable, weights=None, p=50, interpolate='lower')
+   .. py:method:: percentile(variable, weights=None, p=50, interpolate='lower')
 
       
       Calculate the value of a quantile given a variable and his weights.
@@ -246,7 +207,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: std_moment(self, variable, weights=None, param=None, order=3, ddof=0)
+   .. py:method:: std_moment(variable, weights=None, param=None, order=3, ddof=0)
 
       
       Calculate the standardized moment.
@@ -303,7 +264,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: mean(self, variable, weights=None)
+   .. py:method:: mean(variable, weights=None)
 
       
       Calculate the mean of `variable` given `weights`.
@@ -342,7 +303,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: density(self, variable, weights=None, groups=None)
+   .. py:method:: density(variable, weights=None, groups=None)
 
       
       Calculate density in percentage.
@@ -391,7 +352,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: var(self, variable, weights=None, ddof=0)
+   .. py:method:: var(variable, weights=None, ddof=0)
 
       
       Calculate the population variance of `variable` given `weights`.
@@ -441,7 +402,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: coef_variation(self, variable, weights=None)
+   .. py:method:: coef_variation(variable, weights=None)
 
       
       Calculate the coefficient of variation.
@@ -492,7 +453,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: kurt(self, variable, weights=None)
+   .. py:method:: kurt(variable, weights=None)
 
       
       Calculate the asymmetry coefficient.
@@ -539,7 +500,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: skew(self, variable, weights=None)
+   .. py:method:: skew(variable, weights=None)
 
       
       Return the asymmetry coefficient of a sample.
@@ -590,7 +551,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: concentration(self, income, weights=None, sort=True)
+   .. py:method:: concentration(income, weights=None, sort=True)
 
       
       Calculate concentration index.
@@ -645,7 +606,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: lorenz(self, income, weights=None)
+   .. py:method:: lorenz(income, weights=None)
 
       
       Calculate lorenz curve.
@@ -701,7 +662,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: gini(self, income, weights=None, sort=True)
+   .. py:method:: gini(income, weights=None, sort=True)
 
       
       Calculate Gini's index.
@@ -763,7 +724,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: atkinson(self, income, weights=None, e=0.5)
+   .. py:method:: atkinson(income, weights=None, e=0.5)
 
       
       Calculate Atkinson index.
@@ -818,7 +779,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: kakwani(self, tax, income_pre_tax, weights=None)
+   .. py:method:: kakwani(tax, income_pre_tax, weights=None)
 
       
       Calculate kakwani's index.
@@ -877,7 +838,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: reynolds_smolensky(self, income_pre_tax, income_post_tax, weights=None)
+   .. py:method:: reynolds_smolensky(income_pre_tax, income_post_tax, weights=None)
 
       
       Calculate Reynolds-Smolensky's index.
@@ -935,7 +896,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: theil(self, income, weights=None)
+   .. py:method:: theil(income, weights=None)
 
       
       Calculate theil index.
@@ -989,7 +950,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: avg_tax_rate(self, total_tax, total_base, weights=None)
+   .. py:method:: avg_tax_rate(total_tax, total_base, weights=None)
 
       
       Compute the average tax rate given a base income and a total tax.
@@ -1026,7 +987,7 @@ Classes
       ..
           !! processed by numpydoc !!
 
-   .. py:method:: top_rest(self, income, weights=None, data=None, top_percentage=10)
+   .. py:method:: top_rest(income, weights=None, data=None, top_percentage=10)
 
       
       Calculate the 10:90 Ratio.

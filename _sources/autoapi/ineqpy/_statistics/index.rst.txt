@@ -106,7 +106,7 @@ Functions
        **variable** : str or array
            ..
 
-       **weights** : str or array
+       **weights** :  str or array
            ..
 
        **percentile** : int or list

@@ -152,50 +152,12 @@ Attributes
        !! processed by numpydoc !!
 
 .. py:data:: LONG_VERSION_PY
-   
 
    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
 
 .. py:data:: HANDLERS
-   
 
    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
 
 .. py:function:: register_vcs_handler(vcs, method)
 

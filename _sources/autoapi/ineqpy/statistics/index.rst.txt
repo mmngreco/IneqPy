@@ -100,7 +100,7 @@ Functions
        **variable** : str or array
            ..
 
-       **weights** : str or array
+       **weights** :  str or array
            ..
 
        **data** : pd.DataFrame, optional
